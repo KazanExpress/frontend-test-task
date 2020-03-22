@@ -1,0 +1,42 @@
+p 
+  color: #333
+  cursor: default
+
+span 
+  cursor: default
+
+input 
+  border: 1px solid #E1E1E1
+  border-radius: 3px
+  color: #15242B
+  padding: 4px 5px
+  outline: none
+
+  -webkit-box-shadow: 0px 8px 5px -5px rgba(204,204,204,1)
+  -moz-box-shadow: 0px 8px 5px -5px rgba(204,204,204,1)
+  box-shadow: 0px 8px 5px -5px rgba(204,204,204,1)
+
+input::placeholder 
+  color: #9FA1A3
+
+button 
+  background: #EFEFEF
+  outline: none
+  border: none
+  border-radius: 4px
+  cursor: pointer
+
+// Media
+@media screen and (max-width: 768px)
+  .container
+      justify-content: unset
+  .container__welcomeSection
+      border-right: none
+  .container__wrapper
+      flex-direction: column
+  .bodyTodo__removeButton
+      opacity: 1
+  .bodyTodo__editButton
+      opacity: 1
+  .leftSection__text 
+      display: none
