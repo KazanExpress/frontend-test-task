@@ -1,29 +1,51 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <transition name="slide-fade" mode="out-in">
+      <div class="container border text-center">
+        <router-view/>
+      </div>
+    </transition>
+    <error></error>
   </div>
 </template>
 
 <script lang="ts">
+import Error from '@/components/error.vue'
 import { Component, Vue } from 'vue-property-decorator'
-import HelloWorld from './components/HelloWorld.vue'
 
 @Component({
   components: {
-    HelloWorld
+    Error
   }
 })
 export default class App extends Vue {}
 </script>
 
 <style>
+html, body, #app {
+  height: 100%;
+  background-color: #e2e2e2;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  padding-top: 60px;
+  position: relative;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/*toggle animation components*/
+.slide-fade-enter-active {
+  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-leave-active {
+  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  opacity: 0;
 }
 </style>

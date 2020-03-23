@@ -1,3 +1,48 @@
+# KazanExpress
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Display a webpack config
+```
+npm run inspect
+```
+
+#### To upload JSON files, your file must conform to this structure
+
+```json
+{
+  "taskList": "Array"
+}
+```
+#### In order for tasks to appear in the application, they must have the following structure
+
+```json
+{
+  "name": "String",
+  "description": "String",
+  "mark": "Boolean",
+  "nestedTasks": "Array"
+}
+```
+
 # Тестовое задание Front-End
 
 Здесь находится описание тестового задания на позицию Front-End-разработчика в KazanExpress.\
