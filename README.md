@@ -113,6 +113,7 @@
 - Использовать [CustomElements/WebComponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components) и [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM);
 - 100% test coverage с использованием Jest/Mocha и [Coveralls](https://coveralls.io)/[Code Climate](https://codeclimate.com);
 - Использовать [now.sh](https://zeit.co/home), GitHub Pages или GitHub Actions для CI/CD;
+- Использовать [Service-Worker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) для уведомления пользователя о новых версиях;
 - Взаимоисключающие пункты:
   - [SSR](https://google.com/search?q=SSR+(web+development)) без использования сторонних библиотек;
   - Отсутствие SSR **и** отсутствие бандлера (webpack, rollup, etc.), node_modules и прочего - т.е. нельзя использовать никакие библиотеки (кроме TypeScript) для обработки кода;
