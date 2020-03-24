@@ -97,7 +97,7 @@ All requirements for [**hard**](#hard), inluding optional. And the following:
 
 - Usage of `Vue.js` or any other framework/library for the client-side part is **prohibited** - only native JavaScript/TypeScript;\
   Including:
-  - For reactivity and data-binding;
+  - Reactivity and data-binding;
   - DOM mutations;
   - Business-logic;
   - And yes, jQuery/React/Lodash/Underscore/Bootstrap are also banned!
