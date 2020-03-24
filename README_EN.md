@@ -11,7 +11,7 @@ Implement a Single Page TODO Application.
 
 The app can be implemented in one of the following difficulty levels:
 
-- [**Easy**](#easy) - submissions are not currently evauated;
+- [**Easy**](#easy) - submissions are not currently evauated for this difficulty;
 - [**Medium**](#medium) - **Easy** with additional complications, minimally-evaluated functionality;
 - [**Hard**](#hard) - **Medium** with additional complications;
 - [**Insane**](#insane) - well, if you've come this far - we have a special talk with you 😉;
