@@ -113,7 +113,7 @@ Optional:
 - Use [Conventional Commitlint](https://github.com/conventional-changelog/commitlint);
 - Use [CustomElements/WebComponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components) & [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM);
 - 100% test coverage using Jest/Mocha and [Coveralls](https://coveralls.io)/[Code Climate](https://codeclimate.com);
-- Use [now.sh](https://zeit.co/home), GitHub Pages or GitHub Actions for CI/CD;
+- Use travis.ci, [now.sh](https://zeit.co/home), GitHub Pages or GitHub Actions for CI/CD;
 - Use [Service-Worker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) to notify the user of new verions or updates to the app;
 - Mutually exclusive requirements:
   - Self-implemented [SSR](https://google.com/search?q=SSR+(web+development)) without using 3rd-party libraries;
