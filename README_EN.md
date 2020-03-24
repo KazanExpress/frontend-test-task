@@ -95,7 +95,7 @@ Optional:
 
 All requirements for [**hard**](#hard), inluding optional. And the following:
 
-- Prohibited usage of `Vue.js` or any other framework/library for the client-side part - only native JavaScript/TypeScript;\
+- Usage of `Vue.js` or any other framework/library for the client-side part is **prohibited** - only native JavaScript/TypeScript;\
   Including:
   - For reactivity and data-binding;
   - DOM mutations;
