@@ -2,8 +2,11 @@
     <div class="container">
         <CreateTodo v-on:create-todo="addTodo"></CreateTodo>
         <ul id="todos" class="list-items">
-            <li v-for="(item, index) in items" :key="item.name">
-                <Item v-bind:item="item" v-bind:index="index" v-on:delete-todo="deleteTodo"></Item>
+            <li v-for="(item, index) in items()" :key="item.name">
+                <Item
+                        v-bind:index="index"
+                        v-on:delete-todo="deleteTodo"
+                        v-on:update-checkbox="check"></Item>
             </li>
         </ul>
     </div>
@@ -22,19 +25,20 @@
     }
   })
   export default class Todos extends Vue {
-    items = [
-      {checked: false, name: 'Buy tomatoes'},
-      {checked: false, name: 'Buy pepper'},
-      {checked: true, name: 'Wash hands'},
-      {checked: false, name: 'Stay home'},
-    ];
+    items() {
+      return this.$store.state.items;
+    }
 
     addTodo(name: string){
-      this.items.push({checked: false, name})
+      this.$store.commit('addItem', name);
     }
 
     deleteTodo(index: number) {
-      this.items.splice(index, 1);
+      this.$store.commit('deleteItem', index);
+    }
+
+    check(index: number) {
+      this.$store.commit('updateCheckbox', index);
     }
   }
 </script>

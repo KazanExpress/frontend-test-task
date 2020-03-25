@@ -1,10 +1,10 @@
 <template>
     <div class="container">
         <label>
-            <input type="radio" v-model="item.checked">
+            <input type="checkbox" v-bind:checked="item(index).checked" @click="check(index)">
         </label>
         <label>
-            <input type="text" v-model="item.name">
+            <input type="text" v-bind:value="item(index).name">
         </label>
         <img src="../assets/bin.png" alt="delete item" @click="deleteTodo(index)">
     </div>
@@ -17,11 +17,17 @@
     }
   })
   export default class Item extends Vue {
-    @Prop() private item!: object;
     @Prop() private index!: number;
 
+    item(index: number){
+      return this.$store.state.items[index];
+    }
     deleteTodo(index: number){
       this.$emit('delete-todo', index);
+    }
+
+    check(index: number) {
+      this.$emit('update-checkbox', index);
     }
   }
 </script>
