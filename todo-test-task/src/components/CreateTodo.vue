@@ -1,7 +1,10 @@
 <template>
     <div class="container">
         <label>
-            <input v-model="name" type="text" placeholder="Add new task">
+            <input v-model="name"
+                   type="text"
+                   placeholder="Add new task"
+                   @keyup.enter="addTodo">
         </label>
         <button @click="addTodo">Add</button>
     </div>

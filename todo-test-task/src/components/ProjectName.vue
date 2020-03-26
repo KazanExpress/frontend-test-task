@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <label>
-      <input type="text" v-model="projectName" id="projectName" />
+      <input type="text"
+             :value="projectName()"
+             id="projectName"
+             v-on:input="projectRenameHandler"/>
     </label>
   </div>
 </template>
@@ -11,7 +14,14 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class ProjectName extends Vue {
-  projectName = "Project name";
+  projectName() {
+    return this.$store.state.projectName;
+  };
+
+  projectRenameHandler(input: Event){
+    let target = input.target as HTMLInputElement;
+    this.$store.commit("updateProjectName", target.value);
+  }
 }
 </script>
 
