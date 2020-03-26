@@ -1,48 +1,71 @@
 <template>
   <div class="container">
     <CreateTodo v-on:create-todo="addTodo"></CreateTodo>
+    <img src="../assets/filter.png" alt="add todo" class="icon" />
     <input
       type="text"
-      placeholder="Type task name"
+      placeholder="Start typing task name"
       v-on:input="filterHandler"
       :value="this.$store.state.filters.filterValue"
       class="filter-input"
     />
     <ul id="todos" class="list-items">
       <template v-if="filteredItems().length">
-        <li v-for="(item, index) in filteredItems()" :key="index">
-          <Item
-            v-bind:index="index"
-            v-bind:item="item"
-            v-on:delete-todo="deleteTodo"
-            v-on:update-checkbox="check"
-          />
-        </li>
+          <li v-for="(item, index) in filteredItems()" :key="index">
+            <Item
+              v-bind:index="index"
+              v-bind:item="item"
+              v-on:delete-todo="deleteTodo"
+              v-on:update-checkbox="check"
+            />
+          </li>
       </template>
       <template v-else>
-        <li v-for="(item, index) in items()" :key="index">
-          <Item
-            v-bind:index="index"
-            v-bind:item="item"
-            v-on:delete-todo="deleteTodo"
-            v-on:update-checkbox="check"
-          />
-        </li>
+          <li v-for="(item, index) in items()" :key="index">
+            <Item
+              v-bind:index="index"
+              v-bind:item="item"
+              v-on:delete-todo="deleteTodo"
+              v-on:update-checkbox="check"
+            />
+          </li>
       </template>
     </ul>
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { Component, Vue } from "vue-property-decorator";
 import Item from "@/components/Item.vue";
 import CreateTodo from "@/components/CreateTodo.vue";
+import draggable from "vuedraggable";
 
 @Component({
   components: {
     Item,
-    CreateTodo
-  }
+    CreateTodo,
+    draggable
+  },
+  // computed: {
+    // filteredItems: {
+    //   get() {
+    //     return this.$store.state.filters.filteredItems;
+    //   },
+    //
+    //   set(value) {
+    //     this.$store.commit('updateFilteredItems', value)
+    //   }
+    // },
+    // items: {
+    //   get() {
+    //     return this.$store.state.items;
+    //   },
+    //
+    //   set(value) {
+    //     this.$store.commit('updateItems', value)
+    //   }
+    // }
+  // }
 })
 export default class Todos extends Vue {
   filteredItems() {
@@ -53,20 +76,20 @@ export default class Todos extends Vue {
     return this.$store.state.items;
   }
 
-  filterHandler(input: Event) {
-    let target = input.target as HTMLInputElement;
+  filterHandler(input) {
+    let target = input.target;
     this.$store.commit("changeFilter", target.value);
   }
 
-  addTodo(name: string) {
+  addTodo(name) {
     this.$store.commit("addItem", name);
   }
 
-  deleteTodo(index: number) {
+  deleteTodo(index) {
     this.$store.commit("deleteItem", index);
   }
 
-  check(index: number) {
+  check(index) {
     this.$store.commit("updateCheckbox", index);
   }
 }
@@ -79,9 +102,22 @@ export default class Todos extends Vue {
 .list-items {
   li {
     list-style: none;
+    margin: 10px 0 10px 5px;
   }
 }
 .filter-input {
-  margin-left: 40px;
+  width: 200px;
+  font-size: medium;
+
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: groove;
+}
+.icon {
+  margin-left: 45px;
+  height: 15px;
+  vertical-align: middle;
+  padding-right: 10px;
 }
 </style>

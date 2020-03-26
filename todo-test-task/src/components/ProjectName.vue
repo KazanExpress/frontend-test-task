@@ -28,7 +28,7 @@ export default class ProjectName extends Vue {
 <style scoped lang="scss">
 .container {
   line-height: 30px;
-  margin: 30px 0 0 30px;
+  margin: 30px 0 15px 30px;
   text-align: left;
   display: flex;
 }
