@@ -3,6 +3,7 @@
     <ProjectName></ProjectName>
     <Todos></Todos>
     <button @click="exportToJson" class="export-button">Export project</button>
+    <button @click="transferTodos" >Transfer todos</button>
   </div>
 </template>
 
@@ -10,7 +11,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import ProjectName from "@/components/ProjectName.vue";
 import Todos from "@/components/Todos.vue";
-
+import {IItem} from '@/interfaces/IStore';
 
 @Component({
   components: {
@@ -19,6 +20,23 @@ import Todos from "@/components/Todos.vue";
   }
 })
 export default class ProjectPage extends Vue {
+  channel!: BroadcastChannel;
+
+  beforeCreate() {
+    this.channel = new BroadcastChannel('projects-channel');
+
+    this.channel.onmessage = (messageEvent: any) => {
+      if (messageEvent.data.event === 'transfer_items') {
+        console.warn('git it');
+        if (messageEvent.data.project === this.$store.state.projectName){
+          messageEvent.data.items.forEach((item: IItem) => {
+            this.$store.commit('pushItem', item);
+          })
+        }
+      }
+    };
+  }
+
   exportToJson() {
     let content = JSON.stringify(this.$store.state);
     let fileName = this.$store.state.projectName + ".txt";
@@ -27,6 +45,14 @@ export default class ProjectPage extends Vue {
     link.setAttribute("href", data);
     link.setAttribute("download", fileName);
     link.click();
+  }
+
+  transferTodos() {
+    this.channel.postMessage({
+      event: 'transfer_items',
+      project: 'New project2',
+      items: this.$store.state.items,
+    });
   }
 }
 </script>

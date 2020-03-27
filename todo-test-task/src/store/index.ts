@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
-import createMultiTabState from 'vuex-multi-tab-state';
 import {IItem, IState} from '@/interfaces/IStore';
 
 Vue.use(Vuex);
@@ -15,7 +14,6 @@ export default new Vuex.Store({
   // plugins: [createPersistedState({
   //   paths: ['items', 'filters', 'projectName'],
   // }, null, null)],
-  // plugins: [createMultiTabState(),],
   state: {
     projectName: 'New project',
     filters: {
@@ -60,6 +58,10 @@ export default new Vuex.Store({
 
     updateProjectName(state, name: string){
       state.projectName = name;
+    },
+
+    pushItem(state, item){
+      state.items.push(item);
     },
 
     updateFilteredItems(state, values: IItem[]) {
