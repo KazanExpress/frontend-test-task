@@ -46,7 +46,10 @@ All requirements for [**easy**](#easy), including optional.
 Also, the following:
 
 - Ability to transfer any task (with all of its substasks) from any open project to any other open project;
-- Usage of `LocalStorage`, `Cookies`, `IndexedDB` and `WebSQL` is prohibited;
+- Usage of `LocalStorage`, `Cookies`, `IndexedDB` and `WebSQL` is prohibited;\
+  **Any** records in these storages are completely prohibited!\
+  This rule also holds for any libraries that use these types of storages.
+  For example - `vuex-multi-tab-state` is prohibited, because it uses `LocalStorage`.
 - Ability to export a project to a file / import a project from a file;
   - Name of the file corresponds to the name of the project:
     Project name must be set from the file's name upon import;
