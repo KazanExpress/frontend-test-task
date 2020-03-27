@@ -130,6 +130,16 @@ Anything that is not stated in the requirements is left up to the creative freed
 It's encouraged to attempt implementation of optional requirements for higher difficulties than your current choice.\
 For example, if you've decided to go with **medium** difficulty, implementing optional requirements from **hard** will give you a substantial advantage upon evaluation.
 
+<details><summary>FAQ</summary>
+
+Q: Can't figure out how to implement feature X - tried everything! Can I skip feature X?\
+A: All features are possible to implement - we tried it ourselves! The solution is probably waiting for you just around the corner. 😉
+
+Q: Can I skip optional requirements from **easy**, if I'm doing **medium**?\
+A: No. All requirements from all previous dificulties are mandatory. They were optional for that previous difficulty, not for your current one.
+
+</details>
+
 ---
 
 ## Assignment submission process
