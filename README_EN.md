@@ -56,7 +56,7 @@ Also, the following:
     File's name must be set from project's name upon export;
 - Move tasks in the task list using drag-n-drop;
 - Ability to save current filter for quick-search later;
-- Complete application bundle must be below **200 KB** (sum of all files loaded by the browser, including vendor libraries, gzipped);
+- Complete application bundle must be below **200 KB** (sum of all files loaded by the browser, excluding pictures and SVGs);
 
 Optional:
 - CSS-animated drag-n-drop and task filter (animated list items' movement);
@@ -71,7 +71,7 @@ Optional:
 
 All requirements for [**medium**](#medium), inluding optional and the following:
 
-- Complete application bundle must be below **100 KB** (sum of all files loaded by the browser, including vendor libraries, gzipped);
+- Complete application bundle must be below **100 KB** (sum of all files loaded by the browser, excluding pictures and SVGs);
 - Move tasks in the task list using drag-n-drop **with touch-screen support**;
 - App must be adapted for mobile devices, down to 320x480 (iPhone 4);
 - Ability to quickly view and edit a lengthy multi-line description for any task;
@@ -105,7 +105,7 @@ All requirements for [**hard**](#hard), inluding optional. And the following:
   - Business-logic;
   - And yes, jQuery/React/Lodash/Underscore/Bootstrap are also banned!
 - Code documentation using JSDoc;
-- Complete application bundle must be below **50 KB** (sum of all files loaded by the browser, including vendor libraries, gzipped);
+- Complete application bundle must be below **50 KB** (sum of all files loaded by the browser, excluding pictures and SVGs);
 - Final application bundle must work using ES6-modules via `<script type="module">`;
 - [Source-Maps](https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map) for the bundled app and an instruction on how to use them;
 - Full keyboard control support, using hot-keys;
