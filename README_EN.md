@@ -14,7 +14,7 @@ The app can be implemented in one of the following difficulty levels:
 - [**Easy**](#easy) - submissions are not currently evauated for this difficulty;
 - [**Medium**](#medium) - **Easy** with additional complications, minimally-evaluated functionality;
 - [**Hard**](#hard) - **Medium** with additional complications;
-- [**Insane**](#insane) - the main challenge - we provide a special treatment for those, who complete it!
+- [**Insane**](#insane) - the ultimate challenge - we provide a special treatment for those, who complete it!
 
 ## Detailed requirements
 
