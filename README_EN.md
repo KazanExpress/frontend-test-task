@@ -25,7 +25,7 @@ Each consecutive difficulty includes **all** requirements of all previous diffic
 
 ### **Easy**
 
-- Each browser tab should be a separate project with its own task list;
+- Each new browser tab should be a separate project with its own task list;
 - Editable project name that serves as the page's title;
 - List of tasks:
   - Add new task to the list;
