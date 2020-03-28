@@ -10,21 +10,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class ProjectName extends Vue {
-  channel!: BroadcastChannel;
+  private channel!: BroadcastChannel;
 
-  beforeCreate() {
+  public beforeCreate() {
     this.channel = new BroadcastChannel('projects-channel');
-  };
+  }
 
-  projectName() {
+  private projectName() {
     return this.$store.state.projectName;
-  };
+  }
 
-  projectRenameHandler(input: Event){
+  private projectRenameHandler(input: Event){
     let target = input.target as HTMLInputElement;
 
     this.channel.postMessage({
@@ -33,7 +33,7 @@ export default class ProjectName extends Vue {
       project:  target.value,
     });
 
-    this.$store.commit("updateProjectName", target.value);
+    this.$store.commit('updateProjectName', target.value);
   }
 }
 </script>

@@ -8,9 +8,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import ProjectName from "@/components/ProjectName.vue";
-import Todos from "@/components/Todos.vue";
+import { Component, Vue } from 'vue-property-decorator';
+import ProjectName from '@/components/ProjectName.vue';
+import Todos from '@/components/Todos.vue';
 import {IItem} from '@/interfaces/IStore';
 import Transfer from '@/components/Transfer.vue';
 
@@ -22,9 +22,9 @@ import Transfer from '@/components/Transfer.vue';
   },
 })
 export default class ProjectPage extends Vue {
-  channel!: BroadcastChannel;
+  private channel!: BroadcastChannel;
 
-  beforeCreate() {
+  public beforeCreate() {
     this.channel = new BroadcastChannel('projects-channel');
 
     this.channel.onmessage = (messageEvent: any) => {
@@ -33,9 +33,10 @@ export default class ProjectPage extends Vue {
         if (messageEvent.data.project === this.$store.state.projectName){
           messageEvent.data.items.forEach((item: IItem) => {
             this.$store.commit('pushItem', item);
-          })
+          });
         }
-        return
+
+        return;
       }
 
       if (messageEvent.data.event === 'add_project') {
@@ -44,7 +45,8 @@ export default class ProjectPage extends Vue {
           this.$store.commit('deleteProject', messageEvent.data.old);
         }
         this.$store.commit('addProject', messageEvent.data.project);
-        return
+
+        return;
       }
     };
 
@@ -54,17 +56,17 @@ export default class ProjectPage extends Vue {
     });
   }
 
-  exportToJson() {
+  private exportToJson() {
     let content = JSON.stringify(this.$store.state);
-    let fileName = this.$store.state.projectName + ".txt";
-    const data = 'data:text/plain;charset=utf-8,' + encodeURIComponent(content);
-    const link = document.createElement("a");
-    link.setAttribute("href", data);
-    link.setAttribute("download", fileName);
+    let fileName = `${this.$store.state.projectName}'.txt`;
+    const data = `data:text/plain;charset=utf-8,'${encodeURIComponent(content)}`;
+    const link = document.createElement('a');
+    link.setAttribute('href', data);
+    link.setAttribute('download', fileName);
     link.click();
   }
 
-  transferTodos(project: string) {
+  private transferTodos(project: string) {
     this.channel.postMessage({
       event: 'transfer_items',
       project,

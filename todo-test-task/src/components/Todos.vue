@@ -34,17 +34,15 @@
   </div>
 </template>
 
-<script>
-import { Component, Vue } from "vue-property-decorator";
-import Item from "@/components/Item.vue";
-import CreateTodo from "@/components/CreateTodo.vue";
-import draggable from "vuedraggable";
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import Item from '@/components/Item.vue';
+import CreateTodo from '@/components/CreateTodo.vue';
 
 @Component({
   components: {
     Item,
     CreateTodo,
-    draggable
   },
 })
 export default class Todos extends Vue {
@@ -56,21 +54,21 @@ export default class Todos extends Vue {
     return this.$store.state.items;
   }
 
-  filterHandler(input) {
-    let target = input.target;
-    this.$store.commit("changeFilter", target.value);
+  private filterHandler(input: Event) {
+    let target = input.target as HTMLInputElement;
+    this.$store.commit('changeFilter', target.value);
   }
 
-  addTodo(name) {
-    this.$store.commit("addItem", name);
+  private addTodo(name: string) {
+    this.$store.commit('addItem', name);
   }
 
-  deleteTodo(index) {
-    this.$store.commit("deleteItem", index);
+  private deleteTodo(index: number) {
+    this.$store.commit('deleteItem', index);
   }
 
-  check(index) {
-    this.$store.commit("updateCheckbox", index);
+  private check(index: number) {
+    this.$store.commit('updateCheckbox', index);
   }
 }
 </script>

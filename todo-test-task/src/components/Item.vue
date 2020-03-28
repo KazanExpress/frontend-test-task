@@ -26,28 +26,29 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { IItem } from "@/interfaces/IStore";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { IItem } from '@/interfaces/IStore';
+
 @Component({
   components: {},
-  name: "item"
+  name: 'item',
 })
 export default class Item extends Vue {
   @Prop() private item!: IItem;
   @Prop() private index!: number;
 
-  deleteTodo(index: number) {
-    this.$emit("delete-todo", index);
+  private deleteTodo(index: number) {
+    this.$emit('delete-todo', index);
   }
 
-  check(index: number) {
-    this.$emit("update-checkbox", index);
+  private check(index: number) {
+    this.$emit('update-checkbox', index);
   }
 
-  renameItemHandler(event: Event, index: number) {
+  private renameItemHandler(event: Event, index: number) {
     let target = event.target as HTMLInputElement;
     console.warn(target.value, index);
-    this.$store.commit("renameItem", { index, name: target.value });
+    this.$store.commit('renameItem', { index, name: target.value });
   }
 }
 </script>

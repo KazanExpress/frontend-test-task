@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { Prop, Vue, Component } from "vue-property-decorator";
+import { Prop, Vue, Component } from 'vue-property-decorator';
 
 @Component
 export default class Transfer extends Vue {
@@ -20,13 +20,14 @@ export default class Transfer extends Vue {
     return this.$store.state.projects;
   }
 
-  transferTodos() {
+  private transferTodos() {
     if (this.projects.has(this.projectName)) {
-      this.$emit("transfer-todos", this.projectName);
+      this.$emit('transfer-todos', this.projectName);
+
       return;
     }
 
-    alert("No project with such name exist.");
+    alert('No project with such name exist.');
   }
 }
 </script>

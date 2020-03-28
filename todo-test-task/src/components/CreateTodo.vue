@@ -17,18 +17,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class CreateTodo extends Vue {
-  name = "";
+  private name = '';
 
-  addTodo() {
+  private addTodo() {
     const todoName = this.name;
-    this.$emit("create-todo", todoName);
-    this.name = "";
+    this.$emit('create-todo', todoName);
+    this.name = '';
   }
 }
 </script>
