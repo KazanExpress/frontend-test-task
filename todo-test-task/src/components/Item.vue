@@ -34,7 +34,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { IItem } from '@/interfaces/IStore';
 // @ts-ignore
-import draggable from 'vuedraggable'
+import draggable from 'vuedraggable';
 
 @Component({
   components: { draggable },
@@ -42,8 +42,8 @@ import draggable from 'vuedraggable'
 })
 export default class Item extends Vue {
   @Prop() private item!: IItem;
-  @Prop() handleDelete!: Function;
-  @Prop() handleCheck!: Function;
+  @Prop() private handleDelete!: Function;
+  @Prop() private handleCheck!: Function;
 
   private renameItemHandler(event: Event, id: string) {
     let target = event.target as HTMLInputElement;

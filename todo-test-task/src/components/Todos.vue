@@ -41,7 +41,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import Item from '@/components/Item.vue';
 import CreateTodo from '@/components/CreateTodo.vue';
 // @ts-ignore
-import draggable from 'vuedraggable'
+import draggable from 'vuedraggable';
 import {IItem} from '@/interfaces/IStore';
 
 @Component({
@@ -56,6 +56,10 @@ export default class Todos extends Vue {
     return this.$store.state.filters.filteredItems;
   }
 
+  set filteredItems(items: IItem[]) {
+    this.$store.commit('updateFilteredItems', items);
+  }
+
   get items() {
     return this.$store.state.items;
   }
@@ -64,9 +68,6 @@ export default class Todos extends Vue {
     this.$store.commit('updateItems', items);
   }
 
-  set filteredItems(items: IItem[]) {
-    this.$store.commit('updateFilteredItems', items);
-  }
 
   private filterHandler(input: Event) {
     let target = input.target as HTMLInputElement;
@@ -78,7 +79,6 @@ export default class Todos extends Vue {
   }
 
   private deleteTodo(id: string) {
-    console.warn("got delete todo");
     this.$store.commit('deleteItem', id);
   }
 
