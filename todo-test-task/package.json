@@ -14,9 +14,7 @@
     "vue-property-decorator": "^8.3.0",
     "vue-router": "^3.1.5",
     "vuedraggable": "^2.23.2",
-    "vuex": "^3.1.3",
-    "vuex-multi-tab-state": "^1.0.12",
-    "vuex-persistedstate": "^3.0.0"
+    "vuex": "^3.1.3"
   },
   "devDependencies": {
     "@kazanexpress/tslint": "^1.0.5",
