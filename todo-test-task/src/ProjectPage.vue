@@ -3,7 +3,7 @@
     <ProjectName></ProjectName>
     <Todos></Todos>
     <button @click="exportToJson" class="export-button">Export project</button>
-    <button @click="transferTodos" >Transfer todos</button>
+    <Transfer v-on:transfer-todos="transferTodos"></Transfer>
   </div>
 </template>
 
@@ -12,12 +12,14 @@ import { Component, Vue } from "vue-property-decorator";
 import ProjectName from "@/components/ProjectName.vue";
 import Todos from "@/components/Todos.vue";
 import {IItem} from '@/interfaces/IStore';
+import Transfer from '@/components/Transfer.vue';
 
 @Component({
   components: {
     ProjectName,
     Todos,
-  }
+    Transfer,
+  },
 })
 export default class ProjectPage extends Vue {
   channel!: BroadcastChannel;
@@ -27,14 +29,29 @@ export default class ProjectPage extends Vue {
 
     this.channel.onmessage = (messageEvent: any) => {
       if (messageEvent.data.event === 'transfer_items') {
-        console.warn('git it');
+        console.warn('got items');
         if (messageEvent.data.project === this.$store.state.projectName){
           messageEvent.data.items.forEach((item: IItem) => {
             this.$store.commit('pushItem', item);
           })
         }
+        return
+      }
+
+      if (messageEvent.data.event === 'add_project') {
+        console.warn('got project');
+        if (messageEvent.data.old){
+          this.$store.commit('deleteProject', messageEvent.data.old);
+        }
+        this.$store.commit('addProject', messageEvent.data.project);
+        return
       }
     };
+
+    this.channel.postMessage({
+      event: 'add_project',
+      project: this.$store.state.projectName,
+    });
   }
 
   exportToJson() {
@@ -47,10 +64,10 @@ export default class ProjectPage extends Vue {
     link.click();
   }
 
-  transferTodos() {
+  transferTodos(project: string) {
     this.channel.postMessage({
       event: 'transfer_items',
-      project: 'New project2',
+      project,
       items: this.$store.state.items,
     });
   }

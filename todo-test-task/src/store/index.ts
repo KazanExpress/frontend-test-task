@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import createPersistedState from 'vuex-persistedstate';
 import {IItem, IState} from '@/interfaces/IStore';
 
 Vue.use(Vuex);
@@ -11,9 +10,6 @@ interface IRenameItemPayload {
 }
 
 export default new Vuex.Store({
-  // plugins: [createPersistedState({
-  //   paths: ['items', 'filters', 'projectName'],
-  // }, null, null)],
   state: {
     projectName: 'New project',
     filters: {
@@ -30,6 +26,7 @@ export default new Vuex.Store({
       { checked: true, name: 'Wash hands', subitems: [] },
       { checked: false, name: 'Stay home', subitems: [] }
     ],
+    projects: new Set<String>([]),
   } as IState,
   mutations: {
     addItem(state, name: string): void {
@@ -64,6 +61,14 @@ export default new Vuex.Store({
       state.items.push(item);
     },
 
+    addProject(state, projectName){
+      state.projects.add(projectName);
+    },
+
+    deleteProject(state, projectName){
+      state.projects.delete(projectName);
+    },
+
     updateFilteredItems(state, values: IItem[]) {
       state.filters.filteredItems = values;
     },
@@ -74,4 +79,7 @@ export default new Vuex.Store({
   },
   actions: {},
   modules: {},
+  getters: {
+    projects: state => state.projects,
+  },
 });

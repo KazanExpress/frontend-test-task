@@ -14,12 +14,25 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class ProjectName extends Vue {
+  channel!: BroadcastChannel;
+
+  beforeCreate() {
+    this.channel = new BroadcastChannel('projects-channel');
+  };
+
   projectName() {
     return this.$store.state.projectName;
   };
 
   projectRenameHandler(input: Event){
     let target = input.target as HTMLInputElement;
+
+    this.channel.postMessage({
+      event: 'add_project',
+      old: this.$store.state.projectName,
+      project:  target.value,
+    });
+
     this.$store.commit("updateProjectName", target.value);
   }
 }

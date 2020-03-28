@@ -10,8 +10,8 @@
       class="filter-input"
     />
     <ul id="todos" class="list-items">
-      <template v-if="filteredItems().length">
-          <li v-for="(item, index) in filteredItems()" :key="index">
+      <template v-if="filteredItems.length">
+          <li v-for="(item, index) in filteredItems" :key="index">
             <Item
               v-bind:index="index"
               v-bind:item="item"
@@ -21,7 +21,7 @@
           </li>
       </template>
       <template v-else>
-          <li v-for="(item, index) in items()" :key="index">
+          <li v-for="(item, index) in items" :key="index">
             <Item
               v-bind:index="index"
               v-bind:item="item"
@@ -46,33 +46,13 @@ import draggable from "vuedraggable";
     CreateTodo,
     draggable
   },
-  // computed: {
-    // filteredItems: {
-    //   get() {
-    //     return this.$store.state.filters.filteredItems;
-    //   },
-    //
-    //   set(value) {
-    //     this.$store.commit('updateFilteredItems', value)
-    //   }
-    // },
-    // items: {
-    //   get() {
-    //     return this.$store.state.items;
-    //   },
-    //
-    //   set(value) {
-    //     this.$store.commit('updateItems', value)
-    //   }
-    // }
-  // }
 })
 export default class Todos extends Vue {
-  filteredItems() {
+  get filteredItems() {
     return this.$store.state.filters.filteredItems;
   }
 
-  items() {
+  get items() {
     return this.$store.state.items;
   }
 
