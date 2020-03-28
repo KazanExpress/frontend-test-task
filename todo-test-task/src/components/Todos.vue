@@ -11,22 +11,26 @@
     />
     <ul id="todos" class="list-items">
       <template v-if="filteredItems.length">
-          <li v-for="item in filteredItems" :key="item.id">
-            <Item
-              :item="item"
-              :handle-delete="deleteTodo"
-              :handle-check="check"
-            />
-          </li>
+          <draggable v-model='filteredItems' @start="drag=true" @end="drag=false">
+              <li v-for="item in filteredItems" :key="item.id">
+                <Item
+                  :item="item"
+                  :handle-delete="deleteTodo"
+                  :handle-check="check"
+                />
+              </li>
+          </draggable>
       </template>
       <template v-else>
-          <li v-for="item in items" :key="item.id">
-            <Item
-              :item="item"
-              :handle-delete="deleteTodo"
-              :handle-check="check"
-            />
-          </li>
+          <draggable v-model='items' @start="drag=true" @end="drag=false">
+              <li v-for="item in items" :key="item.id">
+                <Item
+                  :item="item"
+                  :handle-delete="deleteTodo"
+                  :handle-check="check"
+                />
+              </li>
+          </draggable>
       </template>
     </ul>
   </div>
@@ -36,11 +40,15 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Item from '@/components/Item.vue';
 import CreateTodo from '@/components/CreateTodo.vue';
+// @ts-ignore
+import draggable from 'vuedraggable'
+import {IItem} from '@/interfaces/IStore';
 
 @Component({
   components: {
     Item,
     CreateTodo,
+    draggable,
   },
 })
 export default class Todos extends Vue {
@@ -50,6 +58,14 @@ export default class Todos extends Vue {
 
   get items() {
     return this.$store.state.items;
+  }
+
+  set items(items: IItem[]) {
+    this.$store.commit('updateItems', items);
+  }
+
+  set filteredItems(items: IItem[]) {
+    this.$store.commit('updateFilteredItems', items);
   }
 
   private filterHandler(input: Event) {

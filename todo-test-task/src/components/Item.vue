@@ -18,12 +18,14 @@
     <img src="../assets/bin.png" alt="delete item" @click="handleDelete(item.id)" />
     <img src="../assets/plus.png" alt="add subitem" @click="addSubitem(item.id)">
     <ul v-if="item.subitems.length > 0" class="subitems">
+      <draggable v-model='item.subitems' @start="drag=true" @end="drag=false">
         <li v-for="subitem in item.subitems">
           <item :item="subitem"
                 :handle-delete="handleDelete"
                 :handle-check="handleCheck"
           />
         </li>
+      </draggable>
     </ul>
   </div>
 </template>
@@ -31,9 +33,11 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { IItem } from '@/interfaces/IStore';
+// @ts-ignore
+import draggable from 'vuedraggable'
 
 @Component({
-  components: {},
+  components: { draggable },
   name: 'item',
 })
 export default class Item extends Vue {

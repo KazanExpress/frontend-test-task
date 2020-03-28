@@ -13,7 +13,6 @@ import { Prop, Vue, Component } from 'vue-property-decorator';
 
 @Component
 export default class Transfer extends Vue {
-  @Prop()
   private projectName: string = '';
 
   get projects() {
