@@ -11,22 +11,20 @@
     />
     <ul id="todos" class="list-items">
       <template v-if="filteredItems.length">
-          <li v-for="(item, index) in filteredItems" :key="index">
+          <li v-for="item in filteredItems" :key="item.id">
             <Item
-              v-bind:index="index"
-              v-bind:item="item"
-              v-on:delete-todo="deleteTodo"
-              v-on:update-checkbox="check"
+              :item="item"
+              :handle-delete="deleteTodo"
+              :handle-check="check"
             />
           </li>
       </template>
       <template v-else>
-          <li v-for="(item, index) in items" :key="index">
+          <li v-for="item in items" :key="item.id">
             <Item
-              v-bind:index="index"
-              v-bind:item="item"
-              v-on:delete-todo="deleteTodo"
-              v-on:update-checkbox="check"
+              :item="item"
+              :handle-delete="deleteTodo"
+              :handle-check="check"
             />
           </li>
       </template>
@@ -68,8 +66,8 @@ export default class Todos extends Vue {
     this.$store.commit('deleteItem', id);
   }
 
-  private check(index: number) {
-    this.$store.commit('updateCheckbox', index);
+  private check(id: string) {
+    this.$store.commit('updateCheckbox', id);
   }
 }
 </script>

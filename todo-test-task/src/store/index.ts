@@ -5,7 +5,7 @@ import {IItem, IState} from '@/interfaces/IStore';
 Vue.use(Vuex);
 
 interface IRenameItemPayload {
-  index: number;
+  id: string;
   name: string;
 }
 
@@ -72,20 +72,52 @@ export default new Vuex.Store({
       deleteTodo(state.items);
     },
 
-    updateCheckbox(state, index: number): void {
-      state.items[index].checked = !state.items[index].checked;
+    updateCheckbox(state, id: string): void {
+      function updateCheck(items: IItem[]) {
+        items.forEach(item => {
+          if (item.id === id){
+            item.checked = !item.checked;
+
+            return;
+          }
+
+          updateCheck(item.subitems);
+        });
+      }
+
+      updateCheck(state.items);
     },
 
     changeFilter(state, input) {
       state.filters.filterValue = input;
-      state.filters.filteredItems = state.items.filter(item =>
-        item.name.toLowerCase().includes(input.toLowerCase())
-      );
+
+      state.filters.filteredItems = state.items.filter(function f(item:IItem): boolean | undefined {
+        if (item.name.toLowerCase().includes(input.toLowerCase())){
+          return true;
+        }
+
+        if (item.subitems){
+          item.subitems = item.subitems.filter(f);
+        }
+      });
     },
 
     renameItem(state, params: IRenameItemPayload): void {
-      const { index, name } = params;
-      state.items[index].name = name;
+      const { id, name } = params;
+
+      function rename(items: IItem[]) {
+        items.forEach(item => {
+          if (item.id === id){
+            item.name = name;
+
+            return;
+          }
+
+          rename(item.subitems);
+        });
+      }
+
+      rename(state.items);
     },
 
     updateProjectName(state, name: string){
