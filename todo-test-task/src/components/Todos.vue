@@ -76,6 +76,7 @@ export default class Todos extends Vue {
 <style scoped lang="scss">
 .container {
   text-align: left;
+    padding-right: 45px;
 }
 .list-items {
   li {

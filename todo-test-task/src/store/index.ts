@@ -20,7 +20,9 @@ export default new Vuex.Store({
       {
         checked: false,
         name: 'Buy tomatoes',
-        subitems: [{ checked: false, name: 'Add subitem', subitems: [] }],
+        subitems: [{ checked: false, name: 'Add subitem', subitems: [
+            { checked: true, name: 'Subsub item', subitems: [] }
+          ] }],
       },
       { checked: false, name: 'Buy pepper', subitems: [] },
       { checked: true, name: 'Wash hands', subitems: [] },

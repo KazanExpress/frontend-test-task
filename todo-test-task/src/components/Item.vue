@@ -16,12 +16,11 @@
       />
     </label>
     <img src="../assets/bin.png" alt="delete item" @click="deleteTodo(index)" />
-    <div v-if="item.subitems.length">
-      <ul v-for="(subitem, subIndex) in item.subitems" class="subitems">
-        <!--        <item v-if="subitem" :index="subIndex">-->
-        <!--        </item>-->
+      <ul v-if="item.subitems.length > 0" class="subitems">
+        <li v-for="(subitem, subIndex) in item.subitems">
+          <item :item="subitem" :index="subIndex"/>
+        </li>
       </ul>
-    </div>
   </div>
 </template>
 
@@ -57,13 +56,7 @@ export default class Item extends Vue {
 input {
   vertical-align: middle;
 }
-.container {
-  width: 60%;
-  height: 40px;
-  -webkit-box-shadow: 0 -0 15px -11px #262626;
-  -moz-box-shadow: 0 -0 15px -11px #262626;
-  box-shadow: 0 -0 15px -11px #262626;
-}
+.container {}
 .item-name {
   :focus {
     outline: none;
@@ -84,5 +77,10 @@ img {
 
 .subitems {
   padding-left: 10px;
+
+  li {
+    list-style: none;
+    margin: 10px 0 10px 5px;
+  }
 }
 </style>
