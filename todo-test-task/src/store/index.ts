@@ -9,6 +9,26 @@ interface IRenameItemPayload {
   name: string;
 }
 
+const guid = () => {
+  let s4 = () => {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  };
+
+  return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
+};
+
+function findItem(items: Array<IItem>, id: string) {
+  items.forEach(item => {
+    if (item.id === id){
+      return item.subitems.push();
+    }
+
+    return findItem(item.subitems, id);
+  });
+}
+
 export default new Vuex.Store({
   state: {
     projectName: 'New project',
@@ -18,25 +38,38 @@ export default new Vuex.Store({
     },
     items: [
       {
+        id: guid(),
         checked: false,
         name: 'Buy tomatoes',
-        subitems: [{ checked: false, name: 'Add subitem', subitems: [
-            { checked: true, name: 'Subsub item', subitems: [] }
+        subitems: [{ id: guid(), checked: false, name: 'Add subitem', subitems: [
+            { id: guid(), checked: true, name: 'Subsub item', subitems: [] }
           ] }],
       },
-      { checked: false, name: 'Buy pepper', subitems: [] },
-      { checked: true, name: 'Wash hands', subitems: [] },
-      { checked: false, name: 'Stay home', subitems: [] }
+      { id: guid(), checked: false, name: 'Buy pepper', subitems: [] },
+      { id: guid(), checked: true, name: 'Wash hands', subitems: [] },
+      { id: guid(), checked: false, name: 'Stay home', subitems: [] }
     ],
     projects: new Set<String>([]),
   } as IState,
   mutations: {
     addItem(state, name: string): void {
-      state.items.push({ checked: false, name, subitems: [] });
+      state.items.push({ id: guid(), checked: false, name, subitems: [] });
     },
 
-    deleteItem(state, index: number): void {
-      state.items.splice(index, 1);
+    deleteItem(state, id: string): void {
+      function deleteTodo(items: IItem[]) {
+        items.forEach((item, index) => {
+          if (item.id === id){
+            items.splice(index, 1);
+
+            return;
+          }
+
+          deleteTodo(item.subitems);
+        });
+      }
+
+      deleteTodo(state.items);
     },
 
     updateCheckbox(state, index: number): void {
@@ -69,6 +102,24 @@ export default new Vuex.Store({
 
     deleteProject(state, projectName){
       state.projects.delete(projectName);
+    },
+
+    addSubItem(state: IState, parentid: string) {
+      const newItem =  { id: guid(), checked: false, name: 'Rename me', subitems: [] };
+
+      function addSubitem(items: IItem[]) {
+        items.forEach(item => {
+          if (item.id === parentid){
+            item.subitems.push(newItem);
+
+            return;
+          }
+
+          addSubitem(item.subitems);
+        });
+      }
+
+      addSubitem(state.items);
     },
 
     updateFilteredItems(state, values: IItem[]) {

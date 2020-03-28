@@ -63,8 +63,9 @@ export default class Todos extends Vue {
     this.$store.commit('addItem', name);
   }
 
-  private deleteTodo(index: number) {
-    this.$store.commit('deleteItem', index);
+  private deleteTodo(id: string) {
+    console.warn("got delete todo");
+    this.$store.commit('deleteItem', id);
   }
 
   private check(index: number) {

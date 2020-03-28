@@ -15,12 +15,13 @@
         class="item-name"
       />
     </label>
-    <img src="../assets/bin.png" alt="delete item" @click="deleteTodo(index)" />
-      <ul v-if="item.subitems.length > 0" class="subitems">
+    <img src="../assets/bin.png" alt="delete item" @click="deleteTodo(item.id)" />
+    <img src="../assets/plus.png" alt="add subitem" @click="addSubitem(item.id)">
+    <ul v-if="item.subitems.length > 0" class="subitems">
         <li v-for="(subitem, subIndex) in item.subitems">
           <item :item="subitem" :index="subIndex"/>
         </li>
-      </ul>
+    </ul>
   </div>
 </template>
 
@@ -36,8 +37,9 @@ export default class Item extends Vue {
   @Prop() private item!: IItem;
   @Prop() private index!: number;
 
-  private deleteTodo(index: number) {
-    this.$emit('delete-todo', index);
+  private deleteTodo(id: string) {
+    console.warn('send delete');
+    this.$emit('delete-todo', id);
   }
 
   private check(index: number) {
@@ -48,6 +50,10 @@ export default class Item extends Vue {
     let target = event.target as HTMLInputElement;
     console.warn(target.value, index);
     this.$store.commit('renameItem', { index, name: target.value });
+  }
+
+  private addSubitem(parentid: string) {
+    this.$store.commit('addSubItem', parentid);
   }
 }
 </script>

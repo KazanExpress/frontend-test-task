@@ -11,6 +11,7 @@ interface IFilters {
 }
 
 export interface IItem {
+  id: string;
   checked: boolean;
   name: string;
   subitems: IItem[];
