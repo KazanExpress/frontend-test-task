@@ -1,6 +1,6 @@
 <template>
   <draggable
-    v-model="taskList"
+    :list="taskList"
     :group="{ name: 'task-list' }"
     :empty-insert-threshold="dropAreaSize"
     class="dragArea"

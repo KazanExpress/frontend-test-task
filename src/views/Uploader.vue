@@ -1,7 +1,7 @@
 <template>
   <div>
     <input-loader @fetchFile="fetchFile"></input-loader>
-    <button class="btn btn-success" @click="fetchFile(defaultFileName)">Or continue without downloading</button>
+    <button class="btn btn-success" @click="fetchFile({ fileName: name, taskList })">Or continue without downloading</button>
   </div>
 </template>
 
@@ -14,17 +14,20 @@
 import InputLoader from '@/components/loader/input.vue'
 import { Component, Emit, Vue } from 'vue-property-decorator'
 import { ITask } from '@/store/models'
+import { namespace } from 'vuex-class'
 
+const project = namespace('project')
 @Component({
   components: {
     InputLoader
   }
 })
 export default class Uploader extends Vue {
-  private defaultFileName = {
-    fileName: 'defaultName',
-    taskList: []
-  }
+  @project.State
+  public name!: string
+
+  @project.State
+  private taskList!: ITask[]
 
   @Emit('fetchFile')
   fetchFile ({ fileName, taskList }: { fileName: string; taskList: ITask[] }): void {

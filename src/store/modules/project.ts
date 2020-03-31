@@ -5,7 +5,7 @@ import { IProject } from '@/store/models.d.ts'
 @Module({ namespaced: true, name: 'Project' })
 
 class Project extends VuexModule implements IProject {
-  public name = ''
+  public name = 'defaultName'
   public taskList: IProject['taskList'] = []
 
   @Mutation

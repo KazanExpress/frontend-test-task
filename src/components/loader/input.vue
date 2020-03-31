@@ -15,24 +15,39 @@
 
 import { Component, Vue } from 'vue-property-decorator'
 import { IProject, ITask } from '@/store/models.d.ts'
+import { namespace } from 'vuex-class'
+const project = namespace('project')
 
 @Component
 export default class Input extends Vue {
   private readonly projectFormat = 'application/json'
   private readonly fileFormat = 'json'
+  @project.State
+  public name!: string
+
+  @project.State
+  private taskList!: ITask[]
 
   private async loadFile (e: any): Promise<void> {
     const file = e.target.files[0]
+    const defaultData = { taskList: this.taskList }
     if (!this.checkFormatFile(file)) {
-      this.throwError(`Invalid file format, try ${this.projectFormat}`)
+      this.throwError(`Invalid file format, try ${this.fileFormat.toUpperCase()}`)
+      this.fetchFile(this.name, defaultData)
       return
     }
     const data = await this.parseFile(file)
     if (data == null) {
+      this.fetchFile(this.name, defaultData)
       return
     }
+    const fileName = file.name.replace(`.${this.fileFormat}`, '')
+    this.fetchFile(fileName, data as object)
+  }
+
+  private fetchFile (fileName: IProject['name'], data: object): void {
     this.$emit('fetchFile', {
-      fileName: file.name.replace(`.${this.fileFormat}`, ''),
+      fileName,
       ...data
     })
   }

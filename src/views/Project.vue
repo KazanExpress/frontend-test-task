@@ -75,7 +75,7 @@ export default class Project extends Vue {
   private formatFileForExport = 'json'
 
   get dataForExport () {
-    return JSON.stringify(this.taskList)
+    return JSON.stringify({ taskList: this.taskList })
   }
 
   @Emit('updateText')
