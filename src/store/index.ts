@@ -1,15 +1,28 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import Tasker from './modules/tasker';
+import { getModule } from 'vuex-module-decorators';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const storeApp = new Vuex.Store({
   state: {
+    error: {
+      show: false,
+      message: '',
+    },
   },
   mutations: {
+    toggleError ({ error }, { show = false, message = '' }) {
+      error.show = show;
+      error.message = message;
+    },
   },
   actions: {
   },
   modules: {
+    project: Tasker,
   },
 });
+export default storeApp;
+export const taskerModule = getModule(Tasker, storeApp);
