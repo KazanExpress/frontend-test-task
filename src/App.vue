@@ -11,10 +11,7 @@
       </nav>
         </div>
 
-     <div class="container">
-        <!-- Page Content goes here -->
-      </div>
-  </div>
+     </div>
 </template>
 
 <!--<style>-->
