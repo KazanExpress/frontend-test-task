@@ -1,10 +1,10 @@
 export interface IApplication {
   name: string;
-  taskItems: ITask[];
+  taskItems: ITaskItems[];
 }
-export interface ITask {
+export interface ITaskItems {
   name: string;
   description: string;
   isChecked: boolean;
-  enclosedTaskItem: ITask[];
+  enclosedTaskItem: ITaskItems[];
 }
