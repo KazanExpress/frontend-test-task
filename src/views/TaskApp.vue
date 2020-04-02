@@ -9,7 +9,7 @@
 
 <script lang="ts">
 
-  import InputLoader from '@/components/loader/input.vue'
+  import ImportJSON from '@/components/importJSON.vue'
   import { Component, Emit, Vue } from 'vue-property-decorator'
   import { ITaskItems } from '@/interfaces/IApplication.d'
   import { namespace } from 'vuex-class'
@@ -17,7 +17,7 @@
   const app = namespace('app')
   @Component({
     components: {
-      InputLoader
+      ImportJSON
     }
   })
   export default class Uploader extends Vue {
@@ -29,7 +29,7 @@
 
     @Emit('fetchFile')
     fetchFile ({ fileName, taskItems }: { fileName: string; taskItems: ITaskItems[] }): void {
-      this.$store.commit('project/saveToStorage', {
+      this.$store.commit('app/saveToStorage', {
         name: fileName,
         taskItems
       })
