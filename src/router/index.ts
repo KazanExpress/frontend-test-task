@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import TaskApp from '../views/TaskApp.vue';
+import TaskApp from '@/views/TaskApp.vue';
 
 Vue.use(VueRouter);
 
