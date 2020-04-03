@@ -5,7 +5,7 @@ import { getModule } from 'vuex-module-decorators';
 
 Vue.use(Vuex);
 
-let storeApp = new Vuex.Store({
+let store = new Vuex.Store({
   state: {
     error: {
       show: false,
@@ -21,8 +21,8 @@ let storeApp = new Vuex.Store({
   actions: {
   },
   modules: {
-    project: Tasker,
+    tasker: Tasker,
   },
 });
-export default storeApp;
-export let taskerModule = getModule(Tasker, storeApp);
+export default store;
+export let taskerModule = getModule(Tasker, store);
