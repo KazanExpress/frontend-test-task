@@ -18,10 +18,10 @@
 
 <script lang="ts">
 
-  import { Component, Vue } from 'vue-property-decorator'
-  import { IApplication, ITaskItems } from '@/interfaces/IApplication'
-  import { namespace } from 'vuex-class'
-  const app = namespace('app')
+  import { Component, Vue } from 'vue-property-decorator';
+  import { IApplication, ITaskItems } from '@/interfaces/IApplication';
+  import { namespace } from 'vuex-class';
+  const app = namespace('app');
 
   @Component
   export default class ImportJSON extends Vue {
@@ -30,62 +30,72 @@
     public name!: string;
 
     @app.State
-    private taskItems!: ITaskItems[]
+    private taskItems!: ITaskItems[];
 
     private async loadingJSON (event: any): Promise<void> {
-      const json = event.target.files[0]
-      const dataStructureJSON = { taskItems: this.taskItems }
+      const json = event.target.files[0];
+      const dataStructureJSON = {
+        taskItems: this.taskItems,
+      };
       if (!ImportJSON.checkFormatFile(json)) {
-        this.errorMsg(`Неверный формат файла, нужен JSON`)
-        this.fetchJson(this.name, dataStructureJSON)
-        return
+        this.errorMsg('Импортировать можно только JSON');
+        this.fetchJson(this.name, dataStructureJSON);
+
+        return;
       }
-      const data = await this.parseJson(json)
+      const data = await this.parseJson(json);
       if (data == null) {
-        this.fetchJson(this.name, dataStructureJSON)
-        return
+        this.fetchJson(this.name, dataStructureJSON);
+
+        return;
       }
-      const name = json.name.replace('.json', '')
-      this.fetchJson(name, data as object)
+      const name = json.name.replace('.json', '');
+      this.fetchJson(name, data as object);
     }
 
     private fetchJson (name: IApplication['name'], data: object): void {
       this.$emit('fetchJson', {
         name,
-        ...data
-      })
+        ...data,
+      });
     }
 
-    private async parseJson (file: Blob): Promise<{taskItems: ITaskItems[]} | null | undefined> {
+    private async parseJson (file: Blob): Promise<{taskItems: ITaskItems[]} | null > {
       try {
-        const strJSON = await this.readJson(file)
-        const data = JSON.parse(strJSON)
+        const strJSON = await this.readJson(file);
+        const data = JSON.parse(strJSON);
         if (!this.isValidTaskItem(data)) {
-          this.errorMsg('Ошибка структуры')
-          return
+          this.errorMsg('Ошибка структуры');
+
+          return null;
         }
         if (this.isTasksNotEmpty(data.taskItems) && !this.isValidTasks(data.taskItems)) {
-          this.errorMsg('Ошибка структуры')
-          return
+          this.errorMsg('Ошибка структуры');
+
+          return null;
         }
         return { taskItems: data.taskItems }
       } catch (error) {
-        this.errorMsg('Ошибка парсинга' + error)
-        return
+        this.errorMsg('Ошибка парсинга' + error);
+
+        return null;
       }
     }
 
     private static checkFormatFile (file: Blob): boolean {
-      return file.type === 'application/json'
+
+      return file.type === 'application/json';
     }
 
     private isValidTasks (taskItems: []): boolean {
       for (let item of taskItems) {
         if (!this.checkingTask(item)) {
-          return false
+
+          return false;
         }
       }
-      return true
+
+      return true;
     }
 
     private errorMsg (message: string): void {

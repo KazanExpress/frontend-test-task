@@ -1,7 +1,7 @@
 <template>
     <div>
-        <input-loader @fetchFile="fetchFile"></input-loader>
-        <button @click="fetchFile({ fileName: name, taskItems })" class="btn waves-effect waves-light">Загрузить
+        <input-loader @fetchJson="fetchJson"></input-loader>
+        <button @click="fetchJson({ name: name, taskItems })" class="btn waves-effect waves-light">Загрузить
             <i class="material-icons right">cloud</i>
         </button>
     </div>
