@@ -37,20 +37,20 @@
       const dataStructureJSON = { taskItems: this.taskItems }
       if (!ImportJSON.checkFormatFile(json)) {
         this.errorMsg(`Неверный формат файла, нужен JSON`)
-        this.fetchingJson(this.name, dataStructureJSON)
+        this.fetchJson(this.name, dataStructureJSON)
         return
       }
       const data = await this.parseJson(json)
       if (data == null) {
-        this.fetchingJson(this.name, dataStructureJSON)
+        this.fetchJson(this.name, dataStructureJSON)
         return
       }
       const name = json.name.replace('.json', '')
-      this.fetchingJson(name, data as object)
+      this.fetchJson(name, data as object)
     }
 
-    private fetchingJson (name: IApplication['name'], data: object): void {
-      this.$emit('fetchFile', {
+    private fetchJson (name: IApplication['name'], data: object): void {
+      this.$emit('fetchJson', {
         name,
         ...data
       })

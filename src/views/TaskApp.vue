@@ -9,7 +9,7 @@
 
 <script lang="ts">
 
-  import ImportJSON from '@/components/importJSON.vue'
+  import ImportJSON from '@/components/ImportJSON.vue'
   import { Component, Emit, Vue } from 'vue-property-decorator'
   import { ITaskItems } from '@/interfaces/IApplication.d'
   import { namespace } from 'vuex-class'
@@ -20,20 +20,20 @@
       ImportJSON
     }
   })
-  export default class Uploader extends Vue {
+  export default class TaskApp extends Vue {
     @app.State
     public name!: string
 
     @app.State
     private taskItems!: ITaskItems[]
 
-    @Emit('fetchFile')
-    fetchFile ({ fileName, taskItems }: { fileName: string; taskItems: ITaskItems[] }): void {
+    @Emit('fetchJson')
+    fetchJson({ name, taskItems }: { name: string; taskItems: ITaskItems[] }): void {
       this.$store.commit('app/saveToStorage', {
-        name: fileName,
+        name,
         taskItems
       })
-      this.$router.push({ name: 'TaskApp', query: { name: fileName } })
+      this.$router.push({ name: 'TaskApp', query: { name: name } })
     }
   }
 </script>
