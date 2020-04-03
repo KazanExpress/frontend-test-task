@@ -4,16 +4,23 @@
                 type="button"
                 class="btn waves-effect waves-light"
                 >
-            <i class="material-icons">attach_file</i>Импорт JSON
+            <input
+                    @change="loadingJSON($event)"
+                    type="file"
+                    name="file"
+                    id="file"
+                    :accept="mimeType"
+
+            />
+            <i class="material-icons right">attach_file</i>Импорт JSON
+
+
         </button>
-        <input
-                @change="loadingJSON($event)"
-                type="file"
-                name="file"
-                id="file"
-                accept="application/json"
-        />
+
+
     </div>
+
+
 </template>
 
 <script lang="ts">
@@ -25,7 +32,7 @@
 
   @Component
   export default class ImportJSON extends Vue {
-
+    private readonly mimeType = 'application/json'
     @app.State
     public name!: string;
 
@@ -138,7 +145,7 @@
         /*display: none;*/
         position: relative;
         overflow: hidden;
-        display: inline-block;
+        display: flex;
     }
 
     .upload-btn-wrapper input[type=file] {
