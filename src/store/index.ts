@@ -13,7 +13,7 @@ let storeApp = new Vuex.Store({
     },
   },
   mutations: {
-    toggleError ({ error }, { show = false, message = '' }) {
+    onError ({ error }, { show = false, message = '' }) {
       error.show = show;
       error.message = message;
     },
