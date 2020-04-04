@@ -1,6 +1,4 @@
 import { IApplication } from '@/interfaces/IApplication';
-
-
 let setNameStorage = 'tasker';
 
   let setterStorage = (value: string, data:IApplication[]): (void) => {
