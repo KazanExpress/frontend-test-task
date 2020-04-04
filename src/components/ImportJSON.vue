@@ -28,15 +28,15 @@
   import { Component, Vue } from 'vue-property-decorator';
   import { IApplication, ITaskItems } from '@/interfaces/IApplication';
   import { namespace } from 'vuex-class';
-  const app = namespace('app');
+  const tasker = namespace('tasker');
 
   @Component
   export default class ImportJSON extends Vue {
     private readonly mimeType = 'application/json'
-    @app.State
+    @tasker.State
     public name!: string;
 
-    @app.State
+    @tasker.State
     private taskItems!: ITaskItems[];
 
     private async loadingJSON (event: any): Promise<void> {
@@ -83,7 +83,7 @@
         }
         return { taskItems: data.taskItems }
       } catch (error) {
-        this.errorMsg('Ошибка парсинга' + error);
+        this.errorMsg('Ошибка парсинга ' + error);
 
         return null;
       }
@@ -91,7 +91,7 @@
 
     private static checkFormatFile (file: Blob): boolean {
 
-      return file.type === 'application/json';
+      return file.type == 'application/json';
     }
 
     private isValidTasks (taskItems: []): boolean {
