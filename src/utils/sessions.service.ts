@@ -1,7 +1,7 @@
 import { IApplication } from '@/interfaces/IApplication';
 
 
-let setNameStorage = 'test-task';
+let setNameStorage = 'tasker';
 
   let setterStorage = (value: string, data:IApplication[]): (void) => {
     window.sessionStorage.setItem(value, JSON.stringify(data));
@@ -21,7 +21,7 @@ let unmountItemStorage = (value: string): (void) => {
 };
 
 let onLoadingHandlerEvent = function(store: any, valueSave: string, callerFunction: Function): void | boolean {
-  let data = store.state.project;
+  let data = store.state.tasker;
   callerFunction.call(null, valueSave, data);
 };
 export {

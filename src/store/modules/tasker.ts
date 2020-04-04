@@ -1,13 +1,13 @@
 // @ts-ignore
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
 
-import { setNameStorage, getterStorage, setterStorage } from '@/utils/sessions';
+import { setNameStorage, getterStorage, setterStorage } from '@/utils/sessions.service';
 import { IApplication } from '@/interfaces/IApplication.d';
 
 @Module({ namespaced: true, name: 'Tasker' })
 
 class Tasker extends VuexModule implements IApplication {
-  public name = 'defaultName';
+  public name = 'default';
   public taskItems: IApplication['taskItems'] = [];
 
   @Mutation
@@ -25,18 +25,16 @@ class Tasker extends VuexModule implements IApplication {
   }
 
   @Mutation
-  public saveToStorage (project: IApplication[]): void {
-    setterStorage(setNameStorage, project);
+  public saveToStorage (tasker: IApplication[]): void {
+    setterStorage(setNameStorage, tasker);
   }
 
   @Action
   public search ({ name }: { name: string }): any {
-    const app = getterStorage(setNameStorage);
-    if (app !== null) {
-      // @ts-ignore
-      this.context.commit('updateName', app.data.name);
-      // @ts-ignore
-      this.context.commit('updateTaskItems', app.data.taskItems);
+    const tasker = getterStorage(setNameStorage);
+    if (tasker !== null) {
+      this.context.commit('updateName', tasker.data.name);
+      this.context.commit('updateTaskItems', tasker.data.taskItems);
     }
   }
 
