@@ -1,13 +1,12 @@
 // @ts-ignore
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
-
 import { setNameStorage, getterStorage, setterStorage } from '@/utils/sessions.service';
 import { IApplication } from '@/interfaces/IApplication.d';
 
 @Module({ namespaced: true, name: 'Tasker' })
 
 class Tasker extends VuexModule implements IApplication {
-  public name = 'default';
+  public name = 'defaultTask';
   public taskItems: IApplication['taskItems'] = [];
 
   @Mutation
