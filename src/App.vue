@@ -21,6 +21,7 @@
   @Component({
     components: {
       ErrorHandler,
+
     },
   })
   export default class App extends Vue {}
