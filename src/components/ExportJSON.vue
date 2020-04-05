@@ -10,13 +10,10 @@
   @Component
   export default class ExportJSON extends Vue {
     @Prop({ required: true, type: String })
-    private filename!: string
+    private filename!: string;
 
     @Prop({ required: true, type: String })
-    private formatFile!: string
-
-    @Prop({ required: true, type: String })
-    private data!: string
+    private data!: string;
 
     public exportJSON () {
       const data = this.data;
