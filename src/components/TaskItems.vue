@@ -1,15 +1,16 @@
 <template>
+
     <draggable
             :list="taskItems"
             :group="{ name: 'task-items' }"
             :empty-insert-threshold="dropAreaSize"
-            class="dragArea"
+            class="dragArea col s12 m7"
     >
         <div v-for="(item, i) in taskItems"
              :key="i"
              class="card cursor-pointer mb-5 text-left"
         >
-            <div class="card-header d-flex justify-content-between">
+            <div class="card-header ">
                 <h4>{{item.name}}</h4>
                 <button @click="$emit('destroyTask', { index: i, taskItems })" type="button" class="btn btn btn-secondary btn-sm font-weight-bold">&times;</button>
             </div>
@@ -34,6 +35,7 @@
             ></task-items>
         </div>
     </draggable>
+
 </template>
 
 <script lang="ts">
@@ -41,6 +43,7 @@
   import AddDescription from '@/components/AddDescription.vue';
   import { ITaskItems } from '@/interfaces/IApplication';
   import Draggable from 'vuedraggable';
+  import TaskApp from '@/views/TaskApp.vue';
 
   interface IActionTask {
     isChangeName: false;
@@ -48,20 +51,16 @@
 
   @Component({
     components: {
-      AddDescription,
+      TaskApp,
       Draggable,
+      AddDescription,
 
     },
     filters: {
       isCheckedFilter: function (checkedText: string, isChecked: boolean): string {
-        if (isChecked) {
-
-          return checkedText;
-        } else {
+        if (isChecked) return checkedText;
 
           return 'Note done';
-        }
-
       },
     },
   })
@@ -74,5 +73,18 @@
 </script>
 
 <style scoped>
+    .dragArea {
+     display: contents;
+    }
+    .card-header {
+        display: flex;
+        justify-content: space-between;
 
+    }
+    .card-body {
+
+    }
+    .card-text {
+
+    }
 </style>
