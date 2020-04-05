@@ -12,31 +12,31 @@
 
 <script lang="ts">
 
-  import ImportJSON from '@/components/ImportJSON.vue'
-  import { Component, Emit, Vue } from 'vue-property-decorator'
-  import { ITaskItems } from '@/interfaces/IApplication'
-  import { namespace } from 'vuex-class'
+  import ImportJSON from '@/components/ImportJSON.vue';
+  import { Component, Emit, Vue } from 'vue-property-decorator';
+  import { ITaskItems } from '@/interfaces/IApplication';
+  import { namespace } from 'vuex-class';
 
-  const tasker = namespace('tasker')
+  const tasker = namespace('tasker');
   @Component({
     components: {
-      ImportJSON
-    }
+      ImportJSON,
+    },
   })
   export default class TaskApp extends Vue {
     @tasker.State
-    public name!: string
+    public name!: string;
 
     @tasker.State
-    private taskItems!: ITaskItems[]
+    private taskItems!: ITaskItems[];
 
     @Emit('fetchJson')
-    fetchJson({ name, taskItems }: { name: string; taskItems: ITaskItems[] }): void {
-      this.$store.commit('tasker/saveToStorage', {
+    public fetchJson({ name, taskItems }: { name: string; taskItems: ITaskItems[] }): void {
+      this.$store.commit('tasker/storageSaveTasks', {
         name,
-        taskItems
-      })
-      this.$router.push({ name: 'TaskApp', query: { name: name } })
+        taskItems,
+      });
+      this.$router.push({ name: 'Home', query: { name: name } });
     }
   }
 </script>
