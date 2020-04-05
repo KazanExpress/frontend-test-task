@@ -36,7 +36,7 @@
         name,
         taskItems,
       });
-      this.$router.push({ name: 'AppTaskHandler', query: { name: name } });
+      this.$router.push({ name: 'Tasker', query: { name: name } });
     }
   }
 </script>
