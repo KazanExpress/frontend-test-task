@@ -25,7 +25,7 @@ class Tasker extends VuexModule implements IApplication {
   }
 
   @Mutation
-  public saveToStorage (tasker: IApplication[]): void {
+  public storageSaveTasks (tasker: IApplication[]): void {
     setterStorage(setNameStorage, tasker);
   }
 
