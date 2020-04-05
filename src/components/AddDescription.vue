@@ -14,7 +14,8 @@
                     <label for="icon_prefix2"></label>
                 </div>
             </div>
-            <button type="button" class="btn btn-success input-group-text" @click="$emit('saveEmitter')">Save</button>
+            <button type="button" class="btn waves-effect waves-light" @click="$emit('saveEmitter')">
+                <i class="material-icons right">save</i>Save</button>
 
         </form>
     </div>
@@ -41,5 +42,13 @@
 </script>
 
 <style scoped>
+    .btn {
+        background-color: #42b983;
+        box-shadow: none;
+        -webkit-box-shadow: none;
 
+    }
+    .btn:hover {
+        background-color: #6eb796;
+    }
 </style>
