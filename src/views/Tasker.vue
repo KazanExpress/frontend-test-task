@@ -11,8 +11,8 @@
           <add-description
                   v-else
                   :text="name"
-                  @updateText="updateName"
-                  @customAction="toggleVisible"
+                  @updateTaskDescription="updateName"
+                  @saveEmitter="toggleVisible"
           ></add-description>
         </div>
         <export-j-s-o-n
@@ -60,7 +60,7 @@
       ExportJSON,
     },
   })
-  export default class AppTaskHandler extends Vue {
+  export default class Tasker extends Vue {
     @tasker.State
     public name!: string;
 
@@ -87,8 +87,8 @@
     }
 
     @Emit('addTask')
-    public addTask (task: ITaskItems): void {
-      this.taskItems.unshift(task);
+    public addTask (item: ITaskItems): void {
+      this.taskItems.unshift(item);
     }
 
     @Emit('destroyTask')
