@@ -1,6 +1,6 @@
 <template>
     <button type="button" class="btn waves-effect waves-light" @click="exportJSON">Export JSON
-        <i class="material-icons right">send</i>
+        <i class="material-icons right">cloud_download</i>
     </button>
 </template>
 
@@ -8,15 +8,19 @@
   import { Component, Prop, Vue } from 'vue-property-decorator';
 
   @Component
-  export default class ImportJSON extends Vue {
+  export default class ExportJSON extends Vue {
     @Prop({ required: true, type: String })
-    private name!: string;
+    private filename!: string
+
     @Prop({ required: true, type: String })
-    private data!: string;
+    private formatFile!: string
+
+    @Prop({ required: true, type: String })
+    private data!: string
 
     public exportJSON () {
       const data = this.data;
-      const file = `${this.name}.json`;
+      const file = `${this.filename}.json`;
       const blob = new Blob([data]);
       if (!window.navigator.msSaveOrOpenBlob) {
         const a = window.document.createElement('a');
@@ -33,5 +37,12 @@
 </script>
 
 <style scoped>
-
+    .btn {
+        background-color:#54a0ff;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+    }
+    .btn:hover {
+        background-color: #adcfff;
+    }
 </style>

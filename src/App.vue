@@ -2,37 +2,50 @@
     <div id="app">
            <div class="nav-wrapper">
           <nav id="nav">
-          <a href="#" class="brand-logo center">Task Manager</a>
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
-<!--            <router-link to="/">Home</router-link>-->
-<!--            <router-link to="/about">About</router-link>-->
-<!--            <router-view/>-->
-            </ul>
+          <a href="#" class="brand-logo center">TODO APPLICATION</a>
+<!--          <ul id="nav-mobile" class="right hide-on-med-and-down">-->
+<!--&lt;!&ndash;            <router-link to="/">Home</router-link>&ndash;&gt;-->
+<!--&lt;!&ndash;            <router-link to="/TaskApp">About</router-link>&ndash;&gt;-->
+<!--&lt;!&ndash;            <router-view/>&ndash;&gt;-->
+<!--            </ul>-->
       </nav>
         </div>
         <router-view/>
+        <error-handler></error-handler>
      </div>
 </template>
+<script lang="ts">
+  import ErrorHandler from '@/components/ErrorHandler.vue';
+  import { Component, Vue } from 'vue-property-decorator';
 
-<!--<style>-->
-<!--#app {-->
-<!--  font-family: Avenir, Helvetica, Arial, sans-serif;-->
-<!--  -webkit-font-smoothing: antialiased;-->
-<!--  -moz-osx-font-smoothing: grayscale;-->
-<!--  text-align: center;-->
-<!--  color: #2c3e50;-->
-<!--}-->
+  @Component({
+    components: {
+      ErrorHandler,
+    },
+  })
+  export default class App extends Vue {}
+</script>
 
-<!--#nav {-->
-<!--  padding: 30px;-->
-<!--}-->
+<style>
+#app {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
 
-<!--#nav a {-->
-<!--  font-weight: bold;-->
-<!--  color: #2c3e50;-->
-<!--}-->
+#nav {
+  padding: 0px;
+  background-color: #222f3e;
+}
 
-<!--#nav a.router-link-exact-active {-->
-<!--  color: #42b983;-->
-<!--}-->
-<!--</style>-->
+#nav a {
+  font-weight: 100;
+  color: #feca57;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
+</style>

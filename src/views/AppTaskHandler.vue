@@ -28,7 +28,7 @@
     <div class="row justify-content-center">
       <task-items
               @destroyTask="destroyTask"
-              :taskList="taskList"
+              :taskItems="taskItems"
               class="col col-md-12"
       ></task-items>
     </div>
@@ -60,19 +60,19 @@
       ExportJSON,
     },
   })
-  export default class Home extends Vue {
+  export default class AppTaskHandler extends Vue {
     @tasker.State
     public name!: string;
 
     @tasker.State
-    private taskList!: ITaskItems[];
+    private taskItems!: ITaskItems[];
 
     private isChangeName = false;
     private formatFileForExport = 'json';
 
     get dataForExport () {
       return JSON.stringify({
-        taskList: this.taskList,
+        taskItems: this.taskItems,
       });
     }
 
@@ -88,22 +88,22 @@
 
     @Emit('addTask')
     public addTask (task: ITaskItems): void {
-      this.taskList.unshift(task);
+      this.taskItems.unshift(task);
     }
 
     @Emit('destroyTask')
-    public destroyTask ({ index, taskList }: { index: number; taskList: ITaskItems[] }): void {
-      taskList.splice(index, 1);
+    public destroyTask ({ index, taskItems }: { index: number; taskItems: ITaskItems[] }): void {
+      taskItems.splice(index, 1);
     }
 
     public async beforeRouteEnter (to: any, from: any, next: any) {
       const taskerName = to.query.name;
       if (typeof taskerName === 'undefined') {
-        next('/Home');
+        next('/');
       }
       await store.dispatch('tasker/search', { name: taskerName });
       if (store.state.tasker.name !== taskerName) {
-        next('/Home');
+        next('/');
       }
       next();
     }

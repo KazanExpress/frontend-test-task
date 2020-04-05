@@ -1,8 +1,8 @@
 <template>
     <div>
         <import-j-s-o-n @fetchJson="fetchJson"></import-j-s-o-n>
-        <button @click="fetchJson({ name: name, taskItems })" class="btn waves-effect waves-light">Загрузить
-            <i class="material-icons right">cloud</i>
+        <button @click="fetchJson({ name: name, taskItems })" class="btn waves-effect waves-light">Новый проект
+            <i class="material-icons right">add</i>
         </button>
 
 
@@ -32,15 +32,23 @@
 
     @Emit('fetchJson')
     public fetchJson({ name, taskItems }: { name: string; taskItems: ITaskItems[] }): void {
-      this.$store.commit('tasker/storageSaveTasks', {
+      this.$store.commit('tasker' + '/storageSaveTasks', {
         name,
         taskItems,
       });
-      this.$router.push({ name: 'Home', query: { name: name } });
+      this.$router.push({ name: 'AppTaskHandler', query: { name: name } });
     }
   }
 </script>
 
 <style scoped>
+    .btn {
+        background-color: #42b983;
+        box-shadow: none;
+        -webkit-box-shadow: none;
 
+    }
+    .btn:hover {
+        background-color: #6eb796;
+    }
 </style>

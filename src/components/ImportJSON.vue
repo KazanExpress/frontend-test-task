@@ -12,7 +12,7 @@
                     :accept="mimeType"
 
             />
-            <i class="material-icons right">attach_file</i>Импорт JSON
+            <i class="material-icons right">cloud_upload</i>Импорт JSON
 
 
         </button>
@@ -151,7 +151,7 @@
         /*display: none;*/
         position: relative;
         overflow: hidden;
-        display: flex;
+        display: contents;
     }
 
     .upload-btn-wrapper input[type=file] {
@@ -161,5 +161,12 @@
         top: 0;
         opacity: 0;
     }
-
+    .btn {
+        background-color:#feca57;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+    }
+    .btn:hover {
+        background-color: #f1c054;
+    }
 </style>

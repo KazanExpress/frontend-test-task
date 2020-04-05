@@ -18,7 +18,7 @@ let unmountItemStorage = (value: string): (void) => {
   window.sessionStorage.removeItem(value);
 };
 
-let onLoadingHandlerEvent = function (store: any, valueSave: string, callerFunction: Function): void | boolean {
+let preloaderStorageHandler = function (store: any, valueSave: string, callerFunction: Function): void | boolean {
   let data = store.state.tasker;
   callerFunction.call(null, valueSave, data);
 };
@@ -27,5 +27,5 @@ export {
   getterStorage,
   setterStorage,
   unmountItemStorage,
-  onLoadingHandlerEvent
+  preloaderStorageHandler
 };
