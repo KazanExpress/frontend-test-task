@@ -32,7 +32,7 @@
 
   @Component
   export default class ImportJSON extends Vue {
-    private readonly mimeType = 'application/json'
+    private readonly mimeType = 'application/json';
     @tasker.State
     public name!: string;
 
@@ -81,9 +81,12 @@
 
           return null;
         }
-        return { taskItems: data.taskItems }
+
+        return {
+          taskItems: data.taskItems,
+        };
       } catch (error) {
-        this.errorMsg('Ошибка парсинга ' + error);
+        this.errorMsg(`Ошибка парсинга: ${error}`);
 
         return null;
       }
@@ -106,36 +109,39 @@
     }
 
     private errorMsg (message: string): void {
-      this.$store.commit('onError', { show: true, message })
+      this.$store.commit('onError', { show: true, message });
     }
 
     private readJson (file: Blob): Promise<string> {
       return new Promise((resolve, reject) => {
-        const fileReaderAPI = new FileReader()
-        fileReaderAPI.readAsText(file)
+        const fileReaderAPI = new FileReader();
+        fileReaderAPI.readAsText(file);
         fileReaderAPI.onload = () => {
           if (typeof fileReaderAPI.result === 'string') {
-            resolve(fileReaderAPI.result)
+            resolve(fileReaderAPI.result);
           }
-          resolve('')
-        }
-        fileReaderAPI.onerror = error => reject(error)
-      })
+          resolve('');
+        };
+
+         reject(fileReaderAPI.onerror);
+      });
     }
 
     public isValidTaskItem (value: IApplication): boolean {
-      return value && 'taskItems' in value && Array.isArray(value.taskItems)
+      return value && 'taskItems' in value && Array.isArray(value.taskItems);
     }
 
     public isTasksNotEmpty (items: []): boolean {
-      return Object.keys(items).length > 0
+      return Object.keys(items).length > 0;
     }
 
     public checkingTask (item: ITaskItems): boolean {
       if (item) {
-        return ('name' in item && true) && ('description' in item && true) && ('isChecked' in item && true) && ('enclosedTaskItem' in item && Array.isArray(item.enclosedTaskItem))
+
+        return ('name' in item && true) && ('description' in item && true) && ('isChecked' in item && true) && ('enclosedTaskItem' in item && Array.isArray(item.enclosedTaskItem));
       }
-      return false
+
+      return false;
     }
   }
 </script>
