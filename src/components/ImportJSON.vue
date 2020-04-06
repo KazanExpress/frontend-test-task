@@ -33,6 +33,7 @@
   @Component
   export default class ImportJSON extends Vue {
     private readonly mimeType = 'application/json';
+    private readonly fileFormat = 'json';
     @tasker.State
     public name!: string;
 
@@ -41,33 +42,33 @@
 
     private async loadingJSON (event: any): Promise<void> {
       const json = event.target.files[0];
-      const dataStructureJSON = {
+      const jsonData = {
         taskItems: this.taskItems,
       };
       if (!ImportJSON.checkFormatFile(json)) {
         this.errorMsg('Импортировать можно только JSON');
-        this.fetchJson(this.name, dataStructureJSON);
+        this.fetchJson(this.name, jsonData);
 
         return;
       }
       const data = await this.parseJson(json);
       if (data == null) {
-        this.fetchJson(this.name, dataStructureJSON);
+        this.fetchJson(this.name, jsonData);
 
         return;
       }
-      const name = json.name.replace('.json', '');
-      this.fetchJson(name, data as object);
+      const jsonName = json.name.replace(`.${this.fileFormat}`, '');
+      this.fetchJson(jsonName, data as object);
     }
 
-    private fetchJson (name: IApplication['name'], data: object): void {
+    private fetchJson (jsonName: IApplication['name'], data: object): void {
       this.$emit('fetchJson', {
-        name,
+        jsonName: jsonName,
         ...data,
       });
     }
 
-    private async parseJson (file: Blob): Promise<{taskItems: ITaskItems[]} | null > {
+    private async parseJson (file: Blob): Promise<{taskItems: ITaskItems[]} | null> {
       try {
         const strJSON = await this.readJson(file);
         const data = JSON.parse(strJSON);
@@ -93,7 +94,6 @@
     }
 
     private static checkFormatFile (file: Blob): boolean {
-
       return file.type === 'application/json';
     }
 
