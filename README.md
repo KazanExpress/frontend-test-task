@@ -32,7 +32,7 @@
 - [] ? Итоговое приложение должно весить не более **200 KB** (сумма всех загружаемых файлов, исключая картинки);
 
 Опционально:
-- [] +- Наличие CSS-анимаций для drag-n-drop и фильтрации задач;
+- [x] +- Наличие CSS-анимаций для drag-n-drop и фильтрации задач;
 - [x] Использовать TypeScript для 100% кодовой базы (исключая вёрстку и стили);
 - [] Использовать [Vue Composition API](https://vue-composition-api-rfc.netlify.com/) или [vue@next](https://www.npmjs.com/package/vue/v/next);
 - [x] Использовать ESLint/TSLint для контроля качества кода (приветствуется использование настройки [KazanExpress/TSLint](https://github.com/KazanExpress/tslint));
