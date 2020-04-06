@@ -4,10 +4,13 @@
     <!-- -->
     <!-- </v-navigation-drawer> -->
 
-    <v-app-bar app class="app-bar">
+    <v-app-bar
+      app
+      class="app-bar"
+    >
       <!-- v-model="task.title" -->
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
+      <v-spacer />
+      <v-spacer />
       <v-toolbar-title>
         <v-text-field
           v-model="projectName"
@@ -20,12 +23,12 @@
           solo
         />
       </v-toolbar-title>
-      <v-spacer></v-spacer>
+      <v-spacer />
       <div class="app-bar__search">
         <v-slide-x-reverse-transition>
           <v-text-field
-            v-model="search.value"
             v-if="search.isVisible"
+            v-model="search.value"
             class="mr-10"
             placeholder="Search"
             dense
@@ -35,7 +38,11 @@
           />
         </v-slide-x-reverse-transition>
       </div>
-      <v-btn @click="search.isVisible = !search.isVisible" icon class="mr-2">
+      <v-btn
+        icon
+        class="mr-2"
+        @click="search.isVisible = !search.isVisible"
+      >
         <!-- background-color="rgba(0,0,0,0)" -->
         <!-- v-if="isSearchVisible" -->
         <v-icon>mdi-magnify</v-icon>
@@ -44,7 +51,10 @@
 
     <v-content>
       <v-container fluid>
-        <Tasks :storage="store" :search="search" />
+        <Tasks
+          :storage="store"
+          :search="search"
+        />
       </v-container>
     </v-content>
 

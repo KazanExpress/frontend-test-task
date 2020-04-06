@@ -1,7 +1,9 @@
 {
   "name": "test-task",
   "scripts": {
-    "lint": "vue-cli-service lint"
+    "build": "webpack --mode=production",
+    "dev": "webpack-dev-server src/main.ts",
+    "lint": "eslint --ext .ts,.vue,.js -c .eslintrc.js src/ --fix"
   },
   "dependencies": {
     "@vue/composition-api": "^0.5.0",

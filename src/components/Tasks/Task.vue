@@ -12,7 +12,10 @@
       <!-- solo -->
     </v-card-text>
     <v-card-actions class="actions">
-      <v-checkbox v-model="task.completed" label="Finished" />
+      <v-checkbox
+        v-model="task.completed"
+        label="Finished"
+      />
       <v-spacer />
       <v-btn
         depressed

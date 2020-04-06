@@ -1,25 +1,31 @@
 <template>
   <section class="tasks">
-    <draggable v-model="tasks" animation="250">
+    <draggable
+      v-model="tasks"
+      animation="250"
+    >
       <Task
         v-for="task in tasks"
         :key="task.id"
         :task="task"
-        @removeTask="removeTask"
         class="task pa-2 my-2"
+        @removeTask="removeTask"
       />
     </draggable>
     <v-card
       outlined
       class="task task__new my-2 pa-2 display-1 d-flex justify-center"
       @click="addTask"
-      >+</v-card
     >
+      +
+    </v-card>
   </section>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import {
+  Component, Vue, Prop, Watch
+} from 'vue-property-decorator'
 import draggable from 'vuedraggable'
 import Fuse from 'fuse.js'
 
@@ -71,7 +77,6 @@ export default class Tasks extends Vue {
   @Watch('tasks_', { deep: true })
   updateSearch() {
     if (this.tasks_) {
-
       this.searchFn = new Fuse(this.tasks_, { keys: ['title'] })
       this.searchIndex = Fuse.createIndex(['title'], this.tasks_)
     }

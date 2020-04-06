@@ -72,5 +72,6 @@ module.exports = {
       },
     ],
     'no-multi-assign': 0,
+    'no-plusplus': 0
   },
 }
