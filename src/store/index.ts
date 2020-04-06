@@ -117,7 +117,8 @@ export class Store {
   }
 
   importProjectState(json: string) {
-    const data = (this.getProjects()[this.projectId] = JSON.parse(json))
+    const data = this.getProjects()
+    data[this.projectId] = JSON.parse(json)
     this.storage.setItem(this.key, JSON.stringify(data))
   }
 }

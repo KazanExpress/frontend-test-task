@@ -23,7 +23,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import {
+  Component, Vue, Prop, Watch
+} from 'vue-property-decorator'
 import draggable from 'vuedraggable'
 import Fuse from 'fuse.js'
 
@@ -90,7 +92,9 @@ export default class Tasks extends Vue {
   addTask() {
     this.tasks = [
       ...this.tasks,
-      { title: '', id: Math.floor(Math.random() * 10000), completed: false, text: '' },
+      {
+        title: '', id: Math.floor(Math.random() * 10000), completed: false, text: ''
+      },
     ]
   }
 

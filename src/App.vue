@@ -4,7 +4,10 @@
     <!-- -->
     <!-- </v-navigation-drawer> -->
 
-    <v-app-bar app class="app-bar">
+    <v-app-bar
+      app
+      class="app-bar"
+    >
       <!-- v-model="task.title" -->
       <v-spacer />
       <v-spacer />
@@ -35,17 +38,29 @@
           />
         </v-slide-x-reverse-transition>
       </div>
-      <v-btn icon class="mr-2" @click="search.isVisible = !search.isVisible">
+      <v-btn
+        icon
+        class="mr-2"
+        @click="search.isVisible = !search.isVisible"
+      >
         <!-- background-color="rgba(0,0,0,0)" -->
         <!-- v-if="isSearchVisible" -->
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
-      <v-btn icon class="mr-2" @click="downloadData">
+      <v-btn
+        icon
+        class="mr-2"
+        @click="downloadData"
+      >
         <!-- background-color="rgba(0,0,0,0)" -->
         <!-- v-if="isSearchVisible" -->
         <v-icon>mdi-download</v-icon>
       </v-btn>
-      <v-btn icon class="mr-2" @click="uploadData">
+      <v-btn
+        icon
+        class="mr-2"
+        @click="uploadData"
+      >
         <!-- background-color="rgba(0,0,0,0)" -->
         <!-- v-if="isSearchVisible" -->
         <v-icon>mdi-upload</v-icon>
@@ -54,7 +69,11 @@
 
     <v-content>
       <v-container fluid>
-        <Tasks ref="tasks" :store="store" :search="search" />
+        <Tasks
+          ref="tasks"
+          :store="store"
+          :search="search"
+        />
       </v-container>
     </v-content>
 
@@ -65,7 +84,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, ProvideReactive } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import Tasks from './components/Tasks/index.vue'
 import { Store } from './store'
 import { jsonToFile, readFileInput } from './utils'

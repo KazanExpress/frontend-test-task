@@ -22,7 +22,7 @@ export const readFileInput = (
       const file = (event.target as HTMLInputElement)?.files?.[0]
       if (!file) {
         reject(new Error('something wrong with user input'))
-        return false
+        return
       }
 
       const reader = new FileReader()

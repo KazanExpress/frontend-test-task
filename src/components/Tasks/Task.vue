@@ -11,12 +11,24 @@
       />
       <!-- solo -->
 
-      <v-textarea class="font-weight-light lighten-1" placeholder="Description" auto-grow v-model="task.text"></v-textarea>
+      <v-textarea
+        v-model="task.text"
+        class="font-weight-light lighten-1"
+        placeholder="Description"
+        auto-grow
+      />
     </v-card-text>
     <v-card-actions class="actions">
-      <v-checkbox v-model="task.completed" label="Finished" />
+      <v-checkbox
+        v-model="task.completed"
+        label="Finished"
+      />
       <v-spacer />
-      <v-btn depressed class="mr-2" @click.native="$emit('removeTask', task)">
+      <v-btn
+        depressed
+        class="mr-2"
+        @click.native="$emit('removeTask', task)"
+      >
         <v-icon>mdi-delete</v-icon>
         Delete
       </v-btn>
