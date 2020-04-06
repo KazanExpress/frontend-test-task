@@ -9,25 +9,30 @@
 
   @Component
   export default class ExportJSON extends Vue {
+
     @Prop({ required: true, type: String })
-    private filename!: string;
+    private jsonName!: string;
+
+    @Prop({ required: true, type: String })
+    private formatJson!: string;
+
 
     @Prop({ required: true, type: String })
     private data!: string;
 
     public exportJSON () {
       const data = this.data;
-      const file = `${this.filename}.json`;
+      const json = `${this.jsonName}.${this.formatJson}`;
       const blob = new Blob([data]);
       if (!window.navigator.msSaveOrOpenBlob) {
         const a = window.document.createElement('a');
         a.href = window.URL.createObjectURL(blob);
-        a.download = file;
+        a.download = json;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
       } else {
-        window.navigator.msSaveBlob(blob, file);
+        window.navigator.msSaveBlob(blob, json);
       }
     }
   }

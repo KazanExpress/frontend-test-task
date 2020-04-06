@@ -51,4 +51,15 @@
     .btn:hover {
         background-color: #6eb796;
     }
+    .row .col.s6 {
+        width: 100%;
+        margin-left: auto;
+        left: auto;
+        right: auto;
+    }
+    textarea.materialize-textarea:focus:not([readonly]) {
+        border-bottom: 1px solid #feca57;
+        -webkit-box-shadow: 0 1px 0 0 #26a69a;
+        box-shadow: 0 1px 0 0 #feca57;
+    }
 </style>

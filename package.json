@@ -16,11 +16,13 @@
     "vue-property-decorator": "^8.3.0",
     "vue-router": "^3.1.5",
     "vuedraggable": "^2.23.2",
+    "vuelidate": "^0.7.5",
     "vuex": "^3.1.2"
   },
   "devDependencies": {
     "@kazanexpress/tslint": "^1.0.5",
     "@types/vuedraggable": "^2.23.0",
+    "@types/vuelidate": "^0.7.11",
     "@vue/cli-plugin-pwa": "~4.2.0",
     "@vue/cli-plugin-router": "~4.2.0",
     "@vue/cli-plugin-typescript": "~4.2.0",

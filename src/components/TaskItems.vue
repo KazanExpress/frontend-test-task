@@ -10,23 +10,36 @@
              :key="i"
              class="card cursor-pointer mb-5 text-left"
         >
-            <div class="card-header ">
-                <h4>{{item.name}}</h4>
-                <button @click="$emit('destroyTask', { index: i, taskItems })" type="button" class="btn btn btn-secondary btn-sm font-weight-bold">&times;</button>
+            <div class="card-header">
+                <h2 class="card-subtitle">{{item.name}}</h2>
+                <button @click="$emit('destroyTask', { index: i, taskItems })" type="button" class="btn-floating btn-small waves-effect waves-light red accent-2">
+                    <i class="large material-icons">close</i>
+                </button>
             </div>
             <div class="card-body">
                 <p class="card-text">{{item.description}}</p>
             </div>
-            <div class="custom-control custom-checkbox mb-3 ml-4 mr-4">
+            <div class="switch">
+                <label>
+
+                    <input  :checked="item.isChecked"
+                            @change="item.isChecked = !item.isChecked"
+                            :id="`task_check${i}`"
+                            type="checkbox">
+                    <span class="lever"></span>
+
+                </label>
+            </div>
+            <div class="switch">
                 <input
                         :checked="item.isChecked"
                         @change="item.isChecked = !item.isChecked"
                         :id="`task_check${i}`"
                         type="checkbox"
-                        class="custom-control-input"
+                        class="lever"
                         required
                 >
-                <label class="custom-control-label" :for="`task_check${i}`">{{ checkedText | isCheckedFilter(item.isChecked) }}</label>
+                <label class="lever" :for="`task_check${i}`">{{ checkedText | isCheckedFilter(item.isChecked) }}</label>
             </div>
             <task-items
                     @destroyTask="$listeners.destroyTask"
@@ -42,8 +55,9 @@
   import { Component, Prop, Vue } from 'vue-property-decorator';
   import AddDescription from '@/components/AddDescription.vue';
   import { ITaskItems } from '@/interfaces/IApplication';
+  // import TaskApp from '@/views/TaskApp.vue';
   import Draggable from 'vuedraggable';
-  import TaskApp from '@/views/TaskApp.vue';
+
 
   interface IActionTask {
     isChangeName: false;
@@ -51,22 +65,22 @@
 
   @Component({
     components: {
-      TaskApp,
-      Draggable,
+      // TaskApp,
       AddDescription,
+      Draggable,
 
     },
     filters: {
       isCheckedFilter: function (checkedText: string, isChecked: boolean): string {
         if (isChecked) return checkedText;
 
-          return 'Note done';
+          return 'Не сделана';
       },
     },
   })
   export default class TaskItems extends Vue {
-    private readonly dropAreaSize = 100;
-    private checkedText = 'Done';
+    private readonly dropAreaSize = 80;
+    private checkedText = 'Сделана';
     @Prop({ required: true, type: Array })
     public taskItems!: ITaskItems[];
   }
@@ -74,17 +88,32 @@
 
 <style scoped>
     .dragArea {
-     display: contents;
+        display: contents;
     }
     .card-header {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
 
+    }
+    .card-subtitle {
+        font-size: 2.5rem;
+        font-weight: 100;
     }
     .card-body {
-
+        height: 50px;
     }
     .card-text {
-
+        font-size: 1.2rem;
+        font-weight: 500;
     }
+    .custom-control-label {
+        color: #42b983;
+        font-size: 1.5rem;
+        font-weight: 300;
+    }
+    .btn-small:hover, .btn-floating:hover {
+        box-shadow: none;
+        -webkit-box-shadow: none;
+    }
+
 </style>

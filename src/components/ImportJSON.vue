@@ -94,7 +94,7 @@
 
     private static checkFormatFile (file: Blob): boolean {
 
-      return file.type == 'application/json';
+      return file.type === 'application/json';
     }
 
     private isValidTasks (taskItems: []): boolean {
