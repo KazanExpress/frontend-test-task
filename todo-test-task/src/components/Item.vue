@@ -5,6 +5,7 @@
         type="checkbox"
         v-bind:checked="item.checked"
         @click="handleCheck(item.id)"
+        class="checkbox"
       />
     </label>
     <label>
@@ -60,7 +61,6 @@ export default class Item extends Vue {
 input {
   vertical-align: middle;
 }
-.container {}
 .item-name {
   :focus {
     outline: none;
@@ -77,6 +77,7 @@ img {
   height: 15px;
   vertical-align: middle;
   margin-left: 5px;
+  cursor: pointer;
 }
 
 .subitems {
