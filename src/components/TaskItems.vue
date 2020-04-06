@@ -4,18 +4,21 @@
             :list="taskItems"
             :group="{ name: 'task-items' }"
             :empty-insert-threshold="dropAreaSize"
-            class="dragArea col s12 m7"
+            class="dragArea col s6 m7"
     >
         <div v-for="(item, i) in taskItems"
              :key="i"
-             class="card cursor-pointer mb-5 text-left"
+             class="card"
         >
             <div class="card-header">
                 <h2 class="card-subtitle">{{item.name}}</h2>
-                <button @click="$emit('destroyTask', { index: i, taskItems })" type="button" class="btn-floating btn-small waves-effect waves-light red accent-2">
-                    <i class="large material-icons">close</i>
-                </button>
+                <div class="delete">
+                    <button @click="$emit('destroyTask', { index: i, taskItems })" type="button" class="btn-floating btn-small waves-effect waves-light red accent-2">
+                        <i class="large material-icons">close</i>
+                    </button>
+                </div>
             </div>
+
             <div class="card-body">
                 <p class="card-text">{{item.description}}</p>
             </div>
@@ -55,7 +58,7 @@
   import { Component, Prop, Vue } from 'vue-property-decorator';
   import AddDescription from '@/components/AddDescription.vue';
   import { ITaskItems } from '@/interfaces/IApplication';
-  // import TaskApp from '@/views/TaskApp.vue';
+  import TaskApp from '@/views/TaskApp.vue';
   import Draggable from 'vuedraggable';
 
 
@@ -65,7 +68,7 @@
 
   @Component({
     components: {
-      // TaskApp,
+      TaskApp,
       AddDescription,
       Draggable,
 
@@ -114,6 +117,9 @@
     .btn-small:hover, .btn-floating:hover {
         box-shadow: none;
         -webkit-box-shadow: none;
+    }
+    .delete {
+        float: left;
     }
 
 </style>
