@@ -1,21 +1,24 @@
 <template>
   <section class="tasks">
-    <draggable v-model="tasks" animation="250">
-      <Task
-        v-for="task in tasks"
-        :key="task.id"
-        :task="task"
-        class="task pa-2 my-2"
-        @removeTask="removeTask"
-      />
+    <draggable v-model="tasks">
+      <transition-group name="animation">
+        <Task
+          v-for="task in tasks"
+          :key="task.id"
+          :task="task"
+          class="task pa-2 my-2"
+          @removeTask="removeTask"
+        />
+        <v-card
+          key="special"
+          outlined
+          class="task task__new my-2 pa-2 display-1 d-flex justify-center"
+          @click="addTask"
+        >
+          +
+        </v-card>
+      </transition-group>
     </draggable>
-    <v-card
-      outlined
-      class="task task__new my-2 pa-2 display-1 d-flex justify-center"
-      @click="addTask"
-    >
-      +
-    </v-card>
   </section>
 </template>
 
@@ -45,6 +48,8 @@ export default class Tasks extends Vue {
 
   searchIndex: readonly Fuse.FuseIndexRecord[] | null = null
 
+  isDrag = false
+
   requestUpdate() {
     this.requestTasksUpdate()
   }
@@ -58,8 +63,6 @@ export default class Tasks extends Vue {
   tasks_: TaskI[] | null = null
 
   get tasks(): TaskI[] {
-    console.log('get tasks')
-
     if (!this.tasks_) {
       this.requestTasksUpdate()
       return []
@@ -98,7 +101,7 @@ export default class Tasks extends Vue {
   mounted() {
     saveStateTasks.set('saveTasks', {
       storeFn: this.store.saveTasks.bind(this.store),
-      getValue: () => this.tasks_
+      getValue: () => this.tasks_,
     })
   }
 }
@@ -114,6 +117,7 @@ export default class Tasks extends Vue {
 }
 
 .task {
+  transition: all 1s;
   width: 100%;
   display: inline-block;
 }
@@ -121,5 +125,15 @@ export default class Tasks extends Vue {
 .sortable-ghost {
   border: 1px dotted green !important;
   opacity: 0.5;
+}
+
+.animation-enter,
+.animation-leave-to {
+  /* .list-complete-leave-active below version 2.1.8 { */
+  opacity: 0;
+  transform: translateY(30px);
+}
+.animation-leave-active {
+  position: absolute;
 }
 </style>
