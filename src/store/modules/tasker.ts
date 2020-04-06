@@ -6,7 +6,7 @@ import { IApplication } from '@/interfaces/IApplication.d';
 @Module({ namespaced: true, name: 'Tasker' })
 
 class Tasker extends VuexModule implements IApplication {
-  public name = 'defaultTask';
+  public name = 'Имя по умолчанию';
   public taskItems: IApplication['taskItems'] = [];
 
   @Mutation
