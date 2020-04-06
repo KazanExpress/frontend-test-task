@@ -10,18 +10,13 @@
         hide-details
       />
       <!-- solo -->
+
+      <v-textarea class="font-weight-light lighten-1" placeholder="Description" auto-grow v-model="task.text"></v-textarea>
     </v-card-text>
     <v-card-actions class="actions">
-      <v-checkbox
-        v-model="task.completed"
-        label="Finished"
-      />
+      <v-checkbox v-model="task.completed" label="Finished" />
       <v-spacer />
-      <v-btn
-        depressed
-        class="mr-2"
-        @click.native="$emit('removeTask', task)"
-      >
+      <v-btn depressed class="mr-2" @click.native="$emit('removeTask', task)">
         <v-icon>mdi-delete</v-icon>
         Delete
       </v-btn>
@@ -46,11 +41,12 @@ export default class Task extends Vue {
   @Prop(Object) readonly task!: TaskI
 
   mounted() {
-    this.getText()
+    // uncomment to get random text
+    // this.getText()
   }
 
   getText() {
-    const max = rand(30, 150)
+    const max = rand(30, 500)
     const arr = []
     for (let i = 0; i < max; i++) {
       arr.push(String.fromCharCode(rand(1, 100)))

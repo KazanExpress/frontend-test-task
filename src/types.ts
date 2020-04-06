@@ -10,4 +10,5 @@ export type ProjectT = {
   name?: string
   tasks?: TaskI[]
   search?: { value: string; isVisible: boolean }
+  text? : string
 }

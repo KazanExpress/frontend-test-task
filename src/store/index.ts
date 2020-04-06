@@ -61,7 +61,8 @@ export class Store {
     const data = this.getProject()
 
     if (!data?.tasks && this.wantPlaceholder) {
-      return fetchTasks()
+      // eslint-disable-next-line
+      return fetchTasks().then((it) => ((it.text = ''), it))
     }
 
     return data.tasks || []

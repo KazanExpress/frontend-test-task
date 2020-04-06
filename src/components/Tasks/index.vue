@@ -90,7 +90,7 @@ export default class Tasks extends Vue {
   addTask() {
     this.tasks = [
       ...this.tasks,
-      { title: '', id: Math.floor(Math.random() * 10000), completed: false },
+      { title: '', id: Math.floor(Math.random() * 10000), completed: false, text: '' },
     ]
   }
 
