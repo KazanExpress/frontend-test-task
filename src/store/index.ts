@@ -1,4 +1,4 @@
-import { TaskI, ProjectT } from '../components/Tasks/types'
+import { TaskI, ProjectT } from '../types'
 
 const fetchTasks = async () => {
   const it = await window.fetch(
@@ -86,5 +86,28 @@ export class Store {
     }
 
     return data.name || ''
+  }
+
+  saveSearch(
+    search: { value: string; isVisible: boolean } | undefined
+  ): boolean {
+    const data = this.getProjects()
+
+    if (!data[this.projectId]) {
+      data[this.projectId] = {}
+    }
+
+    data[this.projectId].search = search
+    this.storage.setItem(this.key, JSON.stringify(data))
+    return true
+  }
+
+  async getSearch() {
+    const data = this.getProject()
+    if (!data?.search && this.wantPlaceholder) {
+      return { value: '', isVisible: false }
+    }
+
+    return data.search || { value: '', isVisible: false }
   }
 }

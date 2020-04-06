@@ -30,7 +30,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
-import { TaskI } from './types'
+import { TaskI } from '../../types'
 
 function rand(min: number, max: number) {
   return Math.random() * (max - min) + min

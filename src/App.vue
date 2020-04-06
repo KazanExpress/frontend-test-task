@@ -7,6 +7,7 @@
     <v-app-bar app class="app-bar">
       <!-- v-model="task.title" -->
       <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
       <v-toolbar-title>
         <v-text-field
           v-model="projectName"
@@ -20,15 +21,30 @@
         />
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon class="mr-2">
+      <div class="app-bar__search">
+        <v-slide-x-reverse-transition>
+          <v-text-field
+            v-model="search.value"
+            v-if="search.isVisible"
+            class="mr-10"
+            placeholder="Search"
+            dense
+            flat
+            hide-details
+            solo
+          />
+        </v-slide-x-reverse-transition>
+      </div>
+      <v-btn @click="search.isVisible = !search.isVisible" icon class="mr-2">
+        <!-- background-color="rgba(0,0,0,0)" -->
+        <!-- v-if="isSearchVisible" -->
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
     </v-app-bar>
 
     <v-content>
       <v-container fluid>
-        <!-- <router-view></router-view> -->
-        <Tasks :storage="store" />
+        <Tasks :storage="store" :search="search" />
       </v-container>
     </v-content>
 
@@ -39,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, ProvideReactive } from 'vue-property-decorator'
 import Tasks from './components/Tasks/index.vue'
 import { Store } from './store'
 
@@ -52,7 +68,7 @@ export default class App extends Vue {
   projectName_: string | false = false
 
   get projectName() {
-    if (this.projectName_ === false) {
+    if (!this.projectName_) {
       this.store.getTitle().then((it) => {
         this.projectName_ = it
       })
@@ -64,6 +80,20 @@ export default class App extends Vue {
 
   set projectName(arg) {
     this.projectName_ = arg
+  }
+
+  search_: { value: string; isVisible: boolean } | null = null
+
+  get search() {
+    if (!this.search_) {
+      this.store.getSearch().then((it) => {
+        this.search_ = it
+      })
+
+      return { value: '', isVisible: false }
+    }
+
+    return this.search_
   }
 
   beforeCreate() {
@@ -83,6 +113,7 @@ export default class App extends Vue {
 
     window.addEventListener('beforeunload', () => {
       this.store.saveTitle(this.projectName_ as string)
+      this.store.saveSearch(this.search)
     })
   }
 }
@@ -99,5 +130,17 @@ export default class App extends Vue {
 
 .app-bar input {
   text-align: center;
+}
+
+.app-bar__search {
+  width: 15%;
+}
+
+.d-hidden {
+  visibility: hidden;
+}
+
+.d-visible {
+  visibility: visible;
 }
 </style>

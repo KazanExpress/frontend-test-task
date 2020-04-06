@@ -19,15 +19,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import draggable from 'vuedraggable'
+import * as JsSearch from 'js-search'
+
 import Task from './Task.vue'
-
-import { TaskI } from './types'
-
 import { Store } from '../../store'
 
-type TaskT = TaskI[] | Promise<TaskI[]> | null
+import { TaskI } from '../../types'
+
+type TaskT = TaskI[] | null
 
 @Component({
   components: {
@@ -38,26 +39,41 @@ type TaskT = TaskI[] | Promise<TaskI[]> | null
 export default class Tasks extends Vue {
   @Prop(Object) readonly storage!: Store
 
-  @Prop(String) readonly search!: string
+  @Prop(Object) readonly search!: { value: string; isVisible: boolean }
+
+  private searchFn = new JsSearch.Search('isBn')
+
+  private requestTasksUpdate() {
+    this.storage.getTasks().then((it) => {
+      this.tasks_ = it
+    })
+  }
 
   private tasks_: TaskT = null
 
   get tasks(): TaskI[] {
-    if (this.tasks_ === null) {
-      this.storage.getTasks().then((it) => {
-        this.tasks_ = it
-      })
+    if (!this.tasks_) {
+      this.requestTasksUpdate()
+      return []
+    }
 
-      return []
+    if (this.search.isVisible && this.search.value) {
+      return this.searchFn.search(this.search.value) as TaskI[]
     }
-    if (this.tasks_ instanceof Promise) {
-      return []
-    }
+
     return this.tasks_
   }
 
   set tasks(arg) {
     this.tasks_ = arg
+  }
+
+  @Watch('search', { deep: true })
+  @Watch('tasks_', { deep: true })
+  updateSearch() {
+    if (this.tasks_) {
+      this.searchFn.addDocuments(this.tasks_)
+    }
   }
 
   addTask() {
@@ -71,7 +87,9 @@ export default class Tasks extends Vue {
     this.tasks = this.tasks.filter((it) => it.id !== task.id)
   }
 
-  beforeCreate() {
+  mounted() {
+    // this.searchFn.indexStrategy = new JsSearch.AllSubstringsIndexStrategy()
+    this.searchFn.addIndex('title')
     window.addEventListener('beforeunload', () => {
       this.storage.saveTasks(this.tasks_ as TaskI[])
     })
