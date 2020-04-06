@@ -114,16 +114,16 @@
 
     private readJson (file: Blob): Promise<string> {
       return new Promise((resolve, reject) => {
-        const fileReaderAPI = new FileReader();
-        fileReaderAPI.readAsText(file);
-        fileReaderAPI.onload = () => {
-          if (typeof fileReaderAPI.result === 'string') {
-            resolve(fileReaderAPI.result);
+        const reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = () => {
+          if (typeof reader.result === 'string') {
+            resolve(reader.result);
+          } else {
+            resolve('');
           }
-          resolve('');
         };
-
-         reject(fileReaderAPI.onerror);
+        return reader.onerror = (error) => reject(error);
       });
     }
 
