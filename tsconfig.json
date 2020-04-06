@@ -2,13 +2,17 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "target": "ES6",
+    "target": "es2017",
     "module": "ES6",
-    "lib": ["ES2020", "DOM"],
+    "lib": ["DOM", "ESNext"],
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "types": ["vuetify"],
-    "typeRoots": ["./node_modules/@types", "./node_modules/vuetify/types", "./d.ts"]
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/vuetify/types",
+      "./d.ts"
+    ]
   },
   "exclude": ["node_modules"]
 }

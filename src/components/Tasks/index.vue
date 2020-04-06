@@ -1,9 +1,6 @@
 <template>
   <section class="tasks">
-    <draggable
-      v-model="tasks"
-      animation="250"
-    >
+    <draggable v-model="tasks" animation="250">
       <Task
         v-for="task in tasks"
         :key="task.id"
@@ -23,14 +20,13 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Prop, Watch
-} from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import draggable from 'vuedraggable'
 import Fuse from 'fuse.js'
 
 import Task from './Task.vue'
 import { Store } from '../../store'
+import { saveStateTasks } from '../../globals'
 
 import { TaskI } from '../../types'
 
@@ -41,23 +37,29 @@ import { TaskI } from '../../types'
   },
 })
 export default class Tasks extends Vue {
-  @Prop(Object) readonly storage!: Store
+  @Prop(Object) readonly store!: Store
 
   @Prop(Object) readonly search!: { value: string; isVisible: boolean }
 
-  private searchFn: Fuse<TaskI, { keys: ['title'] }> | null = null
+  searchFn: Fuse<TaskI, { keys: ['title'] }> | null = null
 
-  private searchIndex: readonly Fuse.FuseIndexRecord[] | null = null
+  searchIndex: readonly Fuse.FuseIndexRecord[] | null = null
 
-  private requestTasksUpdate() {
-    this.storage.getTasks().then((it) => {
+  requestUpdate() {
+    this.requestTasksUpdate()
+  }
+
+  requestTasksUpdate() {
+    this.store.getTasks().then((it) => {
       this.tasks_ = it
     })
   }
 
-  private tasks_: TaskI[] | null = null
+  tasks_: TaskI[] | null = null
 
   get tasks(): TaskI[] {
+    console.log('get tasks')
+
     if (!this.tasks_) {
       this.requestTasksUpdate()
       return []
@@ -94,9 +96,9 @@ export default class Tasks extends Vue {
   }
 
   mounted() {
-    // this.searchFn.indexStrategy = new JsSearch.AllSubstringsIndexStrategy()
-    window.addEventListener('beforeunload', () => {
-      this.storage.saveTasks(this.tasks_ as TaskI[])
+    saveStateTasks.set('saveTasks', {
+      storeFn: this.store.saveTasks.bind(this.store),
+      getValue: () => this.tasks_
     })
   }
 }
@@ -109,8 +111,6 @@ export default class Tasks extends Vue {
 
 .task__new {
   height: 100%;
-  display: inline-block;
-  width: min-content;
 }
 
 .task {

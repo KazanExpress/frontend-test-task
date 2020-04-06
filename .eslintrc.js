@@ -1,4 +1,6 @@
 // TSLint is deprecated and should not be used
+// btw i failed to configure *prettier* without spending the amount time
+// that would ultimately defaeat the purpose
 module.exports = {
   root: true,
   env: {
@@ -40,14 +42,7 @@ module.exports = {
     'linebreak-style': 0,
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-shadow': [
-      2,
-      {
-        allow: ['it'],
-        builtinGlobals: false,
-        hoist: 'functions',
-      },
-    ],
+    'no-shadow': [0],
     'no-underscore-dangle': 0,
     'no-unused-expressions':
       process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -64,14 +59,16 @@ module.exports = {
     'comma-dangle': [
       2,
       {
-        "arrays": "only-multiline",
-        "objects": "only-multiline",
-        "imports": "only-multiline",
-        "exports": "only-multiline",
-        functions: "only-multiline",
+        arrays: 'only-multiline',
+        objects: 'only-multiline',
+        imports: 'only-multiline',
+        exports: 'only-multiline',
+        functions: 'only-multiline',
       },
     ],
     'no-multi-assign': 0,
-    'no-plusplus': 0
+    'no-plusplus': 0,
+    '@typescript-eslint/no-this-alias': 0,
+    'semi-style': ['error', 'first'],
   },
 }

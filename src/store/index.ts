@@ -28,7 +28,7 @@ export class Store {
     const data = this.getProjects()
 
     if (!data[id]) {
-      data[id] = {}
+      return {}
     }
 
     return data[id]
@@ -88,9 +88,7 @@ export class Store {
     return data.name || ''
   }
 
-  saveSearch(
-    search: { value: string; isVisible: boolean } | undefined
-  ): boolean {
+  saveSearch(search: { value: string; isVisible: boolean }): boolean {
     const data = this.getProjects()
 
     if (!data[this.projectId]) {
@@ -109,5 +107,16 @@ export class Store {
     }
 
     return data.search || { value: '', isVisible: false }
+  }
+
+  exportProjectState() {
+    return JSON.stringify(
+      Object.assign(this.getProject(), { id: this.projectId })
+    )
+  }
+
+  importProjectState(json: string) {
+    const data = (this.getProjects()[this.projectId] = JSON.parse(json))
+    this.storage.setItem(this.key, JSON.stringify(data))
   }
 }

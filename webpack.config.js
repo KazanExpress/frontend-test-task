@@ -249,7 +249,7 @@ module.exports = async (env = {}, argv = {}) => {
       },
     },
     performance: {
-      hints: isDev ? 'warning' : false,
+      hints: false,
     },
     plugins: [
       new CleanWebpackPlugin(),
