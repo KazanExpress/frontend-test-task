@@ -282,6 +282,7 @@ module.exports = async (env = {}, argv = {}) => {
       publicPath: '/',
       chunkFilename: 'js/[id].[hash].bundle.js',
       path: outputPath,
+      libraryTarget: 'umd',
     },
   }
 }
