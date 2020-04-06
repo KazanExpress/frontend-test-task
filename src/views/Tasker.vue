@@ -1,12 +1,12 @@
 <template>
-  <div class="text-center align-items-center">
-    <div class="mb-4 row">
-      <div class="col-6 col-sm-12 col-md-6 text-left">
+  <div class="task-block">
+    <div class="row s6">
+      <div class="row">
         <div class="mb-3">
           <h1
                   v-if="!isChangeName"
                   @click="isChangeName = !isChangeName"
-                  class="cursor-pointer m-0 d-inline-block"
+                  class="subtitle"
           >{{name}}</h1>
           <add-description
                   v-else
@@ -15,11 +15,7 @@
                   @saveEmitter="toggleVisible"
           ></add-description>
         </div>
-        <export-j-s-o-n
-                :filename="name"
-                :format-file="formatFileForExport"
-                :data="dataForExport"
-        ></export-j-s-o-n>
+
       </div>
       <div class="col-6 col-sm-12 col-md-6 text-left">
         <add-task @addTask="addTask"></add-task>
@@ -31,6 +27,12 @@
               :taskItems="taskItems"
               class="col col-md-12"
       ></task-items>
+
+              <export-j-s-o-n
+                      :jsonName="name"
+                      :formatJson="formatFileExport"
+                      :data="dataForExport"
+              ></export-j-s-o-n>
     </div>
   </div>
 </template>
@@ -68,7 +70,7 @@
     private taskItems!: ITaskItems[];
 
     private isChangeName = false;
-    private formatFileForExport = 'json';
+    private formatFileExport = 'json';
 
     get dataForExport () {
       return JSON.stringify({
@@ -111,5 +113,15 @@
 </script>
 
 <style scoped>
+.task-block {
+  width: 700px;
+  text-align: center;
+  justify-content: stretch;
+  display: inline-block;
 
+}
+  .subtitle {
+    font-weight: 100;
+    font-size: 3em;
+  }
 </style>
