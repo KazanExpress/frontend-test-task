@@ -1,56 +1,58 @@
 <template>
-
-    <draggable
-            :list="taskItems"
-            :group="{ name: 'task-items' }"
-            :empty-insert-threshold="dropAreaSize"
-            class="dragArea col s6 m7"
-    >
-        <div v-for="(item, i) in taskItems"
-             :key="i"
-             class="card"
+    <div class="flexbox">
+        <draggable
+                :list="taskItems"
+                :group="{ name: 'task-items' }"
+                :empty-insert-threshold="dropAreaSize"
+                class="dragArea"
         >
-            <div class="card-header">
-                <h2 class="card-subtitle">{{item.name}}</h2>
-                <div class="delete">
-                    <button @click="$emit('destroyTask', { index: i, taskItems })" type="button" class="btn-floating btn-small waves-effect waves-light red accent-2">
-                        <i class="large material-icons">close</i>
-                    </button>
+            <div v-for="(item, i) in taskItems"
+                 :key="i"
+                 class="card"
+            >
+                <div class="card-header">
+                    <h2 class="card-subtitle">{{item.name}}</h2>
+                    <div class="delete">
+                        <button @click="$emit('destroyTask', { index: i, taskItems })" type="button" class="btn-floating btn-small waves-effect waves-light red accent-2">
+                            <i class="large material-icons">close</i>
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            <div class="card-body">
-                <p class="card-text">{{item.description}}</p>
-            </div>
-            <div class="switch">
-                <label>
+                <div class="card-body">
+                    <p class="card-text">{{item.description}}</p>
+                </div>
+                <div class="switch">
+                    <label>
 
-                    <input  :checked="item.isChecked"
+                        <input  :checked="item.isChecked"
+                                @change="item.isChecked = !item.isChecked"
+                                :id="`task_check${i}`"
+                                type="checkbox">
+                        <span class="lever"></span>
+
+                    </label>
+                </div>
+                <div class="switch">
+                    <input
+                            :checked="item.isChecked"
                             @change="item.isChecked = !item.isChecked"
                             :id="`task_check${i}`"
-                            type="checkbox">
-                    <span class="lever"></span>
+                            type="checkbox"
+                            class="lever"
+                            required
+                    >
+                    <label class="lever" :for="`task_check${i}`">{{ checkedText | isCheckedFilter(item.isChecked) }}</label>
+                </div>
+                <task-items
+                        @destroyTask="$listeners.destroyTask"
+                        :taskItems="item.enclosedTaskItem"
+                        class="ml-4 mr-4"
+                ></task-items>
+            </div>
+        </draggable>
+    </div>
 
-                </label>
-            </div>
-            <div class="switch">
-                <input
-                        :checked="item.isChecked"
-                        @change="item.isChecked = !item.isChecked"
-                        :id="`task_check${i}`"
-                        type="checkbox"
-                        class="lever"
-                        required
-                >
-                <label class="lever" :for="`task_check${i}`">{{ checkedText | isCheckedFilter(item.isChecked) }}</label>
-            </div>
-            <task-items
-                    @destroyTask="$listeners.destroyTask"
-                    :taskItems="item.enclosedTaskItem"
-                    class="ml-4 mr-4"
-            ></task-items>
-        </div>
-    </draggable>
 
 </template>
 
@@ -62,15 +64,16 @@
   import Draggable from 'vuedraggable';
 
 
+
   interface IActionTask {
     isChangeName: false;
   }
 
   @Component({
     components: {
-      TaskApp,
-      AddDescription,
       Draggable,
+      AddDescription,
+
 
     },
     filters: {
@@ -90,8 +93,37 @@
 </script>
 
 <style scoped>
+    * {
+        /*margin: 0;*/
+        /*padding: 0;*/
+        box-sizing: border-box;
+    }
     .dragArea {
-        display: contents;
+        /*display: contents;*/
+    }
+    .flexbox {
+        display: flex;
+        justify-content: center;
+
+        width: 768px;
+        max-width: 768px;
+        height: auto;        /*overflow: hidden;*/
+        margin: 0 auto;
+        padding: 15px;
+    }
+    .flexbox .board {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+        padding: 15px;
+        background-color: #222f3e;
+    }
+    .flexbox .board .card {
+        padding: 15px 25px;
+        background-color: #f1c054;
+        cursor: pointer;
+        margin-bottom: 15px;
     }
     .card-header {
         display: flex;
@@ -108,11 +140,6 @@
     .card-text {
         font-size: 1.2rem;
         font-weight: 500;
-    }
-    .custom-control-label {
-        color: #42b983;
-        font-size: 1.5rem;
-        font-weight: 300;
     }
     .btn-small:hover, .btn-floating:hover {
         box-shadow: none;

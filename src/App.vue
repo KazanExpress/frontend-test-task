@@ -3,11 +3,7 @@
            <div class="nav-wrapper">
           <nav id="nav">
           <a href="#" class="brand-logo center">TODO APPLICATION</a>
-<!--          <ul id="nav-mobile" class="right hide-on-med-and-down">-->
-<!--&lt;!&ndash;            <router-link to="/">Home</router-link>&ndash;&gt;-->
-<!--&lt;!&ndash;            <router-link to="/TaskApp">About</router-link>&ndash;&gt;-->
-<!--&lt;!&ndash;            <router-view/>&ndash;&gt;-->
-<!--            </ul>-->
+
       </nav>
         </div>
         <router-view/>

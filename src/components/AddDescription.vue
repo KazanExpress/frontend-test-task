@@ -15,7 +15,7 @@
                 </div>
             </div>
             <button type="button" class="btn waves-effect waves-light" @click="$emit('saveEmitter')">
-                <i class="material-icons right">save</i>Save</button>
+                <i class="material-icons right">save</i>Сохранить</button>
 
         </form>
     </div>

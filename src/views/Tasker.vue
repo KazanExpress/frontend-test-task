@@ -17,11 +17,11 @@
         </div>
 
       </div>
-      <div class="col-6 col-sm-12 col-md-6 text-left">
+      <div class="row">
         <add-task @addTask="addTask"></add-task>
       </div>
     </div>
-    <div class="row justify-content-center">
+    <div class="row">
       <task-items
               @destroyTask="destroyTask"
               :taskItems="taskItems"
@@ -114,9 +114,9 @@
 
 <style scoped>
 .task-block {
-  width: 700px;
+  width: 768px;
   text-align: center;
-  justify-content: stretch;
+  /*justify-content: stretch;*/
   display: inline-block;
 
 }
