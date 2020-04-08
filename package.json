@@ -1,14 +1,15 @@
 {
   "name": "test-task",
   "scripts": {
-    "build": "webpack --mode=production",
-    "dev": "webpack-dev-server src/main.ts",
+    "build": "webpack src/main.ts --mode=production",
+    "serve": "webpack-dev-server src/main.ts",
+    "serve-p": "webpack-dev-server src/main.ts --mode=production",
     "lint": "eslint --ext .ts,.vue,.js -c .eslintrc.js src/ --fix"
   },
   "dependencies": {
-    "@vue/composition-api": "^0.5.0",
     "assert": "^2.0.0",
     "fuse.js": "^5.1.0",
+    "nanoid": "^3.0.2",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^8.4.1",
@@ -30,6 +31,8 @@
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.2",
+    "csso-loader": "^0.3.1",
+    "csso-webpack-plugin": "^2.0.0-beta.1",
     "eslint": "^6.8.0",
     "eslint-loader": "^4.0.0",
     "eslint-plugin-import": "^2.20.2",

@@ -2,7 +2,7 @@
   <section class="tasks">
     <draggable v-model="tasks">
       <transition-group name="animation">
-        <Task
+        <Task-vue
           v-for="task in tasks"
           :key="task.id"
           :task="task"
@@ -23,90 +23,58 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Prop, Watch
-} from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import draggable from 'vuedraggable'
 import Fuse from 'fuse.js'
 
-import Task from './Task.vue'
-import { Store } from '../../store'
-import { saveStateTasks } from '../../globals'
-
-import { TaskI } from '../../types'
+import TaskVue from './Task.vue'
+import { Task } from '../../store/ProjectStore/Task'
 
 @Component({
   components: {
     draggable,
-    Task,
+    TaskVue,
   },
 })
 export default class Tasks extends Vue {
-  @Prop(Object) readonly store!: Store
+  @Prop(Array) readonly tasks!: Task[]
 
   @Prop(Object) readonly search!: { value: string; isVisible: boolean }
 
-  searchFn: Fuse<TaskI, { keys: ['title'] }> | null = null
+  searchFn: Fuse<Task, { keys: ['title'] }> | null = null
 
   searchIndex: readonly Fuse.FuseIndexRecord[] | null = null
 
   isDrag = false
 
-  requestUpdate() {
-    this.requestTasksUpdate()
-  }
+  // get localTasks(): Task[] {
+  //   if (this.search.isVisible && this.search.value && this.searchFn) {
+  //     return this.searchFn.search(this.search.value).map((it) => it.item)
+  //   }
 
-  requestTasksUpdate() {
-    this.store.getTasks().then((it) => {
-      this.tasks_ = it
-    })
-  }
+  //   return this.tasks
+  // }
 
-  tasks_: TaskI[] | null = null
+  // set localTasks(arg) {}
 
-  get tasks(): TaskI[] {
-    if (!this.tasks_) {
-      this.requestTasksUpdate()
-      return []
-    }
-
-    if (this.search.isVisible && this.search.value && this.searchFn) {
-      return this.searchFn.search(this.search.value).map((it) => it.item)
-    }
-
-    return this.tasks_
-  }
-
-  set tasks(arg) {
-    this.tasks_ = arg
-  }
-
-  @Watch('tasks_', { deep: true })
+  @Watch('tasks', { deep: true })
   updateSearch() {
-    if (this.tasks_) {
-      this.searchFn = new Fuse(this.tasks_, { keys: ['title'] })
-      this.searchIndex = Fuse.createIndex(['title'], this.tasks_)
-    }
+    console.log('update search')
+
+    this.searchFn = new Fuse(this.tasks, { keys: ['title', 'description'] })
+    this.searchIndex = Fuse.createIndex(['title'], this.tasks)
   }
 
   addTask() {
-    this.tasks = [
-      ...this.tasks,
-      {
-        title: '', id: Math.floor(Math.random() * 10000), completed: false, text: ''
-      },
-    ]
+    console.log(this.tasks)
+    // return
+
+    console.log('addTask')
+    this.tasks.push(new Task())
   }
 
-  removeTask(task: TaskI) {
-    this.tasks = this.tasks.filter((it) => it.id !== task.id)
-  }
-
-  mounted() {
-    saveStateTasks.set('saveTasks', {
-      storeFn: this.store.saveTasks.bind(this.store),
-      getValue: () => this.tasks_,
-    })
+  removeTask(task: Task) {
+    this.tasks.splice(this.tasks.indexOf(task), 1)
   }
 }
 </script>

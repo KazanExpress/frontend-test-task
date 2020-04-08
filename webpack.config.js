@@ -82,7 +82,7 @@ module.exports = async (env = {}, argv = {}) => {
   return {
     mode,
     target,
-    devtool: isDev ? 'source-map' : false,
+    devtool: isDev ? 'inline-source-map' : false,
     entry: entryPath,
     resolve: {
       extensions: ['.js', '.vue', '.ts'],
@@ -91,6 +91,7 @@ module.exports = async (env = {}, argv = {}) => {
       },
     },
     optimization: {
+      removeAvailableModules: true,
       minimize: !isDev,
       minimizer: [
         new TerserPlugin({
@@ -99,6 +100,9 @@ module.exports = async (env = {}, argv = {}) => {
           // sourceMap: true,
 
           terserOptions: {
+            parse: {
+              ecma: 2020
+            },
             // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
             compress: {
               pure_funcs: [
@@ -107,6 +111,10 @@ module.exports = async (env = {}, argv = {}) => {
                 'console.warn',
                 'console.log',
               ],
+            },
+
+            output: {
+              comments: false,
             },
             // warnings: true,
             module: true,
@@ -270,6 +278,7 @@ module.exports = async (env = {}, argv = {}) => {
         // Options similar to the same options in webpackOptions.output
         // all options are optional
         // filename: 'style/[name].[/*  */contenthash].css',
+        esModule: true,
         filename: 'style/[name].[hash].css',
         chunkFilename: 'style/[id].[hash].css',
         ignoreOrder: false, // Enable to remove warnings about conflicting order

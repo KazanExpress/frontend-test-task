@@ -1,3 +1,7 @@
+## Known Error
+- Merge conflicts when user is editing 2 or more tabs with same project url are not handled.
+  The last closed project version will the be saved, the others dropped.
+
 ### **Easy**
 
 - [x] Каждая новая вкладка в бразуере с приложением - отдельный проект со своим списком задач;\

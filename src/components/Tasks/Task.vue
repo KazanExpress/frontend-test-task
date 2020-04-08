@@ -12,7 +12,7 @@
       <!-- solo -->
 
       <v-textarea
-        v-model="task.text"
+        v-model="task.description"
         class="font-weight-light lighten-1"
         placeholder="Description"
         auto-grow
@@ -39,12 +39,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-
-import { TaskI } from '../../types'
-
-function rand(min: number, max: number) {
-  return Math.random() * (max - min) + min
-}
+import { TaskI } from '../../store/ProjectStore/Task'
 
 @Component({
   components: {},
@@ -55,15 +50,6 @@ export default class Task extends Vue {
   mounted() {
     // uncomment to get random text
     // this.getText()
-  }
-
-  getText() {
-    const max = rand(30, 500)
-    const arr = []
-    for (let i = 0; i < max; i++) {
-      arr.push(String.fromCharCode(rand(1, 100)))
-    }
-    this.task.text = arr.join('')
   }
 }
 </script>

@@ -29,7 +29,7 @@ export const readFileInput = (
 
       reader.readAsText(file, 'UTF-8')
       reader.onload = (evt) => {
-        assert(!(evt?.target?.result instanceof ArrayBuffer))
+        assert(!(evt?.target?.result instanceof ArrayBuffer)) // why tf i even need this
         resolve(evt?.target?.result)
       }
       reader.onerror = (evt) => {
@@ -46,7 +46,7 @@ export const readFileInput = (
 export const jsonToFile = (
   content: BlobPart,
   fileName: string,
-  contentType: string
+  contentType = 'application/json'
 ): void => {
   const a = document.createElement('a')
   const file = new Blob([content], { type: contentType })

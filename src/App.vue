@@ -13,7 +13,7 @@
       <v-spacer />
       <v-toolbar-title>
         <v-text-field
-          v-model="projectName"
+          v-model="project.name"
           background-color="rgba(0,0,0,0)"
           class="font-weight-bold display-1"
           placeholder="Проект №1"
@@ -27,8 +27,8 @@
       <div class="app-bar__search">
         <v-slide-x-reverse-transition>
           <v-text-field
-            v-if="search.isVisible"
-            v-model="search.value"
+            v-if="project.search.isVisible"
+            v-model="project.search.value"
             class="mr-10"
             placeholder="Search"
             dense
@@ -41,7 +41,7 @@
       <v-btn
         icon
         class="mr-2"
-        @click="search.isVisible = !search.isVisible"
+        @click="project.search.isVisible = !project.search.isVisible"
       >
         <!-- background-color="rgba(0,0,0,0)" -->
         <!-- v-if="isSearchVisible" -->
@@ -71,8 +71,8 @@
       <v-container fluid>
         <Tasks
           ref="tasks"
-          :store="store"
-          :search="search"
+          :tasks="project.tasks"
+          :search="project.search"
         />
       </v-container>
     </v-content>
@@ -85,114 +85,63 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { nanoid } from 'nanoid'
 import Tasks from './components/Tasks/index.vue'
-import { Store } from './store'
+import { ProjectStore } from './store/ProjectStore'
 import { jsonToFile, readFileInput } from './utils'
-
-import { saveStateTasks, saveState } from './globals'
+import { Project } from './store/ProjectStore/Project'
 
 @Component({
   components: { Tasks },
 })
 export default class App extends Vue {
-  store!: Store
+  store = new ProjectStore()
 
-  projectName_: string | null = null
-
-  search_: { value: string; isVisible: boolean } | null = null
-
-  requestUpdate() {
-    this.requestSearchUpdate()
-    this.requestProjectNameUpdate()
-  }
-
-  requestProjectNameUpdate() {
-    this.store.getTitle().then((it) => {
-      this.projectName_ = it
-    })
-  }
-
-  requestSearchUpdate() {
-    this.store.getSearch().then((it) => {
-      this.search_ = it
-    })
-  }
-
-  get projectName() {
-    if (!this.projectName_) {
-      this.requestProjectNameUpdate()
-      return ''
-    }
-
-    return this.projectName_
-  }
-
-  set projectName(arg) {
-    this.projectName_ = arg
-  }
-
-  get search() {
-    if (!this.search_) {
-      this.requestSearchUpdate()
-      return { value: '', isVisible: false }
-    }
-
-    return this.search_
-  }
-
-  set search(arg) {
-    this.search_ = arg
-  }
+  project: Project = new Project()
 
   downloadData() {
-    saveState()
-    jsonToFile(
-      this.store.exportProjectState(),
-      `${this.projectName}.json`,
-      'application/json'
-    )
+    const data = this.store.exportProjectState()
+
+    if (!data) {
+      console.error('Could not get store data')
+      return
+    }
+
+    jsonToFile(data, `${this.project.title}.json`)
   }
 
   async uploadData() {
     const data = await readFileInput()
     if (!data) {
-      console.error('bad import data')
+      console.error('Bad import data')
       return
     }
     try {
-      this.store.importProjectState(data)
+      this.project = this.store.importProjectState(data)
     } catch (err) {
-      console.error('bad import data')
-      return
+      console.error('Could not import project state')
     }
-
-    this.requestUpdate()
-    ;(this.$refs.tasks as any).requestUpdate()
   }
 
-  beforeCreate() {
-    let id = 0
+  mounted() {
+    let id: string
+    let project: Project | false
 
-    // #todo>refactor>
-    const projects = window.sessionStorage.getItem('projects')
-
-    if (document.location.pathname === '/' && projects) {
-      id = JSON.parse(projects).length
+    if (document.location.pathname === '/') {
+      id = nanoid(6)
       window.history.pushState({}, '', `/${id}`)
     } else {
-      id = +document.location.pathname.slice(1)
+      id = document.location.pathname.slice(1)
     }
 
-    this.store = new Store(id)
+    project = this.store.getProject(id)
+    if (!project) {
+      project = this.store.addProject({ id })
+    }
+    this.project = project
+    this.store.setDefaultProjectId(id)
 
-    saveStateTasks.set('saveTitle', {
-      storeFn: this.store.saveTitle.bind(this.store),
-      getValue: () => this.projectName_,
-    })
-    saveStateTasks.set('saveSearch', {
-      storeFn: this.store.saveSearch.bind(this.store),
-      getValue: () => this.search_,
-    })
+    window.addEventListener('beforeunload', this.store.saveState.bind(this.store))
   }
 }
 </script>

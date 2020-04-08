@@ -2,8 +2,9 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "strict": true,
+    "sourceMap": true,
     "target": "es2017",
-    "module": "ES6",
+    "module": "ESNext",
     "lib": ["DOM", "ESNext"],
     "moduleResolution": "node",
     "experimentalDecorators": true,
@@ -14,5 +15,6 @@
       "./d.ts"
     ]
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "importHelpers": true
 }

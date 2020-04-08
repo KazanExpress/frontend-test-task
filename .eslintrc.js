@@ -70,5 +70,6 @@ module.exports = {
     'no-plusplus': 0,
     '@typescript-eslint/no-this-alias': 0,
     'semi-style': ['error', 'first'],
+    'object-curly-newline': ['error', { consistent: true }],
   },
 }
