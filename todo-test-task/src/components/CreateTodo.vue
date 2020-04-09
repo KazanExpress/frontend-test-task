@@ -30,10 +30,11 @@ export default class CreateTodo extends Vue {
     if (this.name) {
       this.$emit('create-todo', this.name);
       this.name = '';
+
       return;
     }
 
-    alert('Your todo name should not be empty')
+    alert('Your todo name should not be empty');
   }
 }
 </script>
