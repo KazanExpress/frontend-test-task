@@ -128,6 +128,10 @@ export default new Vuex.Store({
       state.items.push(item);
     },
 
+    clearItems(state){
+      state.items = [];
+    },
+
     addProject(state, projectName){
       state.projects.add(projectName);
     },

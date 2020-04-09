@@ -72,6 +72,7 @@ export default class ProjectPage extends Vue {
       project,
       items: this.$store.state.items,
     });
+    this.$store.commit('clearItems');
   }
 }
 </script>

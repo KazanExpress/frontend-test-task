@@ -21,7 +21,7 @@
               </li>
           </draggable>
       </template>
-      <template v-else>
+      <template v-else-if="items.length">
           <draggable v-model='items' @start="drag=true" @end="drag=false">
               <li v-for="item in items" :key="item.id">
                 <Item
@@ -32,6 +32,9 @@
               </li>
           </draggable>
       </template>
+        <template v-else>
+            <div class="empty-items-alert">No items were found:(. Try creating a new one!</div>
+        </template>
     </ul>
   </div>
 </template>
@@ -113,5 +116,8 @@ export default class Todos extends Vue {
   height: 15px;
   vertical-align: middle;
   padding-right: 10px;
+}
+.empty-items-alert {
+    font-size: medium;
 }
 </style>
