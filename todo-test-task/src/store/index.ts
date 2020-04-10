@@ -19,16 +19,6 @@ const guid = () => {
   return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
 };
 
-function findItem(items: Array<IItem>, id: string) {
-  items.forEach(item => {
-    if (item.id === id){
-      return item.subitems.push();
-    }
-
-    return findItem(item.subitems, id);
-  });
-}
-
 export default new Vuex.Store({
   state: {
     projectName: 'New project',
@@ -170,5 +160,24 @@ export default new Vuex.Store({
   modules: {},
   getters: {
     projects: state => state.projects,
+    item: state => (id: string) => {
+      let itemToTransfer!: IItem;
+
+      function searchItem(items: IItem[]) {
+        items.forEach(item => {
+          if (item.id === id){
+            itemToTransfer = item;
+
+            return;
+          }
+
+          searchItem(item.subitems);
+        });
+      }
+
+      searchItem(state.items);
+
+      return itemToTransfer;
+    },
   },
 });

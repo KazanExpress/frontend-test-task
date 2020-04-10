@@ -1,9 +1,13 @@
 <template>
-  <div id="main">
+  <div class="main" >
     <ProjectName></ProjectName>
-    <Todos></Todos>
+    <Todos v-on:transfer-todos="transferTodos"></Todos>
+    <Transfer
+            v-on:transfer-todos="transferTodos"
+            id="0"
+            label="Transfer all todos"
+    ></Transfer>
     <button @click="exportToJson" class="export-button">Export project</button>
-    <Transfer v-on:transfer-todos="transferTodos"></Transfer>
   </div>
 </template>
 
@@ -23,6 +27,14 @@ import Transfer from '@/components/Transfer.vue';
 })
 export default class ProjectPage extends Vue {
   private channel!: BroadcastChannel;
+
+  get items() {
+    return this.$store.state.items;
+  }
+
+  private getItem(id: string) {
+    return this.$store.getters.item(id);
+  }
 
   public beforeCreate() {
     this.channel = new BroadcastChannel('projects-channel');
@@ -66,28 +78,37 @@ export default class ProjectPage extends Vue {
     link.click();
   }
 
-  private transferTodos(project: string) {
+  private transferTodos(project: string, id: string) {
+    let items = id === '0' ? this.items : [this.getItem(id)];
+
     this.channel.postMessage({
       event: 'transfer_items',
       project,
-      items: this.$store.state.items,
+      items,
     });
-    this.$store.commit('clearItems');
+
+    if (id === '0'){
+      this.$store.commit('clearItems');
+
+      return;
+    }
+
+    this.$store.commit('deleteItem', id);
   }
 }
 </script>
 
 <style scoped lang="scss">
+  .main {
+    position: relative;
+  }
+
   .export-button {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
     border: none;
     color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+    padding: 5px 15px;
     font-size: 16px;
-    position: fixed;
-    left: 45px;
+    margin-top: 10px;
   }
 </style>

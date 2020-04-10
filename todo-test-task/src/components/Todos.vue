@@ -13,7 +13,7 @@
       <template v-if="filteredItems.length">
           <draggable v-model='filteredItems' @start="drag=true" @end="drag=false">
               <li v-for="item in filteredItems" :key="item.id">
-                <Item
+                <Item v-on:transfer-todos="transferTodos"
                   :item="item"
                   :handle-delete="deleteTodo"
                   :handle-check="check"
@@ -24,7 +24,7 @@
       <template v-else-if="items.length">
           <draggable v-model='items' @start="drag=true" @end="drag=false">
               <li v-for="item in items" :key="item.id">
-                <Item
+                <Item v-on:transfer-todos="transferTodos"
                   :item="item"
                   :handle-delete="deleteTodo"
                   :handle-check="check"
@@ -87,6 +87,10 @@ export default class Todos extends Vue {
 
   private check(id: string) {
     this.$store.commit('updateCheckbox', id);
+  }
+
+  private transferTodos(project: string, id: string) {
+    this.$emit('transfer-todos', project, id);
   }
 }
 </script>
