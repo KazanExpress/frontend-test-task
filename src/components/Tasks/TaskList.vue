@@ -23,6 +23,7 @@
       "
     />
     <draggable
+      delay="150"
       ref="taskContainer"
       v-model="tasks_"
       class="tasks__container"

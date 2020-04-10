@@ -2,6 +2,7 @@
   <section>
     <div class="wrapper">
       <draggable
+        delay="150"
         v-model="localSections"
         group="section"
         class="d-flex"
@@ -14,8 +15,8 @@
           :search="search"
           :tasks.sync="section.tasks"
           :name.sync="section.name"
-          @add-task="addTask"
-          @remove-task="removeTask"
+          @add-task="addTask(section)"
+          @remove-task="removeTask(section, $event)"
         />
         <v-btn class="text-none mx-1" @click="addColumn">
           Add new column
@@ -43,8 +44,10 @@ export default class TaskGroup extends Vue {
   @Emit()
   addTask(section: Section) {}
 
-  @Emit()
-  removeTask(section: Section, task: Task) {}
+  // @Emit() // i have no idea why it doesnt work
+  removeTask(section: Section, task: Task) {
+    this.$emit('remove-task', section, task)
+  }
 
   @Emit()
   addColumn() {}
