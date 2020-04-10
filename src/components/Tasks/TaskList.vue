@@ -23,24 +23,27 @@
       "
     />
     <draggable
-      delay="150"
+      delay="50"
       ref="taskContainer"
       v-model="tasks_"
       class="tasks__container"
       group="task"
       animation="250"
+      @start="drag = true"
+      @end="drag = true"
     >
       <!-- <transition-group name="animation"> -->
-      <Task-vue
-        v-for="task in filteredTasks"
-        :key="task.id"
-        :title.sync="task.title"
-        :description.sync="task.description"
-        :completed="task.completed"
-        class="task pa-2 my-2"
-        @remove-task="removeTask(task)"
-      />
-      <!-- </transition-group> -->
+      <transition-group type="transition" id="list-complete-demo">
+        <Task-vue
+          v-for="task in filteredTasks"
+          :key="task.id"
+          :title.sync="task.title"
+          :description.sync="task.description"
+          :completed.sync="task.completed"
+          class="task pa-2 my-2"
+          @remove-task="removeTask(task)"
+        />
+      </transition-group>
     </draggable>
     <v-card
       outlined
@@ -81,6 +84,8 @@ export default class TaskList extends Vue {
   @Prop(String) readonly search!: string
 
   searchFn: Fuse<Task, { keys: [] }> | null = null
+
+  drag = false
 
   get filteredTasks() {
     if (this.search && this.searchFn) {
@@ -139,6 +144,20 @@ export default class TaskList extends Vue {
 }
 
 .animation-leave-active {
+  position: absolute;
+}
+
+.list-complete-item {
+  transition: all 1s;
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-complete-enter, .list-complete-leave-to
+/* .list-complete-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-complete-leave-active {
   position: absolute;
 }
 </style>
