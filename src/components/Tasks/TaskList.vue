@@ -10,7 +10,10 @@
         hide-details
         solo
       />
-      <v-icon id="handle" class="cursor-grab">
+      <v-icon
+        id="handle"
+        class="cursor-grab"
+      >
         mdi-camera-control
       </v-icon>
     </div>
@@ -19,13 +22,13 @@
       :value="
         (filteredTasks.filter((it) => it.completed).length /
           filteredTasks.length) *
-        100
+          100
       "
     />
     <draggable
-      delay="50"
       ref="taskContainer"
       v-model="tasks_"
+      delay="50"
       class="tasks__container"
       group="task"
       animation="250"
@@ -33,7 +36,10 @@
       @end="drag = true"
     >
       <!-- <transition-group name="animation"> -->
-      <transition-group type="transition" id="list-complete-demo">
+      <transition-group
+        id="list-complete-demo"
+        type="transition"
+      >
         <Task-vue
           v-for="task in filteredTasks"
           :key="task.id"
@@ -104,8 +110,8 @@ export default class TaskList extends Vue {
 
   @Emit()
   addTask() {
-    // @ts-ignore
-    this.$refs.taskContainer.$el.scrollTop = this.$refs.taskContainer.$el.scrollHeight
+    (this.$refs.taskContainer as any).$el.scrollTop = (this.$refs
+      .taskContainer as any).$el.scrollHeight
   }
 
   @Emit()

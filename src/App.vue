@@ -4,7 +4,10 @@
     <!-- -->
     <!-- </v-navigation-drawer> -->
 
-    <v-app-bar app class="app-bar">
+    <v-app-bar
+      app
+      class="app-bar"
+    >
       <!-- v-model="task.title" -->
       <v-spacer />
       <v-spacer />
@@ -44,12 +47,20 @@
         <!-- v-if="isSearchVisible" -->
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
-      <v-btn icon class="mr-2" @click="downloadData">
+      <v-btn
+        icon
+        class="mr-2"
+        @click="downloadData"
+      >
         <!-- background-color="rgba(0,0,0,0)" -->
         <!-- v-if="isSearchVisible" -->
         <v-icon>mdi-download</v-icon>
       </v-btn>
-      <v-btn icon class="mr-2" @click="uploadData">
+      <v-btn
+        icon
+        class="mr-2"
+        @click="uploadData"
+      >
         <!-- background-color="rgba(0,0,0,0)" -->
         <!-- v-if="isSearchVisible" -->
         <v-icon>mdi-upload</v-icon>

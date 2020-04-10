@@ -39,6 +39,5 @@ export class Project implements ProjectI {
     ]
 
     console.log(this.sections)
-
   }
 }

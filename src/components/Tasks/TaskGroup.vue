@@ -2,8 +2,8 @@
   <section>
     <div class="wrapper">
       <draggable
-        delay="150"
         v-model="localSections"
+        delay="150"
         group="section"
         class="d-flex"
         handle="#handle"
@@ -18,7 +18,10 @@
           @add-task="addTask(section)"
           @remove-task="removeTask(section, $event)"
         />
-        <v-btn class="text-none mx-1" @click="addColumn">
+        <v-btn
+          class="text-none mx-1"
+          @click="addColumn"
+        >
           Add new column
         </v-btn>
       </draggable>
