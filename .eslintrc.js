@@ -42,7 +42,7 @@ module.exports = {
     'linebreak-style': 0,
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-shadow': [0],
+    'no-shadow': 0,
     'no-underscore-dangle': 0,
     'no-unused-expressions':
       process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -71,5 +71,11 @@ module.exports = {
     '@typescript-eslint/no-this-alias': 0,
     'semi-style': ['error', 'first'],
     'object-curly-newline': ['error', { consistent: true }],
+    '@typescript-eslint/no-empty-function': 0,
+    '@typescript-eslint/no-unused-vars': ["warn", {
+      "vars": "all",
+      "args": "after-used",
+      "ignoreRestSiblings": false
+    }]
   },
 }

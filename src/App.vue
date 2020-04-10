@@ -1,13 +1,10 @@
 <template>
-  <v-app>
+  <v-app class="app">
     <!-- <v-navigation-drawer app> -->
     <!-- -->
     <!-- </v-navigation-drawer> -->
 
-    <v-app-bar
-      app
-      class="app-bar"
-    >
+    <v-app-bar app class="app-bar">
       <!-- v-model="task.title" -->
       <v-spacer />
       <v-spacer />
@@ -47,32 +44,26 @@
         <!-- v-if="isSearchVisible" -->
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
-      <v-btn
-        icon
-        class="mr-2"
-        @click="downloadData"
-      >
+      <v-btn icon class="mr-2" @click="downloadData">
         <!-- background-color="rgba(0,0,0,0)" -->
         <!-- v-if="isSearchVisible" -->
         <v-icon>mdi-download</v-icon>
       </v-btn>
-      <v-btn
-        icon
-        class="mr-2"
-        @click="uploadData"
-      >
+      <v-btn icon class="mr-2" @click="uploadData">
         <!-- background-color="rgba(0,0,0,0)" -->
         <!-- v-if="isSearchVisible" -->
         <v-icon>mdi-upload</v-icon>
       </v-btn>
     </v-app-bar>
 
-    <v-content>
+    <v-content class="main-content">
       <v-container fluid>
-        <Tasks
-          ref="tasks"
-          :tasks="project.tasks"
-          :search="project.search"
+        <Task-Group
+          :sections.sync="project.sections"
+          :search="project.search.isVisible ? project.search.value : ''"
+          @add-task="addTask"
+          @remove-task="removeTask"
+          @add-column="addColumn"
         />
       </v-container>
     </v-content>
@@ -86,18 +77,29 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { nanoid } from 'nanoid'
-import Tasks from './components/Tasks/index.vue'
+// import Tasks from './components/Tasks/TaskList.vue'
 import { ProjectStore } from './store/ProjectStore'
 import { jsonToFile, readFileInput } from './utils'
 import { Project } from './store/ProjectStore/Project'
+import { Task } from './store/ProjectStore/Task'
+import TaskGroup from './components/Tasks/TaskGroup.vue'
+import { Section } from './store/ProjectStore/Section'
 
 @Component({
-  components: { Tasks },
+  components: { TaskGroup },
 })
 export default class App extends Vue {
   store = new ProjectStore()
 
   project: Project = new Project()
+
+  addTask(section: Section) {
+    section.tasks.push(new Task())
+  }
+
+  removeTask(section: Section, task: Task) {
+    section.tasks.splice(section.tasks.indexOf(task), 1)
+  }
 
   downloadData() {
     const data = this.store.exportProjectState()
@@ -123,9 +125,13 @@ export default class App extends Vue {
     }
   }
 
+  addColumn() {
+    this.project.sections.push(new Section())
+  }
+
   mounted() {
     let id: string
-    let project: Project | false
+    let project: Project | null
 
     if (document.location.pathname === '/') {
       id = nanoid(6)
@@ -141,18 +147,26 @@ export default class App extends Vue {
     this.project = project
     this.store.setDefaultProjectId(id)
 
-    window.addEventListener('beforeunload', this.store.saveState.bind(this.store))
+    console.log(project.sections)
+
+    window.addEventListener(
+      'beforeunload',
+      this.store.saveState.bind(this.store)
+    )
   }
 }
 </script>
 
 <style>
 :root {
+  overflow-y: hidden;
+
 }
 
 * {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
 }
 
 .app-bar input {
@@ -163,11 +177,12 @@ export default class App extends Vue {
   width: 15%;
 }
 
-.d-hidden {
-  visibility: hidden;
+.main-content {
+  background-color: #333333;
 }
 
-.d-visible {
-  visibility: visible;
+.sortable-ghost {
+  border: 1px dotted green !important;
+  opacity: 0.5;
 }
 </style>

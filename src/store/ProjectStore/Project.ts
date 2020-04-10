@@ -1,10 +1,16 @@
 import { nanoid } from 'nanoid'
 import { Task } from './Task'
+import { Section } from './Section'
+
+export interface SearchI {
+  value: string
+  isVisible: boolean
+}
 
 export interface ProjectI {
   title?: string
-  tasks?: Task[]
-  search?: { value: string; isVisible: boolean }
+  sections?: Section[]
+  search?: SearchI
   text?: string
   id?: string
 }
@@ -12,19 +18,27 @@ export interface ProjectI {
 export class Project implements ProjectI {
   title: string
 
-  tasks: Task[]
-
-  search: { value: string; isVisible: boolean }
+  search: SearchI
 
   text: string
 
   id: string
 
-  constructor({ id, title, search, tasks, text }: ProjectI = {}) {
+  sections: Section[]
+
+  constructor({ id, title, search, text, sections }: ProjectI = {}) {
     this.id = id || nanoid(6)
     this.title = title || 'Project'
     this.search = search || { value: '', isVisible: false }
-    this.tasks = tasks || []
     this.text = text || ''
+    this.sections = sections || [
+      {
+        name: 'Section',
+        tasks: [new Task()],
+      },
+    ]
+
+    console.log(this.sections)
+
   }
 }

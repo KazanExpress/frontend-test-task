@@ -41,8 +41,10 @@ export class ProjectStore {
     return true
   }
 
-  getProject(projectId = this.defaultProjectId): Project | false {
-    assert(projectId && this.data[projectId])
+  getProject(projectId = this.defaultProjectId): Project | null {
+    if (!projectId || !this.data[projectId]) {
+      return null
+    }
 
     return this.data[projectId]
   }
@@ -50,6 +52,8 @@ export class ProjectStore {
   addProject(arg?: ProjectI) {
     const project = new Project(arg)
     this.data[project.id] = project
+    console.log(project.sections)
+
     return project
   }
 

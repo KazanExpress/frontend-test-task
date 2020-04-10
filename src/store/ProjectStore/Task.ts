@@ -5,6 +5,7 @@ export interface TaskI {
   id?: string
   completed?: boolean
   description?: string
+  subTasks?: Task[]
 }
 
 export class Task implements TaskI {
@@ -16,10 +17,13 @@ export class Task implements TaskI {
 
   description: string
 
-  constructor({ id, title, description, completed }: TaskI = {}) {
+  subTasks: Task[]
+
+  constructor({ id, title, description, completed, subTasks }: TaskI = {}) {
     this.completed = completed || false
     this.description = description || ''
     this.id = id || nanoid()
     this.title = title || ''
+    this.subTasks = subTasks || []
   }
 }

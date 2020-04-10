@@ -1,33 +1,40 @@
 <template>
-  <v-card outlined>
-    <v-card-text class="content">
+  <v-card
+    outlined
+    color="#272727"
+    class="localTask"
+  >
+    <v-card-text class="task__content">
       <v-text-field
-        v-model="task.title"
-        class="title"
-        placeholder="Введите название задачи"
+        v-model="title_"
+        class="task__content__name body-1 font-weight-bold"
+        placeholder="Task name"
         dense
         flat
         hide-details
       />
-      <!-- solo -->
 
       <v-textarea
-        v-model="task.description"
-        class="font-weight-light lighten-1"
+        v-model="description_"
+        class="font-weight-light lighten-1 mt-2 mx-1"
+        rows="4"
+        no-resize
+        flat
+        background-color="rgba(0,0,0,0)"
+        hide-details
         placeholder="Description"
-        auto-grow
       />
     </v-card-text>
     <v-card-actions class="actions">
       <v-checkbox
-        v-model="task.completed"
+        v-model="completed_"
         label="Finished"
       />
       <v-spacer />
       <v-btn
         depressed
         class="mr-2"
-        @click.native="$emit('removeTask', task)"
+        @click.native="$emit('remove-task')"
       >
         <v-icon>mdi-delete</v-icon>
         Delete
@@ -38,30 +45,29 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, PropSync } from 'vue-property-decorator'
 import { TaskI } from '../../store/ProjectStore/Task'
 
 @Component({
   components: {},
 })
 export default class Task extends Vue {
-  @Prop(Object) readonly task!: TaskI
+  @PropSync('title', { type: String }) readonly title_!: string
 
-  mounted() {
-    // uncomment to get random text
-    // this.getText()
-  }
+  @PropSync('description', { type: String }) readonly description_!: string
+
+  @PropSync('completed', { type: Boolean }) readonly completed_!: boolean
 }
 </script>
 
 <style scoped>
-.content >>> .v-input__slot {
+.task__content__name >>> .v-input__slot {
   padding: 0 !important;
   /* transition: all 1s; */
 }
 
-.actions >>> .v-input__slot {
-  /* flex-direction: row-reverse !important; */
-  /* margin-right: 10px; */
-}
+/* .actions >>> .v-input__slot { */
+/* flex-direction: row-reverse !important; */
+/* margin-right: 10px; */
+/* } */
 </style>

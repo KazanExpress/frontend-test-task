@@ -4,6 +4,8 @@ import { Ripple } from 'vuetify/lib/directives'
 
 Vue.use(Vuetify)
 
+Vue.config.productionTip = process.env.DEBUG
+
 const vuetify = new Vuetify({
   theme: {
     dark: true,
