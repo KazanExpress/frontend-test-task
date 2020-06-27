@@ -1,0 +1,41 @@
+@import "variables";
+
+.taskscomponent_wrap {
+  position: absolute;
+  top: $toolbar_height;
+  left: 0;
+  width: 75%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+
+  .panel {
+    box-shadow: $shadow #999999;
+
+    margin: 10px;
+    max-width: 500px;
+    min-width: 30%;
+    padding-bottom: 7px;
+
+    .panel_header {
+      background: #7986CB;
+      padding: 10px;
+      height: 3em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .task {
+
+      border-radius: 5px;
+      box-shadow: $shadow #ccc;
+      background-color: $soft_color;
+      max-width: 90%;
+      margin: 20px auto;
+      padding: 10px;
+    }
+
+  }
+}

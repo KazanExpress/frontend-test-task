@@ -1,0 +1,15 @@
+@import "src/scss/variables";
+
+.toolbar_wrap{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $toolbar_height;
+  background-color: $primary_color;
+  box-shadow: $shadow;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
