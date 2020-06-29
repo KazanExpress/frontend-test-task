@@ -5,11 +5,11 @@
         Другие вкладки
       </div>
       <div class="tabs_list_wrap">
-        <div class="tabs_item">
+        <div class="tabs_item" v-for="Tab in Tabs.tabs" :key="Tab.appID">
           <div class="item_status">
           </div>
           <div class="item_title">
-            Example1
+            {{Tab.appName}} : {{Tab.appID}}
           </div>
         </div>
       </div>
@@ -17,9 +17,16 @@
   </div>
 </template>
 <script>
+import {mapState} from 'vuex';
+
 export default {
+
   data: () => {
     return {}
-  }
+  },
+  computed: {
+    ...mapState(['Tabs', 'TasksList'])
+  },
+
 }
 </script>

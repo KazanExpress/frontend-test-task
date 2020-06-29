@@ -1,7 +1,9 @@
 <template>
   <div class="toolbar_wrap">
     <div class="title_wrap">
-      <span contenteditable @focusout="onFocusOut">{{Todo.appName}}</span>
+      <span contenteditable @focusout="onFocusOut">{{Tabs.appName}}</span>
+      <span>:{{Tabs.appID}}</span>
+
     </div>
     <div class="search_wrap">
       <input type="text" class="search">
@@ -20,15 +22,14 @@ export default {
     return {}
   },
   computed: {
-    ...mapState(['Todo'])
+    ...mapState(['Tabs'])
   },
   mounted () {
-    console.log(this.Todo.appName)
   },
   methods: {
     onFocusOut (e) {
-      this.Todo.setAppName(e.target.innerText)
-    }
+      this.Tabs.setAppName(e.target.innerText)
+    },
   }
 }
 </script>

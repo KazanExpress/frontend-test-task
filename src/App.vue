@@ -15,6 +15,13 @@ export default {
   name: 'App',
   components: {
     Toolbar, TasksC, Tabs
+  },
+
+  beforeMount() {
+    if (!this.$store.state.Tabs.isDuplicateTab()){
+      this.$store.commit('loadTasksFromSSMutation')
+    }
+
   }
 }
 </script>

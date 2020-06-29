@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { Todo } from '../models/Todo'
+import {Tabs} from '../models/Tabs';
+import {Tasklist} from '../models/Tasklist';
+
 
 Vue.use(Vuex)
 
@@ -15,20 +17,38 @@ export default new Vuex.Store({
   },
   mutations: {
     tasksMutation (state, json) {
-      // console.log (json)
       state.tasks = json
+    },
+    addTaskListMutation (state){
+      state.count++;
+      state.TaskList.push(new Tasklist(state.count))
+    },
+    loadTasksFromSSMutation (state){
+      if (sessionStorage.getItem('TaskList') && sessionStorage.getItem('TaskList').length > 0) {
+
+        let k = JSON.parse(sessionStorage.getItem('TaskList'))
+        state.TaskList = []
+        k.forEach((_, index) => {
+          state.TaskList.push(new Tasklist(index))
+          state.count++
+        })
+
+
+      }
     }
   },
   state: {
     count: 0,
     tasks: [],
-    Todo: new Todo()
+    Tabs: new Tabs(),
+    TaskList: [new Tasklist()]
+
   },
   getters: {
     getTasks: state => {
-      console.log(state.tasks)
-      return state.tasks
-    }
-  },
-  modules: {}
+      sessionStorage.setItem('TaskList', JSON.stringify(state.TaskList))
+      return state.TaskList
+    },
+
+  }
 })

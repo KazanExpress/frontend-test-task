@@ -1,18 +1,24 @@
 export class  Broadcast {
   constructor() {
     this.bc = new BroadcastChannel('TodoChannel');
-
   }
 
   msg(message){
-    bc.postMessage(message)
+    this.bc.postMessage(message)
   }
 
   evt(func){
-    bc.addEventListener('message', function (e){
-      console.log(e);
-    })
+    this.bc.addEventListener('message', func)
   }
+
+  requestData(data){
+    this.msg (data)
+  }
+
+
+
+
+
 
 
 
