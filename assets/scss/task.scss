@@ -1,0 +1,121 @@
+.task {
+
+	&-button {
+
+		&-subtask {
+			border-radius: 5px;
+			width: 150px;
+			height: 20px;
+			font-family: "Helvetica Neue", Arial, sans-serif;
+			font-size: 12px;
+			border: 1px solid #000000;
+			background: #ffffff;
+			outline: none;
+			cursor: pointer;
+			margin-right: 6px;
+			text-align: center;
+
+			&:hover {
+				background: rgba(1, 1, 1, 0.1);
+				transition: background 0.3s;
+			}
+		}
+
+		&-mark {
+			width: 14px;
+			height: 14px;
+			border-radius: 14px;
+			background: #ffffff;
+			border: 1px solid #000000;
+			margin-right: 4px;
+			cursor: pointer;
+
+			&:hover, &-marked {
+				background: rgba(0, 0, 0, 0.5);
+				transition: background 0.3s;
+			}
+
+		}
+
+		&-delete {
+			cursor: pointer;
+			font-family: "Helvetica Neue", Arial, sans-serif;
+			text-align: center;
+			font-size: 12px;
+			padding-top: 1px;
+			padding-left: 1px;
+
+			&:hover {
+				background: red;
+				color: white;
+				transition: background 0.3s, color 0.3s;
+			}
+		}
+
+
+		&-new_task {
+			border-radius: 5px;
+			width: 100px;
+			height: 40px;
+			font-family: "Helvetica Neue", Arial, sans-serif;
+			font-size: 12px;
+			margin-top: 20px;
+			border: 1px solid #000000;
+			background: #ffffff;
+			outline: none;
+			cursor: pointer;
+
+			&:hover {
+				//background: #f3f3f3;
+				background: rgba(1, 1, 1, 0.1);
+				transition: background 0.3s;
+			}
+		}
+	}
+
+	&-wrapper {
+		display: flex;
+		align-items: center;
+		position: relative;
+
+		border-bottom: 1px solid #000000;
+		margin-top: 20px;
+	}
+
+	&-text {
+		font-family: "Helvetica Neue", Arial, sans-serif;
+		font-size: 14px;
+		letter-spacing: 0.5px;
+
+		position: absolute;
+		left: 22px;
+
+		z-index: -1;
+
+		&-marked {
+			text-decoration: line-through;
+			color: rgba(0, 0, 0, 0.5);
+		}
+
+	}
+
+	&-input {
+		width: 100%;
+		height: 24px;
+
+		font-family: "Helvetica Neue", Arial, sans-serif;
+		font-size: 14px;
+		letter-spacing: 0.5px;
+
+		border: none;
+		border-radius: 5px 0 0 0;
+		background: none;
+		outline: none;
+
+		&:focus, &:hover {
+			background: rgba(1, 1, 1, 0.1);
+			transition: background 0.3s;
+		}
+	}
+
+}
