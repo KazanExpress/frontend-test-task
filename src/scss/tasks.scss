@@ -10,7 +10,7 @@
 
 
 
-  .panel {
+  & .panel {
     box-shadow: $shadow #999999;
     margin: 10px;
     max-width: 500px;
@@ -34,7 +34,38 @@
       max-width: 90%;
       margin: 20px auto;
       padding: 10px;
+
+      .task_inside_wrap{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        input{
+          height: 20px;
+          width: 20px;
+        }
+      }
     }
 
+    .new_task,.panel_header_new{
+      display: flex;
+      justify-content: center;
+      background-color: #B2DFDB;
+      padding: 10px 0px;
+    }
+
+
+  }
+  .panel_new{
+
+    align-self: flex-start;
+    padding-bottom: 0px;
+
+
+
+
+  }
+  .drag{
+    background-color: red;
   }
 }

@@ -1,6 +1,5 @@
 import {Broadcast} from './Broadcast';
 
-
 export class Todo extends Broadcast {
   constructor() {
     super();
@@ -10,27 +9,26 @@ export class Todo extends Broadcast {
   }
 
   getAppName() {
-    if (!this.appName && !sessionStorage.getItem('appName')) {
-      this.setAppName('Default Project');
-    }
+
     return this.appName;
   }
 
   setAppName(name) {
     this.appName = name;
     sessionStorage.setItem('appName', name);
+    this.seTitleWindow();
     return this.getAppName();
   }
 
-  getAppID() {
-    return this.appID;
-  }
-
-  setSessionTS(date) {
-    sessionStorage.setItem('sessionTS', date);
-    this.sessionTS = date;
-    return date;
-  }
+  // getAppID() {
+  //   return this.appID;
+  // }
+  //
+  // setSessionTS(date) {
+  //   sessionStorage.setItem('sessionTS', date);
+  //   this.sessionTS = date;
+  //   return date;
+  // }
 
   setAppID() {
     const appID = Math.floor(Math.random() * 1e8);
@@ -44,7 +42,7 @@ export class Todo extends Broadcast {
   }
 
   init() {
-    this.setStartValues()
+    this.setStartValues();
   }
 
   isDuplicateTab() {
@@ -56,18 +54,29 @@ export class Todo extends Broadcast {
       this.dup = false;
       isDup = false;
     }
-    ;
+    sessionStorage.setItem('dupTab', 'true');
     window.name = true;
     return isDup;
   }
-  setStartValues(){
+
+  seTitleWindow() {
+    document.title = `${this.appName} - ${this.appID}`
+  }
+
+  setStartValues() {
     if (this.isDuplicateTab()) {
-      this.appName = this.setAppName('Default');
+      this.appName = this.setAppName('ToDo');
       this.appID = this.setAppID();
+      sessionStorage.removeItem('TaskList');
+
+
     } else {
-      this.appName = sessionStorage.getItem('appName') || this.setAppName('Default');
+      this.appName = sessionStorage.getItem('appName') ||
+        this.setAppName('ToDo');
+
       this.appID = sessionStorage.getItem('appID') || this.setAppID();
 
     }
+    this.seTitleWindow();
   }
 }

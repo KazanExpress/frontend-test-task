@@ -8,32 +8,24 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   actions: {
-    async fetchTasks (ctx) {
-      const res = await fetch(
-        'https://jsonplaceholder.typicode.com/todos?_limit=5')
-      const json = await res.json()
-      ctx.commit('tasksMutation', json)
-    }
   },
   mutations: {
-    tasksMutation (state, json) {
-      state.tasks = json
-    },
-    addTaskListMutation (state){
+    addTaskListMutation (state, tasksInTaskList){
       state.count++;
-      state.TaskList.push(new Tasklist(state.count))
+      state.TaskList.push(new Tasklist(state.count, tasksInTaskList))
+    },
+    deleteTaskListByUID(state, uID){
+      let indexForDelete = state.TaskList.findIndex(item => item.uID == uID);
+      state.TaskList.splice(indexForDelete, 1)
     },
     loadTasksFromSSMutation (state){
       if (sessionStorage.getItem('TaskList') && sessionStorage.getItem('TaskList').length > 0) {
-
         let k = JSON.parse(sessionStorage.getItem('TaskList'))
         state.TaskList = []
         k.forEach((_, index) => {
           state.TaskList.push(new Tasklist(index))
           state.count++
         })
-
-
       }
     }
   },

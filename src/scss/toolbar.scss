@@ -1,6 +1,6 @@
 @import "src/scss/variables";
 
-.toolbar_wrap{
+.toolbar_wrap {
   position: absolute;
   top: 0;
   left: 0;
@@ -8,8 +8,47 @@
   height: $toolbar_height;
   background-color: $primary_color;
   box-shadow: $shadow;
-
+  color: #E8EAF6;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+
+  .wrap {
+    width: 33%;
+    display: flex;
+    padding: 0px 20px;
+  }
+
+  .search_wrap {
+    display: flex;
+    justify-content: center;
+
+  }
+
+  .search {
+    width: 100%;
+    height: 2em;
+    padding: 0px 5px;
+
+    &:focus {
+      outline: none;
+
+
+    }
+  }
+  .icon_button{
+    border-radius: 50%;
+    &:hover{
+      color: #7986CB;
+    }
+    &:active{
+      color: #FFC107;
+
+
+    }
+  }
+  .buttons_wrap {
+    justify-content: flex-end;
+  }
 }

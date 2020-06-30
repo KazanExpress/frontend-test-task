@@ -1,12 +1,21 @@
 <template>
+  <div>
   <div class="taskscomponent_wrap">
-      <TasksPanel :tasks="taskList" v-for="taskList in tasks" :key="taskList.id"/>
+        <TasksPanel :tasks="taskList" v-for="taskList in tasks" :key="taskList.uID" @updateTaskPanel="doUpdate">
+        </TasksPanel>
+        <div class="panel panel_new">
+          <div class="panel_header panel_header_new" @click="newTaskList">
+            New list
+          </div>
+
+        </div>
+
+  </div>
   </div>
 </template>
 <script>
   import {mapGetters} from 'vuex';
   import TasksPanel from './TasksPanel';
-
   export default {
     components: {
       TasksPanel,
@@ -18,11 +27,14 @@
       ...mapGetters({tasks: 'getTasks'}),
     },
     mounted() {
-      this.$store.dispatch('fetchTasks').then(() => {
-      });
-
     },
+    methods: {
+      doUpdate (){
+        this.$forceUpdate()
+      },
+      newTaskList() {
+        this.$store.commit('addTaskListMutation');
+      },
+    }
   };
 </script>
-<style scoped lang="scss">
-</style>

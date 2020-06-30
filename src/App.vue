@@ -1,20 +1,22 @@
 <template>
   <div id="app">
     <Toolbar />
-    <TasksC />
+    <Tasks />
     <Tabs />
   </div>
 </template>
 
 <script>
 import Toolbar from './components/Toolbar.vue'
-import TasksC from './components/Tasks.vue'
+import Tasks from './components/Tasks.vue'
 import Tabs from './components/Tabs.vue'
+
+
 
 export default {
   name: 'App',
   components: {
-    Toolbar, TasksC, Tabs
+    Toolbar, Tasks, Tabs
   },
 
   beforeMount() {
@@ -40,5 +42,9 @@ export default {
   @import "src/scss/toolbar";
   @import "src/scss/tasks";
   @import "src/scss/tabs";
+
+  .user_select_disable{
+    user-select: none;
+  }
 }
 </style>
