@@ -37,8 +37,7 @@
         this.$forceUpdate()
       },
       newTaskList(e) {
-        console.log(e);
-        this.$store.commit('addTaskListMutation', ['', e]);
+        this.$store.commit('newList', e);
         this.$modal.hide('NewListmodal')
 
       },

@@ -14,14 +14,12 @@
 
               <SingleTask :item="item" @dragDisable="dragDisable = true" @dragEnable="dragDisable = false">
               </SingleTask>
-              <!--              <div class="completed">Complete: {{item.completed}}</div>-->
-<!--              <div>{{item.parent}}</div>-->
+
 
             </drag>
           </drop>
 
         </div>
-<!--        @click="newTask"-->
         <div class="task new_task" @click="showModalNewTask">
           <div class="wrap">
             <PenPlus/>
@@ -95,18 +93,22 @@
         }
       },
       dropEndPanel(e) {
+        // console.log('DnD taskPanel');
+        // console.log(e.top.$el.getAttribute('data-taskpanelid'));
+        // console.log(e.data instanceof Tasklist);
+
         if (e.top.$el.getAttribute('data-taskpanelid') && e.data instanceof Tasklist) {
-          document.body.classList.remove('user_select_disable');
-          const indexTaskListOfDragElement = this.tasksListsArr.findIndex(taskList => taskList.id == e.data.id);
-          const indexTaskListOfDropElement = this.tasksListsArr.findIndex(
+
+          let indexTaskListOfDragElement = this.tasksListsArr.findIndex(taskList => taskList.uID == e.data.uID);
+          let indexTaskListOfDropElement = this.tasksListsArr.findIndex(
             taskList => taskList.uID == e.top.$el.dataset.taskpanelid);
 
 
-          [
-            this.tasksListsArr[indexTaskListOfDragElement],
-            this.tasksListsArr[indexTaskListOfDropElement]] = [
-            this.tasksListsArr[indexTaskListOfDropElement],
-            this.tasksListsArr[indexTaskListOfDragElement]];
+
+          let tempAr = this.tasksListsArr[indexTaskListOfDragElement]
+          this.tasksListsArr[indexTaskListOfDragElement] = this.tasksListsArr[indexTaskListOfDropElement]
+          this.tasksListsArr[indexTaskListOfDropElement] = tempAr
+
           this.$emit('updateTaskPanel');
 
         }
@@ -116,7 +118,6 @@
       },
       addNewTask(e){
         this.$modal.hide(this.tasks.uID+'modal');
-        console.log(e);
         this.tasks.newTask(e);
 
       },

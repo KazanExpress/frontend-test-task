@@ -25,6 +25,8 @@
     methods:{
       dragDisable(e){
         this.$emit('dragDisable')
+        e.target.focus()
+        this.$forceUpdate()
       },
       focusOut(e){
         this.item.title = e.target.innerText.trim()

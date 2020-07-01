@@ -38,8 +38,7 @@ export class Tabs extends Todo {
       let request = JSON.parse(e.data);
       if (request.to == this.appID && request.data.datatype == 'string') {
 
-        this.$store.commit('addTaskListMutation', [request.data.body, '']);
-        // this.$store.commit('deleteTaskListByUID', request.data.body.uID);
+        this.$store.commit('addTaskListFromOuterTab', [request.data.body, '']);
       }
     });
   }

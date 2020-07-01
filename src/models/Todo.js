@@ -20,16 +20,6 @@ export class Todo extends Broadcast {
     return this.getAppName();
   }
 
-  // getAppID() {
-  //   return this.appID;
-  // }
-  //
-  // setSessionTS(date) {
-  //   sessionStorage.setItem('sessionTS', date);
-  //   this.sessionTS = date;
-  //   return date;
-  // }
-
   setAppID() {
     const appID = Math.floor(Math.random() * 1e8);
     this.appID = appID;
@@ -68,14 +58,10 @@ export class Todo extends Broadcast {
       this.appName = this.setAppName('ToDo');
       this.appID = this.setAppID();
       sessionStorage.removeItem('TaskList');
-
-
     } else {
       this.appName = sessionStorage.getItem('appName') ||
         this.setAppName('ToDo');
-
       this.appID = sessionStorage.getItem('appID') || this.setAppID();
-
     }
     this.seTitleWindow();
   }
