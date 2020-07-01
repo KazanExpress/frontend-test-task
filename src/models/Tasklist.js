@@ -1,5 +1,5 @@
 export class Tasklist {
-  constructor(i = 0, taskArray = {}) {
+  constructor(i = 0, taskArray = {}, taskListName = 'Список задач ' + i) {
     let ss_tasksObject = JSON.parse(sessionStorage.getItem('TaskList'));
     if (ss_tasksObject && ss_tasksObject[i]) {
       ss_tasksObject = ss_tasksObject[i];
@@ -14,7 +14,7 @@ export class Tasklist {
       this.count = i + 1;
       this.id = this.count;
       this.uID = Date.now()
-      this.title = 'Список задач ' + i;
+      this.title = taskListName
       this.tasks = [
         {
           id: Date.now(),
@@ -28,12 +28,23 @@ export class Tasklist {
   }
 
   newTask(TaskName) {
+    console.log(TaskName);
+    let k = TaskName
+    let date = Date.now()
+    console.log(date);
     this.tasks.push({
-      id: Date.now(),
-      title: TaskName,
+      id: date,
+      title: k,
       completed: false,
       parent: this.uID,
     });
+  }
+
+  rewriteTask(taskProp){
+    console.log(taskProp);
+    let needItemInTasksArray = this.tasks.findIndex(task => task.id == taskProp.id);
+    this.tasks[needItemInTasksArray] = taskProp;
+    console.log(this.tasks[needItemInTasksArray]);
   }
 
   addTask(Task) {

@@ -9,6 +9,13 @@
   align-items: center;
   padding: 10px;
 
+  .dnd-drop{
+
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
 
   .panel{
     box-shadow: $shadow #999999;

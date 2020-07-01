@@ -6,32 +6,33 @@
           {{ tasks.uID }}
           <div>{{tasks.title}}</div>
         </div>
-        <div class="task" v-for="item in tasks.tasks" :key="item.id">
-          <drop @drop="dropEnd" :data-dropend="item.id" :data-droptasklist="tasks.uID">
-            <drag :key="item.id" :data="item" @dragstart="dragStart" :drag-image="{opacity: 1}">
-              <h2>{{item.id}}</h2>
-              <div class="task_inside_wrap">
-                <h2 class="title"> {{item.title}}</h2>
-                <input type="checkbox" id="checkbox" v-model="item.completed">
+      </drag>
+        <div  v-for="(item, index) in tasks.tasks" :key="item.id">
 
-              </div>
+          <drop @drop="dropEnd" :data-dropend="item.id" :data-droptasklist="tasks.uID" v-show="filtered(item.title)">
+            <drag :key="item.id" :data="item" :disabled="dragDisable" @dragstart="dragStart" :drag-image="{opacity: 1}">
 
+              <SingleTask :item="item" @dragDisable="dragDisable = true" @dragEnable="dragDisable = false">
+              </SingleTask>
               <!--              <div class="completed">Complete: {{item.completed}}</div>-->
-              <div>{{item.parent}}</div>
+<!--              <div>{{item.parent}}</div>-->
 
             </drag>
           </drop>
 
         </div>
-        <div class="task new_task" @click="newTask">
+<!--        @click="newTask"-->
+        <div class="task new_task" @click="showModalNewTask">
           <div class="wrap">
             <PenPlus/>
           </div>
 
 
         </div>
-      </drag>
+
     </drop>
+
+    <ModalNewTask :uIDTaskList="tasks.uID" @addNew="addNewTask" :headertext="'Новая задача'"/>
   </div>
 
 </template>
@@ -39,10 +40,11 @@
   import {mapGetters, mapState} from 'vuex';
   import {Drag, Drop} from 'vue-easy-dnd';
   import {Tasklist} from '../models/Tasklist';
+  import SingleTask from  './SingleTask'
 
 
   import PenPlus from 'vue-material-design-icons/PenPlus.vue';
-
+  import ModalNewTask from './ModalNewTask';
   export default {
     props: {
       tasks: {},
@@ -51,19 +53,24 @@
       Drag,
       Drop,
       PenPlus,
+      ModalNewTask,
+      SingleTask
     },
     computed: {
-      ...mapState(['Todo']),
+      ...mapState(['Todo', 'activeFilter']),
       ...mapGetters({tasksListsArr: 'getTasks'}),
     },
     data: () => {
-      return {};
+      return {
+        dragDisable: false
+
+    };
 
     },
     methods: {
-      newTask() {
-        this.tasks.newTask('second Task' + Date.now());
-      },
+      // newTask() {
+      //   this.tasks.newTask('second Task' + Date.now());
+      // },
 
       dragStart() {
         document.body.classList.add('user_select_disable');
@@ -75,11 +82,9 @@
         document.body.classList.remove('user_select_disable');
         if (e.data.parent && e.top.$el.getAttribute('data-droptasklist')) {
           if (e.data.parent == this.tasks.uID) {
-            console.log('asdasda');
             this.tasks.sortTask(e.data.id, e.top.$el.dataset.dropend);
             this.$forceUpdate();
           } else if (e.data.parent !== this.tasks.uID && e.top.$el.dataset.dropend) {
-            console.log('asdasda');
             const indexTaskListOfDragElement = this.tasksListsArr.findIndex(taskList => taskList.uID == e.data.parent);
             const indexTaskListOfDropElement = this.tasksListsArr.findIndex(
               taskList => taskList.uID == e.top.$el.dataset.droptasklist);
@@ -90,17 +95,12 @@
         }
       },
       dropEndPanel(e) {
-
-        console.log(e);
-        console.log(e.top.$el);
         if (e.top.$el.getAttribute('data-taskpanelid') && e.data instanceof Tasklist) {
           document.body.classList.remove('user_select_disable');
           const indexTaskListOfDragElement = this.tasksListsArr.findIndex(taskList => taskList.id == e.data.id);
           const indexTaskListOfDropElement = this.tasksListsArr.findIndex(
             taskList => taskList.uID == e.top.$el.dataset.taskpanelid);
 
-          console.log(indexTaskListOfDragElement);
-          console.log(indexTaskListOfDropElement);
 
           [
             this.tasksListsArr[indexTaskListOfDragElement],
@@ -111,6 +111,19 @@
 
         }
       },
+      showModalNewTask () {
+        this.$modal.show(this.tasks.uID+'modal');
+      },
+      addNewTask(e){
+        this.$modal.hide(this.tasks.uID+'modal');
+        console.log(e);
+        this.tasks.newTask(e);
+
+      },
+      filtered(titleTask){
+        return titleTask.includes(this.activeFilter) || titleTask.match(this.activeFilter)
+      }
+
 
     },
   };

@@ -34,8 +34,10 @@
     },
     methods: {
       dropEnd(e){
-        let targetTab = e.top.$el.dataset.tabsid
-        this.Tabs.sendDataToTab(targetTab, e.data)
+        if (!e.data.parent) {
+          let targetTab = e.top.$el.dataset.tabsid
+          this.Tabs.sendDataToTab(targetTab, e.data)
+        }
       }
     },
     beforeMount() {

@@ -1,12 +1,14 @@
 <template>
   <div>
   <div class="taskscomponent_wrap">
-        <TasksPanel :tasks="taskList" v-for="taskList in tasks" :key="taskList.uID" @updateTaskPanel="doUpdate">
+        <TasksPanel :tasks="taskList" v-for="taskList in tasks" :key="taskList.uID"  @updateTaskPanel="doUpdate">
         </TasksPanel>
-        <div class="panel panel_new">
-          <div class="panel_header panel_header_new" @click="newTaskList">
+        <div class="panel panel_new" @click="$modal.show('NewListmodal')">
+          <div class="panel_header panel_header_new">
             New list
           </div>
+
+          <ModalNewTask :uIDTaskList="'NewList'" @addNew="newTaskList" :headertext="'Новая список'"/>
 
         </div>
 
@@ -16,9 +18,11 @@
 <script>
   import {mapGetters} from 'vuex';
   import TasksPanel from './TasksPanel';
+  import ModalNewTask from './ModalNewTask';
   export default {
     components: {
       TasksPanel,
+      ModalNewTask
     },
     data: () => {
       return {};
@@ -32,8 +36,11 @@
       doUpdate (){
         this.$forceUpdate()
       },
-      newTaskList() {
-        this.$store.commit('addTaskListMutation');
+      newTaskList(e) {
+        console.log(e);
+        this.$store.commit('addTaskListMutation', ['', e]);
+        this.$modal.hide('NewListmodal')
+
       },
     }
   };

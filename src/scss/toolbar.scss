@@ -51,4 +51,21 @@
   .buttons_wrap {
     justify-content: flex-end;
   }
+  .title_wrap{
+    display: flex;
+    align-items: center;
+    .appTitle{
+      outline: none;
+      padding: 5px;
+      &:focus{
+        border: 1px solid #e8eaf6;
+        border-radius: 5px;
+      }
+      &:hover{
+        cursor: pointer;
+      }
+
+    }
+  }
+
 }

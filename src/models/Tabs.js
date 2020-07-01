@@ -1,12 +1,10 @@
 import {Todo} from './Todo';
-import { store } from '../store/index'
 
 export class Tabs extends Todo {
   constructor() {
     super();
     this.tabs = [];
   }
-
   init() {
     super.init();
     setInterval(() => {
@@ -16,13 +14,10 @@ export class Tabs extends Todo {
     }, 2000);
     this.registerTabs();
     this.clearOldTabs();
-
   }
-
   assignStore(store){
     this.$store = store
   }
-
   sendDataToTab(tabID = 'all', body = 'helloworld') {
     let Data = {
       from: this.appID,
@@ -43,7 +38,7 @@ export class Tabs extends Todo {
       let request = JSON.parse(e.data);
       if (request.to == this.appID && request.data.datatype == 'string') {
 
-        this.$store.commit('addTaskListMutation', request.data.body);
+        this.$store.commit('addTaskListMutation', [request.data.body, '']);
         // this.$store.commit('deleteTaskListByUID', request.data.body.uID);
       }
     });

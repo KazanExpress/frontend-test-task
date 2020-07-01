@@ -9,12 +9,10 @@
   flex-wrap: wrap;
 
 
-
   & .panel {
     box-shadow: $shadow #999999;
     margin: 10px;
-    max-width: 500px;
-    min-width: 30%;
+    width: 31%;
     padding-bottom: 7px;
 
     .panel_header {
@@ -35,19 +33,52 @@
       margin: 20px auto;
       padding: 10px;
 
-      .task_inside_wrap{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      .title {
+        cursor: pointer;
+      }
 
-        input{
-          height: 20px;
-          width: 20px;
-        }
+      input.checkbox {
+        height: 20px;
+        width: 20px;
       }
     }
 
-    .new_task,.panel_header_new{
+    .task_inside_wrap {
+      display: flex;
+      align-items: center;
+
+      .left_panel {
+        width: 90%;
+
+        div {
+          max-width: 90%;
+          word-break: break-all;
+          padding: 10px;
+        }
+
+        .title {
+          &:focus {
+            outline: none;
+            //border-bottom: 1px solid black;
+            border-left: 3px solid #FFC107;
+            box-sizing: border-box;
+          }
+        }
+
+      }
+
+      .right_panel {
+        width: 10%;
+      }
+
+    }
+
+    input.checkbox {
+      height: 20px;
+      width: 20px;
+    }
+
+    .new_task, .panel_header_new {
       display: flex;
       justify-content: center;
       background-color: #B2DFDB;
@@ -56,16 +87,17 @@
 
 
   }
-  .panel_new{
+
+  .panel_new {
 
     align-self: flex-start;
     padding-bottom: 0px;
-
-
+    cursor: pointer;
 
 
   }
-  .drag{
+
+  .drag {
     background-color: red;
   }
 }

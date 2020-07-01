@@ -10,9 +10,12 @@ export default new Vuex.Store({
   actions: {
   },
   mutations: {
-    addTaskListMutation (state, tasksInTaskList){
+    addTaskListMutation (state, Arr){
+
+
+      let [tasksArray, taskListName] = Arr
       state.count++;
-      state.TaskList.push(new Tasklist(state.count, tasksInTaskList))
+      state.TaskList.push(new Tasklist(state.count, tasksArray, taskListName))
     },
     deleteTaskListByUID(state, uID){
       let indexForDelete = state.TaskList.findIndex(item => item.uID == uID);
@@ -27,13 +30,18 @@ export default new Vuex.Store({
           state.count++
         })
       }
+    },
+    setFilter (state, filter){
+      console.log(filter);
+      state.activeFilter = filter
     }
   },
   state: {
     count: 0,
     tasks: [],
     Tabs: new Tabs(),
-    TaskList: [new Tasklist()]
+    TaskList: [new Tasklist()],
+    activeFilter: ''
 
   },
   getters: {
