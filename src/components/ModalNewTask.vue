@@ -1,6 +1,5 @@
 <template>
   <modal :name="uIDTaskList+'modal'" transition="pop-out" :width="modalWidth" :focus-trap="true">
-
     <div class="box">
       <div class="header">
         {{headertext}}
@@ -12,41 +11,37 @@
         <button @click="$modal.hide(uIDTaskList+'modal')"><Close :size="20"/></button>
         <button @click="addNew"><pencil-plus :size="20"/></button>
       </div>
-
-
     </div>
   </modal>
 </template>
 <script>
-  import Close from 'vue-material-design-icons/Close.vue';
-  import PencilPlus from 'vue-material-design-icons/PencilPlus.vue';
+import Close from 'vue-material-design-icons/Close.vue';
+import PencilPlus from 'vue-material-design-icons/PencilPlus.vue';
 
-  const MODAL_WIDTH = 580
-  export default {
-    props: ['uIDTaskList', 'headertext'],
-    components: {
-      Close, PencilPlus
+const MODAL_WIDTH = 580;
+export default {
+  props: ['uIDTaskList', 'headertext'],
+  components: {
+    Close, PencilPlus,
+  },
+
+  data() {
+    return {
+      modalWidth: MODAL_WIDTH,
+      taskNameValue: '',
+    };
+  },
+  created() {
+    this.modalWidth =
+        window.innerWidth < MODAL_WIDTH ? MODAL_WIDTH / 2 : MODAL_WIDTH;
+  },
+  methods: {
+    addNew() {
+      this.$emit('addNew', this.taskNameValue);
+      this.taskNameValue = '';
     },
-
-    data() {
-      return {
-        modalWidth: MODAL_WIDTH,
-        taskNameValue: '',
-      }
-    },
-    created() {
-      this.modalWidth =
-        window.innerWidth < MODAL_WIDTH ? MODAL_WIDTH / 2 : MODAL_WIDTH
-    },
-    methods: {
-      addNew() {
-        this.$emit('addNew', this.taskNameValue);
-        this.taskNameValue = '';
-      }
-
-
-    }
-  }
+  },
+};
 </script>
 <style lang="scss">
   .box {
@@ -58,7 +53,6 @@
     flex-wrap: wrap;
     background: #E0F2F1;
     justify-content: center;
-
 
 
     .header{
@@ -82,7 +76,6 @@
         padding:  10px !important;
         font-size: 20px;
         border-radius: 20px;
-
 
 
       }

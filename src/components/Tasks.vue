@@ -16,31 +16,31 @@
   </div>
 </template>
 <script>
-  import {mapGetters} from 'vuex';
-  import TasksPanel from './TasksPanel';
-  import ModalNewTask from './ModalNewTask';
-  export default {
-    components: {
-      TasksPanel,
-      ModalNewTask
-    },
-    data: () => {
-      return {};
-    },
-    computed: {
-      ...mapGetters({tasks: 'getTasks'}),
-    },
-    mounted() {
-    },
-    methods: {
-      doUpdate (){
-        this.$forceUpdate()
-      },
-      newTaskList(e) {
-        this.$store.commit('newList', e);
-        this.$modal.hide('NewListmodal')
+import {mapGetters} from 'vuex';
+import TasksPanel from './TasksPanel';
+import ModalNewTask from './ModalNewTask';
 
-      },
-    }
-  };
+export default {
+  components: {
+    TasksPanel,
+    ModalNewTask,
+  },
+  data: () => {
+    return {};
+  },
+  computed: {
+    ...mapGetters({tasks: 'getTasks'}),
+  },
+  mounted() {
+  },
+  methods: {
+    doUpdate() {
+      this.$forceUpdate();
+    },
+    newTaskList(e) {
+      this.$store.commit('newList', e);
+      this.$modal.hide('NewListmodal');
+    },
+  },
+};
 </script>

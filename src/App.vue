@@ -7,25 +7,22 @@
 </template>
 
 <script>
-import Toolbar from './components/Toolbar.vue'
-import Tasks from './components/Tasks.vue'
-import Tabs from './components/Tabs.vue'
+  import Toolbar from './components/Toolbar.vue';
+  import Tasks from './components/Tasks.vue';
+  import Tabs from './components/Tabs.vue';
 
-
-
-export default {
+  export default {
   name: 'App',
   components: {
-    Toolbar, Tasks, Tabs
+    Toolbar, Tasks, Tabs,
   },
 
   beforeMount() {
-    if (!this.$store.state.Tabs.isDuplicateTab()){
-      this.$store.commit('loadTasksFromSS')
+    if (!this.$store.state.Tabs.isDuplicateTab()) {
+      this.$store.commit('loadTasksFromSS');
     }
-
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss">
@@ -40,9 +37,5 @@ export default {
   @import "src/scss/toolbar";
   @import "src/scss/tasks";
   @import "src/scss/tabs";
-
-  .user_select_disable{
-    user-select: none;
-  }
 }
 </style>

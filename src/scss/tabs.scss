@@ -36,12 +36,40 @@
       height: 3em;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
 
       .item_status{
         height: 100%;
         background-color: #FFC107;
         width: 0.4em;
       }
+
+    }
+  }
+
+  @media screen and (max-width: 600px){
+    width: 100%;
+    padding: 0px;
+    .header_tabs{
+      height: 2em!important;
+    }
+    position: fixed;
+    .tabs_list_wrap{
+      display: flex;
+
+
+
+
+      .tabs_item{
+        height: 2em;
+        flex: 1;
+        font-size: 12px;
+        background-color: #fff;
+        border-bottom: 1px solid $primary_color;
+        
+
+      }
+
 
     }
   }

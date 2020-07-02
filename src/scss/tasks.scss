@@ -12,8 +12,9 @@
   & .panel {
     box-shadow: $shadow #999999;
     margin: 10px;
-    width: 31%;
+    min-width: 31%;
     padding-bottom: 7px;
+    flex: 2;
 
     .panel_header {
       background: #7986CB;
@@ -22,6 +23,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      .date {
+        font-size: 12px;
+        font-style: italic;
+
+      }
     }
 
     .task {
@@ -83,6 +90,12 @@
       justify-content: center;
       background-color: #B2DFDB;
       padding: 10px 0px;
+      overflow: hidden;
+
+    }
+
+    .new_task {
+      cursor: pointer;
     }
 
 
@@ -97,7 +110,38 @@
 
   }
 
-  .drag {
-    background-color: red;
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    padding: 0px !important;
+    position: absolute;
+    top: 7em;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
+    & .panel {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      min-width: 100%;
+
+      .panel_header {
+        padding-top: 0px;
+        margin-top: 0px;
+      }
+
+      .panel_header_new {
+        position: fixed;
+        bottom: 0px;
+        left: 0;
+        right: 0;
+        height: 3em;
+        background-color: palevioletred !important;
+        align-content: center;
+
+      }
+    }
+
+
   }
 }

@@ -1,12 +1,12 @@
 export class Tasklist {
   constructor() {
-    this.uID = Date.now()
-    this.tasks = []
-    this.title = ''
+    this.uID = Date.now();
+    this.tasks = [];
+    this.title = '';
   }
 
   newTask(TaskName) {
-    let date = Date.now();
+    const date = Date.now();
     this.tasks.push({
       id: date,
       title: TaskName,
@@ -16,8 +16,8 @@ export class Tasklist {
   }
 
   rewriteTask(taskProp) {
-    let needItemInTasksArray = this.tasks.findIndex(
-      task => task.id == taskProp.id);
+    const needItemInTasksArray = this.tasks.findIndex(
+        (task) => task.id == taskProp.id);
     this.tasks[needItemInTasksArray] = taskProp;
   }
 
@@ -27,39 +27,37 @@ export class Tasklist {
   }
 
   deleteTask(index) {
-    const i = this.tasks.findIndex(task => task.id == index.id);
+    const i = this.tasks.findIndex((task) => task.id == index.id);
     this.tasks.splice(i, 1);
   }
 
   sortTask(first, second) {
-    const firstEl = this.tasks.findIndex(task => task.id == first);
-    let secElem = this.tasks.findIndex(task => task.id == second);
-    let tempElement = this.tasks[firstEl];
+    const firstEl = this.tasks.findIndex((task) => task.id == first);
+    const secElem = this.tasks.findIndex((task) => task.id == second);
+    const tempElement = this.tasks[firstEl];
     this.tasks[firstEl] = this.tasks[secElem];
     this.tasks[secElem] = tempElement;
   }
 
-  newTaskListFromFile(tasksArray, taskListName) {
-    console.log('1.5');
-    this.uID = Date.now();
-    this.title = taskListName;
-    tasksArray.forEach(item => item.parent = this.uID);
-    this.tasks = tasksArray;
+  newTaskListFromFile(taskListObject) {
+    Object.keys(taskListObject).forEach((key) =>{
+      this[key] = taskListObject[key];
+    });
   }
 
   taskListFromSS(taskListData) {
     Object.keys(taskListData).forEach((key) => {
       this[key] = taskListData[key];
     });
-
   }
-  newTaskListFromTab(taskListData){
+  newTaskListFromTab(taskListData) {
     Object.keys(taskListData).forEach((key) => {
       this[key] = taskListData[key];
     });
   }
 
-  newTaskListWithOneTask(taskListName = 'Список задач') {
+  newTaskListWithOneTask(taskListName) {
+    taskListName = taskListName.length < 2 ? 'Список задач' : taskListName;
     this.uID = Date.now();
     this.title = taskListName;
     this.tasks = [
@@ -70,5 +68,4 @@ export class Tasklist {
         parent: this.uID,
       }];
   }
-
 }

@@ -19,33 +19,33 @@
   </div>
 </template>
 <script>
-  import {mapState} from 'vuex';
-  import { Drop } from 'vue-easy-dnd';
+import {mapState} from 'vuex';
+import {Drop} from 'vue-easy-dnd';
 
-  export default {
-    components:{
-      Drop
-    },
-    data: () => {
-      return {};
-    },
-    computed: {
-      ...mapState(['Tabs', 'TasksList']),
-    },
-    methods: {
-      dropEnd(e){
-        if (!e.data.parent) {
-          let targetTab = e.top.$el.dataset.tabsid
-          this.Tabs.sendDataToTab(targetTab, e.data)
-        }
+export default {
+  components: {
+    Drop,
+  },
+  data: () => {
+    return {};
+  },
+  computed: {
+    ...mapState(['Tabs', 'TasksList']),
+  },
+  methods: {
+    dropEnd(e) {
+      if (!e.data.parent) {
+        const targetTab = e.top.$el.dataset.tabsid;
+        this.Tabs.sendDataToTab(targetTab, e.data);
       }
     },
-    beforeMount() {
-      this.Tabs.assignStore(this.$store)
-    },
-    mounted() {
-      this.Tabs.getDataFromTabs();
-    }
+  },
+  beforeMount() {
+    this.Tabs.assignStore(this.$store);
+  },
+  mounted() {
+    this.Tabs.getDataFromTabs();
+  },
 
-  };
+};
 </script>

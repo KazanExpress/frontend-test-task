@@ -5,11 +5,9 @@ export class Todo extends Broadcast {
     super();
     this.beforeInit();
     this.init();
-
   }
 
   getAppName() {
-
     return this.appName;
   }
 
@@ -50,7 +48,7 @@ export class Todo extends Broadcast {
   }
 
   seTitleWindow() {
-    document.title = `${this.appName} - ${this.appID}`
+    document.title = `${this.appName} - ${this.appID}`;
   }
 
   setStartValues() {
