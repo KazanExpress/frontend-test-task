@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container">
-      <img src="../assets/plus.png" alt="add todo" class="icon" @click="addItem" />
+      <img src="@/assets/plus.png" alt="add todo" class="icon" @click="addItem" />
       <input
         type="text"
         :value="projectName()"
@@ -11,7 +11,7 @@
       />
     </div>
     <div>
-      <img src="../assets/filter.png" @click="changePar" alt="filter" class="icon" />
+      <img src="@/assets/filter.png" @click="changePar" alt="filter" class="icon" />
       <input
         type="text"
         placeholder="Start typing task name"

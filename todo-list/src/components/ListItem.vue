@@ -21,20 +21,20 @@
           v-on:input="renameItemHandler($event, item.id)"
           class="item-name"
         />
-        <img src="../assets/plus.png" alt="add subitem" @click="addSubitem(item.id)" />
-        <img src="../assets/bin.png" alt="delete item" @click="handleDelete(item.id)" />
+        <img src="@/assets/plus.png" alt="add subitem" @click="addSubitem(item.id)" />
+        <img src="@/assets/bin.png" alt="delete item" @click="handleDelete(item.id)" />
         <img
-          src="../assets/transfer.png"
-          @click="transferActive = !transferActive"
+          src="@/assets/transfer.png"
+          @click="transferActive = {...transferActive, [item.id]: !transferActive[item.id]}"
           class="transfer-icon"
           alt="transfer items"
         />
         <Transfer
           v-on:transfer-todos="transferTodos"
-          v-if="transferActive"
+          v-if="transferActive[item.id]"
           :id="item.id"
           label="Transfer this todo to"
-        ></Transfer>
+        />
       </div>
       <item :items="item.subitems" :handle-delete="handleDelete" :handle-check="handleCheck" />
     </div>
@@ -63,7 +63,7 @@ export default class ListItem extends Vue {
   @Prop() private handleDelete!: Function;
   @Prop() private handleCheck!: Function;
 
-  private transferActive = false;
+  private transferActive = {};
 
   private renameItemHandler(event: Event, id: string) {
     let target = event.target as HTMLInputElement;

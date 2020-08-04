@@ -2,7 +2,7 @@
   <div class="container">
       <label>
           {{label}}
-          <input type="text" placeholder="Enter project name" v-model="projectName" />
+          <input type="text" placeholder="Project name" v-model="projectName" />
       </label>
       <img src="../assets/transfer.png" @click="transferTodos" class="transfer-icon" alt="transfer items"/>
   </div>

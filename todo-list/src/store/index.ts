@@ -13,14 +13,14 @@ let items = [
   {
     id: generateId(),
     checked: false,
-    name: 'Buy tomatoes',
+    name: 'Купить',
     subitems: [{
-      id: generateId(), checked: false, name: 'Add subitem', subitems: [
-        { id: generateId(), checked: true, name: 'Subsub item', subitems: [] }
+      id: generateId(), checked: false, name: 'Одеяло', subitems: [
+        { id: generateId(), checked: true, name: 'Постельное белье', subitems: [] }
       ],
     }],
   },
-  { id: generateId(), checked: false, name: 'Buy pepper', subitems: [] }
+  { id: generateId(), checked: false, name: 'Сходить к врачу', subitems: [] }
 ];
 
 let filters = {
