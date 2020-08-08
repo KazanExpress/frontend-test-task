@@ -1,0 +1,27 @@
+{
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "extends": [
+    "plugin:vue/essential",
+    "eslint:recommended",
+    "google"
+  ],
+  "parserOptions": {
+    "parser": "babel-eslint"
+  },
+  "rules": {
+    "semi": [
+      2,
+      "never"
+    ],
+    "arrow-parens": "off",
+    "comma-dangle": "off",
+    "linebreak-style": "off",
+    "indent": "off",
+    "require-jsdoc": "off",
+    "no-trailing-spaces": "off",
+    "max-len": "off"
+  }
+}
