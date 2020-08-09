@@ -1,9 +1,9 @@
 <template>
-    <div @copy.prevent="copy" @paste.prevent="paste" class="container-sm p-4 " style="max-width: 50em">
-        <div v-if="$store.getters.getRoot.length===0">
+    <div @copy.prevent.capture="copy" @paste.prevent.capture="paste" class="container-sm p-4 " style="max-width: 50em">
+        <div v-if="inStart">
             <Name/>
         </div>
-        <button class="btn neo" v-else @click="back">
+        <button class="btn neo m-2" v-else @click="back">
             <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="green"
                  xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -66,7 +66,7 @@
     import Import from '../components/Import'
 
     export default {
-        name: 'Home',
+        name: 'Project',
         components: {ToDo, Name, Import},
         computed: {
             name() {

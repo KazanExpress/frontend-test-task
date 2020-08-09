@@ -1,13 +1,17 @@
 <template>
     <div>
-        <div v-if="children.length>1" class="d-flex mb-4">
-            <input v-model="search" placeholder="Search todo" type="text" class="form-control p-3 pl-3 m-2 neo search">
+        <div>
+            <div class="d-flex">
+                <input v-model="search" placeholder="Search todo" type="text"
+                       class="form-control p-3 pl-3 m-2 mb-1 neo search">
+            </div>
+            <Tags/>
         </div>
         <div>
             <ToDoShort v-for="item in searchedList" :index="item.index" :key="item.index" :item="item.child"/>
         </div>
         <div>
-            <AddButton/>
+            <AddButton :click-function="add" :class-name="'d-flex p-2 pl-3'" :placeholder="'add todo'"/>
         </div>
     </div>
 </template>
@@ -15,20 +19,30 @@
 <script>
     import AddButton from './AddButton'
     import ToDoShort from './ToDoShort'
+    import Tags from './Tags'
 
     export default {
         name: 'ToDoList',
-        components: {AddButton, ToDoShort},
+        components: {Tags, AddButton, ToDoShort},
         props: ['children'],
         data: () => ({
             search: ''
         }),
+        methods: {
+            add(text) {
+                this.$store.commit('addItem', {text: text, closed: false, children: []})
+                this.$store.commit('updateItems')
+            }
+        },
         watch: {
-            root() { // when go up or down
-                this.search=''
+            root() { // change when go up or down
+                this.search = ''
             }
         },
         computed: {
+            filters() {
+                return this.$store.getters.getFilters
+            },
             root() {
                 return this.$store.getters.getRoot
             },
@@ -36,10 +50,18 @@
                 return this
                     .children
                     .map((child, index) => {
-                       return {'child': child, 'index': index}
+                        return {child: child, index: index}
                     }).filter(item => {
-                        return item.child.text.toLowerCase().includes(this.search.toLowerCase())
-                    })
+                            let total = item.child.text.toLowerCase().includes(this.search.toLowerCase())
+                            this.filters.filter(filter => filter.selected).forEach(filter => {
+                                const f = new Function(filter.function.args, filter.function.body)
+                                console.log(f)
+                                total = total && f(item.child)
+                                console.log(f(item.child))
+                            })
+                            return total
+                        }
+                    )
             }
         }
     }

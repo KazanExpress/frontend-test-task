@@ -7,14 +7,39 @@ Vue.use(Clipboard)
 Vue.use(Vuex)
 Vue.config.productionTip = false
 
+const initFilters =
+    [
+        {
+            text: 'done',
+            type: 'init',
+            selected: false,
+            function: {
+                args: 'a',
+                body: 'return a.closed'
+            }
+        },
+        {
+            text: 'fully done',
+            type: 'init',
+            selected: false,
+            function: {
+                args: 'a',
+                body: 'let flag = a.closed; a.children.forEach(c => {if (!c.closed) {flag = false}}); return flag;'
+            },
+        }
+    ]
 const store = new Vuex.Store({
     state: {
         items: JSON.parse(sessionStorage.getItem('items')) || {children: [], text: '', closed: ''},
         name: sessionStorage.getItem('name') || 'New Project',
         root: JSON.parse(sessionStorage.getItem('root')) || [],
-        search: sessionStorage.getItem('search') || ''
+        search: sessionStorage.getItem('search') || '',
+        filters: JSON.parse(sessionStorage.getItem('filters')) || initFilters
     },
     mutations: {
+        updateFilters(state) {
+            sessionStorage.setItem('filters', JSON.stringify(state.filters))
+        },
         updateItems(state) {
             sessionStorage.setItem('items', JSON.stringify(state.items))
         },
@@ -34,7 +59,14 @@ const store = new Vuex.Store({
             state.root.pop()
         },
         setName(state, name) {
-            state.name =name
+            state.name = name
+        },
+        toggleFilter(state, index) {
+            state.filters[index].selected = !state.filters[index].selected
+        },
+        addRegex(state, pattern) {
+            state.filters.push({text: pattern, selected: true, type: 'regex', function: {args: 'a',
+                        body: `const r = new RegExp('${pattern}', 'g'); return a.text.match(r)`}})
         },
         addItem(state, newItem) {
             let current = state.items
@@ -42,6 +74,9 @@ const store = new Vuex.Store({
                 current = current.children[index]
             })
             current.children.push(newItem)
+        },
+        deleteFilter(state, index) {
+            state.filters.splice(index, 1)
         },
         deleteItem(state, payload) {
             let current = state.items
@@ -95,11 +130,17 @@ const store = new Vuex.Store({
             })
             return current
         },
+        getFilters: state => {
+            return state.filters
+        },
         getRoot: state => {
             return state.root
         },
         getName: state => {
             return state.name
+        },
+        getTest: state => {
+            return state.test
         }
     }
 })

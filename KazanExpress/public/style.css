@@ -14,7 +14,7 @@
     color: green
 }
 .size {
-    white-space: nowrap; /* Отменяем перенос текста */
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -29,4 +29,8 @@
     outline: none;
     vertical-align: baseline;
     color: green;
+}
+.select{
+    color: white;
+    background: green;
 }

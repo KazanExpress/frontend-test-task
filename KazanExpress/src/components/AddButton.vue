@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class=" d-flex align-items-center neo btn add m-2 p-2 pl-3" >
-            <input @copy.stop @paste.stop @keypress="keyPressHandler" v-model="addText" type="text" placeholder="new todo" class="container-fluid input">
-            <div @click.stop="add">
+        <div  class="d-flex neo btn add m-2" :class="className" >
+            <input  @copy.stop @paste.stop @keypress.enter="clickAndClean"  v-model="addText" type="text" :placeholder="placeholder" class="container-fluid ml-3 input">
+            <div @click.stop="clickAndClean">
             <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus " fill="green">
                 <path fill-rule="evenodd"
                       d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
@@ -16,6 +16,7 @@
 <script>
     export default {
         name: 'AddButton',
+        props: ['className', 'placeholder', 'clickFunction'],
         data: () => ({
             isShow: false,
             addText: ''
@@ -23,13 +24,12 @@
         methods: {
             keyPressHandler(e) {
                 if (e.key=== 'Enter' || e.keyCode === 13) { // for any browsers
-                    this.add()
+                    this.clickAndClean()
                     return false
                 }
             },
-            add: function() {
-                this.$store.commit('addItem', {text: this.addText, closed: false, children: []})
-                this.$store.commit('updateItems')
+            clickAndClean() {
+                this.clickFunction(this.addText)
                 this.addText=''
             }
         }
