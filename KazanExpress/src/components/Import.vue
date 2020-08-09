@@ -16,24 +16,25 @@
 <script>
     export default {
         name: 'Import',
-        data: () => ({
-            files: []
-        }),
         methods: {
+            clearInput(input) {
+                input.files=null
+                input.value=null
+            },
             clickLoad(e) {
-                const file = e.target.files[0]
-                this.load(file)
+                this.load(e.target.files[0])
+                this.clearInput(e.target)
             },
             dropLoad(e) {
-                const file = e.dataTransfer.files[0]
-                this.load(file)
+                this.load(e.dataTransfer.files[0])
+                this.clearInput(e.target)
             },
             load(file) {
                 const reader = new FileReader()
                 reader.onload = e => {
                     this.$store.commit('import', {
                         data: JSON.parse(e.target.result),
-                        name: file.name.split('.').slice(0, -1).join('.')
+                        name: file.name.split('.').slice(0, -1).join('.') // without extension
                     })
                     this.$store.commit('updateItems')
                     this.$store.commit('setName', file.name.split('.').slice(0, -1).join('.'))

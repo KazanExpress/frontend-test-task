@@ -1,8 +1,10 @@
 <template>
-    <div role="button" @click.self="click" class="d-flex m-2 align-items-center p-0 pl-1 pr-1 neo add" :class="{'select': tag.selected}">
-        {{tag.text}}
+    <div role="button" @click="click" class="d-flex m-2 neo add position-relative" :class="{'select': tag.selected}">
+        <div class="m-0 ml-2 mr-2">
+            {{tag.text}}
+        </div>
         <div role="button" v-if="tag.type!=='init'" @click.stop="remove">
-            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x m-0" fill="red"
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="m-0 p-0" fill="red"
                  xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
                       d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
@@ -31,5 +33,11 @@
 </script>
 
 <style scoped>
-
+    .vertical-center {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
 </style>

@@ -65,7 +65,7 @@ const store = new Vuex.Store({
             state.filters[index].selected = !state.filters[index].selected
         },
         addRegex(state, pattern) {
-            state.filters.push({text: pattern, selected: true, type: 'regex', function: {args: 'a',
+            state.filters.push({text: pattern, selected: true, type: 'regex', function: {args: 'a', // need to set function into json
                         body: `const r = new RegExp('${pattern}', 'g'); return a.text.match(r)`}})
         },
         addItem(state, newItem) {

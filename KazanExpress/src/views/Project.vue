@@ -37,7 +37,7 @@
                         <p class="m-0 p-0">
                             Cut this todo item
                         </p>
-                        <small>to paste use hot-key</small>
+                        <small>to paste use hot key</small>
                     </div>
                 </div>
                 <div role="button" @click="copy" class="text-center">
@@ -52,7 +52,7 @@
                         <p class="m-0 p-0">
                             Copy this todo item
                         </p>
-                        <small>to paste use hot-key</small>
+                        <small>to paste use hot key</small>
                     </div>
                 </div>
             </div>
