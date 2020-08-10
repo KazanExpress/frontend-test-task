@@ -10,6 +10,9 @@
         <div>
             <ToDoShort v-for="item in searchedList" :index="item.index" :key="item.index" :item="item.child"/>
         </div>
+        <div v-if="!searchedList.length" class="alert alert-light text-center" role="alert">
+            Nothing found
+        </div>
         <div>
             <AddButton :click-function="add" :class-name="'d-flex p-2 pl-3'" :placeholder="'add todo'"/>
         </div>
@@ -49,9 +52,7 @@
             searchedList() {
                 return this
                     .children
-                    .map((child, index) => {
-                        return {child: child, index: index}
-                    }).filter(item => {
+                    .map((child, index) => ({child: child, index: index})).filter(item => {
                             let total = item.child.text.toLowerCase().includes(this.search.toLowerCase())
                             this.filters.filter(filter => filter.selected).forEach(filter => {
                                 const f = new Function(filter.function.args, filter.function.body)

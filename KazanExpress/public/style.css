@@ -1,7 +1,7 @@
 .neo {
     border-radius: 26px;
+    transition: all ease-out 400ms;
     background: #ffffff;
-    transition: all 400ms;
     box-shadow: 6px 6px 11px #d9d9d9,
     -6px -6px 11px #ffffff;
 }
@@ -33,4 +33,12 @@
 .select{
     color: white;
     background: green;
+}
+.drag{
+    border-radius: 26px;
+    border: 1px dashed green;
+    color: green;
+}
+.transition{
+    transition: all ease-out 400ms;
 }

@@ -1,5 +1,5 @@
 <template>
-    <div role="button" @click="click" class="d-flex m-2 neo add position-relative" :class="{'select': tag.selected}">
+    <div role="button" @click="click" class="d-flex m-2 neo box add position-relative" :class="{'select': tag.selected}">
         <div class="m-0 ml-2 mr-2">
             {{tag.text}}
         </div>

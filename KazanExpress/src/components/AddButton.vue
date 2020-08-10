@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div  class="d-flex neo btn add m-2" :class="className" >
+        <div  class="d-flex neo box btn add m-2" :class="className" >
             <input  @copy.stop @paste.stop @keypress.enter="clickAndClean"  v-model="addText" type="text" :placeholder="placeholder" class="container-fluid ml-3 input">
             <div @click.stop="clickAndClean">
             <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus " fill="green">

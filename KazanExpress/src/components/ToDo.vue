@@ -28,7 +28,7 @@
                   v-if="this.$store.getters.getRoot.length"
                   v-model="item.text"
                   class="input textarea w-100 m-1 pl-2 pr-2 pb-3"/>
-        <ToDoList :children="item.children"/>
+        <ToDoList  :children="item.children"/>
     </div>
 </template>
 

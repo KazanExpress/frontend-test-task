@@ -85,6 +85,38 @@ const store = new Vuex.Store({
             })
             current.children.splice(payload.id, 1)
         },
+        dropBefore(state, payload) {
+            let current = state.items
+            state.root.forEach(index => {
+                current = current.children[index]
+            })
+            const drop = current.children[payload.drop]
+            current.children.splice(payload.drop, 1)
+            current.children.splice(payload.target, 0, drop)
+        },
+        dropInto(state, payload) {
+            if (payload.target==payload.drop) {
+                return
+            }
+            let current = state.items
+            state.root.forEach(index => {
+                current = current.children[index]
+            })
+            const drop = current.children[payload.drop]
+            current.children.splice(payload.drop, 1)
+            current.children[payload.target].children.push(drop)
+        },
+        dropBack(state, payload) {
+            let current = state.items
+            let parent = null
+            state.root.forEach(index => {
+                parent = current
+                current = current.children[index]
+            })
+            const drop = current.children[payload.drop]
+            current.children.splice(payload.drop, 1)
+            parent.children.push(drop)
+        },
         deleteSelf(state) {
             let current = state.items
             const id = state.root.pop()
@@ -147,7 +179,7 @@ const store = new Vuex.Store({
 
 new Vue({
     render: h => h(App),
-    store: store,
+    store,
 }).$mount('#app')
 
 

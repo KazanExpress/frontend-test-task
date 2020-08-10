@@ -3,7 +3,7 @@
         <div v-if="inStart">
             <Name/>
         </div>
-        <button class="btn neo m-2" v-else @click="back">
+        <button @dragover.prevent @drop="onDropBack" class="btn m-2" :class="[drag?'transition drag pl-5 pr-5':'neo']" v-else @click="back">
             <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="green"
                  xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -11,7 +11,7 @@
                 <path fill-rule="evenodd" d="M2.5 8a.5.5 0 0 1 .5-.5h10.5a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
             </svg>
         </button>
-        <ToDo/>
+        <ToDo @dragFlag="(flag)=>this.drag=flag"/>
         <div>
             <Import v-if="inStart"/>
             <div class="mt-5 d-flex justify-content-around">
@@ -68,12 +68,15 @@
     export default {
         name: 'Project',
         components: {ToDo, Name, Import},
+        data: () => ({
+            drag: false,
+        }),
         computed: {
             name() {
                 return this.$store.getters.getName
             },
             inStart() {
-                return this.$store.getters.getRoot.length===0
+                return this.$store.getters.getRoot.length === 0
             }
         },
         watch: {
@@ -82,6 +85,13 @@
             }
         },
         methods: {
+            onDropBack(e) {
+                const index = e
+                    .dataTransfer
+                    .getData('text')
+                this.$store.commit('dropBack', {drop: index})
+                this.$store.commit('updateItems')
+            },
             cut() {
                 this.copy()
                 this.$store.commit('deleteSelf')
@@ -107,7 +117,7 @@
                     this.$store.commit('addItem', item)
                     this.$store.commit('updateItems')
                 } catch (e) {
-                    console.log('pasted item does not object')
+                    console.log('paste item error')
                 }
             }
         },
