@@ -12,6 +12,8 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "eslint-config-google": "^0.14.0",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.9.7",
     "v-clipboard": "^2.2.3",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",

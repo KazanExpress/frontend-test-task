@@ -25,6 +25,7 @@
 }
 .input {
     padding: 0;
+    margin: 1px;
     border: 0;
     outline: none;
     vertical-align: baseline;
@@ -41,4 +42,25 @@
 }
 .transition{
     transition: all ease-out 400ms;
+}
+.fadeHeight-enter-active,
+.fadeHeight-leave-active {
+    transition: all 0.4s;
+    max-height: 40px;
+}
+.fadeHeight-enter,
+.fadeHeight-leave-to
+{
+    opacity: 0;
+    max-height: 0;
+}
+.hidden{
+    visibility: hidden;
+    opacity: 0.001;
+}
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+    opacity: 0;
 }

@@ -32,14 +32,10 @@
             load(file) {
                 const reader = new FileReader()
                 reader.onload = e => {
-                    this.$store.commit('import', {
+                    this.$store.dispatch('import', {
                         data: JSON.parse(e.target.result),
                         name: file.name.split('.').slice(0, -1).join('.') // without extension
                     })
-                    this.$store.commit('updateItems')
-                    this.$store.commit('setName', file.name.split('.').slice(0, -1).join('.'))
-                    this.$store.commit('updateName')
-                    this.$store.commit('updateRoot')
                 }
                 try {
                     reader.readAsText(file)
@@ -56,14 +52,12 @@
         border: 1px black dashed;
         border-radius: 26px;
     }
-
     .text-reader {
         position: relative;
         overflow: hidden;
         display: inline-block;
         cursor: pointer;
     }
-
     .text-reader input {
         position: absolute;
         top: 0;

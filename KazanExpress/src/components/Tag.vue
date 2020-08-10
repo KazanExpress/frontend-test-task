@@ -21,23 +21,12 @@
         props: ['tag', 'index'],
         methods: {
             remove() {
-                this.$store.commit('deleteFilter', this.index)
-                this.$store.commit('updateFilters')
+                this.$store.dispatch('deleteFilter', this.index)
             },
             click() {
-                this.$store.commit('toggleFilter', this.index)
-                this.$store.commit('updateFilters')
+                this.$store.dispatch('toggleFilter', this.index)
             }
         }
     }
 </script>
 
-<style scoped>
-    .vertical-center {
-        margin: 0;
-        position: absolute;
-        top: 50%;
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
-    }
-</style>

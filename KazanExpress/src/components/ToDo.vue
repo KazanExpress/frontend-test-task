@@ -1,6 +1,6 @@
 <template>
     <div  class="neo m-2 p-3 position-relative">
-        <div class="d-flex justify-content-between" v-if="$store.getters.getRoot.length">
+        <div class="d-flex justify-content-between" v-if="$store.state.root.length">
             <div @click.stop="close">
                 <svg width="1.5em"
                      height="1.5em"
@@ -24,8 +24,8 @@
                 </svg>
             </div>
         </div>
-        <textarea @input="change" @paste.stop @copy.stop  rows="3"
-                  v-if="this.$store.getters.getRoot.length"
+        <textarea @input="change" @paste.stop @copy.stop  rows="2"
+                  v-if="this.$store.state.root.length"
                   v-model="item.text"
                   class="input textarea w-100 m-1 pl-2 pr-2 pb-3"/>
         <ToDoList  :children="item.children"/>
@@ -40,17 +40,13 @@
         components: {ToDoList},
         methods: {
             change() {
-                this.$store.commit('updateItems', this.$store.getters.getRoot)
+                this.$store.commit('updateItems')
             },
             remove: function() {
-                console.log('delete self')
-                this.$store.commit('deleteSelf')
-                this.$store.commit('updateItems')
-                this.$store.commit('updateRoot')
+                this.$store.dispatch('deleteSelf')
             },
             close: function() {
-                this.$store.commit('closeSelf')
-                this.$store.commit('updateItems')
+                this.$store.dispatch('closeSelf')
             }
         },
         computed: {
@@ -62,7 +58,7 @@
                 }
             },
             item: function() {
-                return this.$store.getters.getItemByRoot
+                return this.$store.getters.getCurrent
             }
         }
     }

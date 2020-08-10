@@ -28,15 +28,28 @@ const initFilters =
             },
         }
     ]
+
+const getItemByRoot = (items, root) => {
+    let current = items
+    root.forEach(index => {
+        current = current.children[index]
+    })
+    return current
+}
+
 const store = new Vuex.Store({
     state: {
         items: JSON.parse(sessionStorage.getItem('items')) || {children: [], text: '', closed: ''},
         name: sessionStorage.getItem('name') || 'New Project',
         root: JSON.parse(sessionStorage.getItem('root')) || [],
         search: sessionStorage.getItem('search') || '',
-        filters: JSON.parse(sessionStorage.getItem('filters')) || initFilters
+        filters: JSON.parse(sessionStorage.getItem('filters')) || initFilters,
+        onDrag: false
     },
     mutations: {
+        onDrag(state, flag) {
+            state.onDrag=flag
+        },
         updateFilters(state) {
             sessionStorage.setItem('filters', JSON.stringify(state.filters))
         },
@@ -61,50 +74,48 @@ const store = new Vuex.Store({
         setName(state, name) {
             state.name = name
         },
+        setSearch(state, search) {
+            state.search = search
+        },
         toggleFilter(state, index) {
             state.filters[index].selected = !state.filters[index].selected
         },
         addRegex(state, pattern) {
-            state.filters.push({text: pattern, selected: true, type: 'regex', function: {args: 'a', // need to set function into json
-                        body: `const r = new RegExp('${pattern}', 'g'); return a.text.match(r)`}})
-        },
-        addItem(state, newItem) {
-            let current = state.items
-            state.root.forEach(index => {
-                current = current.children[index]
+            state.filters.push({
+                text: pattern, selected: true, type: 'regex', function: {
+                    args: 'a', // need to set function into json
+                    body: `const r = new RegExp('${pattern}', 'g'); return a.text.match(r)`
+                }
             })
-            current.children.push(newItem)
+        },
+        addItem(state, item) {
+            getItemByRoot(state.items, state.root).children.push(item)
         },
         deleteFilter(state, index) {
             state.filters.splice(index, 1)
         },
-        deleteItem(state, payload) {
-            let current = state.items
-            state.root.forEach(index => {
-                current = current.children[index]
-            })
-            current.children.splice(payload.id, 1)
+        deleteItem(state, id) {
+            getItemByRoot(state.items, state.root).children.splice(id, 1)
         },
-        dropBefore(state, payload) {
-            let current = state.items
-            state.root.forEach(index => {
-                current = current.children[index]
-            })
-            const drop = current.children[payload.drop]
-            current.children.splice(payload.drop, 1)
-            current.children.splice(payload.target, 0, drop)
-        },
-        dropInto(state, payload) {
-            if (payload.target==payload.drop) {
+        dropSide(state, payload) {
+            if (payload.target == payload.drop) {
                 return
             }
-            let current = state.items
-            state.root.forEach(index => {
-                current = current.children[index]
-            })
+            console.log('drop before')
+            const current = getItemByRoot(state.items, state.root)
             const drop = current.children[payload.drop]
             current.children.splice(payload.drop, 1)
+            current.children.splice(payload.target + payload.isAfter, 0, drop)
+        },
+        dropInto(state, payload) {
+            console.log('drop into')
+            if (payload.target == payload.drop) {
+                return
+            }
+            const current = getItemByRoot(state.items, state.root)
+            const drop = current.children[payload.drop]
             current.children[payload.target].children.push(drop)
+            current.children.splice(payload.drop, 1)
         },
         dropBack(state, payload) {
             let current = state.items
@@ -118,25 +129,16 @@ const store = new Vuex.Store({
             parent.children.push(drop)
         },
         deleteSelf(state) {
-            let current = state.items
             const id = state.root.pop()
-            state.root.forEach(index => {
-                current = current.children[index]
-            })
+            const current = getItemByRoot(state.items, state.root)
             current.children.splice(id, 1)
         },
-        closeItem(state, payload) {
-            let current = state.items
-            state.root.forEach(index => {
-                current = current.children[index]
-            })
-            current.children[payload.id]['closed'] = !current.children[payload.id]['closed']
+        closeItem(state, index) {
+            const current = getItemByRoot(state.items, state.root)
+            current.children[index]['closed'] = !current.children[index]['closed']
         },
         closeSelf(state) {
-            let current = state.items
-            state.root.forEach(index => {
-                current = current.children[index]
-            })
+            const current = getItemByRoot(state.items, state.root)
             current.closed = !current.closed
         },
         export(state) {
@@ -155,24 +157,82 @@ const store = new Vuex.Store({
         }
     },
     getters: {
-        getItemByRoot: state => {
-            let current = state.items
-            state.root.forEach(index => {
-                current = current.children[index]
-            })
-            return current
+        getCurrent: state => {
+            return getItemByRoot(state.items, state.root)
         },
-        getFilters: state => {
-            return state.filters
+        getItemByRoot: state => root => {
+            return getItemByRoot(state.items, root)
         },
-        getRoot: state => {
-            return state.root
+        inSearch: state => {
+            return !(state.search.length || state.filters.filter(x => x.selected).length)
+        }
+    },
+    actions: {
+        deleteSelf({commit}) {
+            commit('deleteSelf')
+            commit('updateItems')
         },
-        getName: state => {
-            return state.name
+        addItem({commit}, item) {
+            commit('addItem', item)
+            commit('updateItems')
         },
-        getTest: state => {
-            return state.test
+        setName({commit}, name) {
+            commit('setName', name)
+            commit('updateName')
+        },
+        setSearch({commit}, search) {
+            commit('setSearch', search)
+            commit('updateSearch')
+        },
+        goTo(context, index) {
+            context.commit('goTo', index)
+            context.commit('updateRoot')
+        },
+        back(context) {
+            context.commit('back')
+            context.commit('updateRoot')
+        },
+        toggleFilter(context, index) {
+            context.commit('toggleFilter', index)
+            context.commit('updateFilters')
+        },
+        addRegex(context, pattern) {
+            context.commit('addRegex', pattern)
+            context.commit('updateFilters')
+        },
+        deleteFilter({commit}, index) {
+            commit('deleteFilter', index)
+            commit('updateFilters')
+        },
+        deleteItem({commit}, index) {
+            commit('deleteItem', index)
+            commit('updateItems')
+        },
+        dropSide({commit}, payload) {
+            commit('dropSide', payload)
+            commit('updateItems')
+        },
+        dropInto({commit}, payload) {
+            commit('dropInto', payload)
+            commit('updateItems')
+        },
+        dropBack({commit}, payload) {
+            commit('dropBack', payload)
+            commit('updateItems')
+        },
+        closeItem({commit}, index) {
+            commit('closeItem', index)
+            commit('updateItems')
+        },
+        closeSelf({commit}) {
+            commit('closeSelf')
+            commit('updateItems')
+        },
+        import({commit}, payload) {
+            commit('import', payload)
+            commit('updateItems')
+            commit('updateName')
+            commit('updateRoot')
         }
     }
 })

@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex flex-wrap mb-3 pl-1 pr-1">
-        <AddButton :class-name="'p-0'" :placeholder="'add RegEx without /'" :click-function="add" />
+        <AddButton :class-name="'p-0 m-2'" :placeholder="'add RegEx without /'" :click-function="add" />
         <Tag v-for="(tag,index) in filters" :index="index" :key="index+'f'" :tag="tag"/>
     </div>
 </template>
@@ -13,13 +13,12 @@
         components: {AddButton, Tag},
         computed: {
             filters() {
-                return this.$store.getters.getFilters
+                return this.$store.state.filters
             }
         },
         methods: {
             add(text) {
-                this.$store.commit('addRegex', text)
-                this.$store.commit('updateFilters')
+                this.$store.dispatch('addRegex', text)
             }
         }
     }

@@ -3,7 +3,8 @@
         <div v-if="inStart">
             <Name/>
         </div>
-        <button @dragover.prevent @drop="onDropBack" class="btn m-2" :class="[drag?'transition drag pl-5 pr-5':'neo']" v-else @click="back">
+        <button @dragover.prevent @drop="onDropBack" class="btn m-2" :class="[$store.state.onDrag?'transition drag pl-5 pr-5':'neo']"
+                v-else @click="back">
             <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="green"
                  xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -73,10 +74,10 @@
         }),
         computed: {
             name() {
-                return this.$store.getters.getName
+                return this.$store.state.name
             },
             inStart() {
-                return this.$store.getters.getRoot.length === 0
+                return this.$store.state.root.length === 0
             }
         },
         watch: {
@@ -85,41 +86,37 @@
             }
         },
         methods: {
-            onDropBack(e) {
-                const index = e
-                    .dataTransfer
-                    .getData('text')
-                this.$store.commit('dropBack', {drop: index})
-                this.$store.commit('updateItems')
-            },
             cut() {
                 this.copy()
-                this.$store.commit('deleteSelf')
-                this.$store.commit('updateItems')
-                this.$store.commit('updateRoot')
+                this.$store.dispatch('deleteSelf')
             },
             copy() {
                 const item = this.$store.getters.getItemByRoot
                 if (item.text === '') {
-                    item.text = this.$store.getters.getName
+                    item.text = this.$store.state.name
                 }
                 const content = JSON.stringify(item)
                 this.$clipboard(content)
             },
-            back() {
-                this.$store.commit('back')
-                this.$store.commit('updateRoot')
-            },
             paste(e) {
+                console.log('paste')
                 const data = e.clipboardData.getData('Text')
                 try {
                     const item = JSON.parse(data)
-                    this.$store.commit('addItem', item)
-                    this.$store.commit('updateItems')
+                    this.$store.dispatch('addItem', item)
                 } catch (e) {
                     console.log('paste item error')
                 }
-            }
+            },
+            onDropBack(e) {
+                const index = e
+                    .dataTransfer
+                    .getData('text')
+                this.$store.dispatch('dropBack', {drop: index})
+            },
+            back() {
+                this.$store.dispatch('back')
+            },
         },
         mounted() {
             document.title = this.name

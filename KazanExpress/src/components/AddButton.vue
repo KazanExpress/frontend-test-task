@@ -1,7 +1,8 @@
 <template>
     <div>
-        <div  class="d-flex neo box btn add m-2" :class="className" >
-            <input  @copy.stop @paste.stop @keypress.enter="clickAndClean"  v-model="addText" type="text" :placeholder="placeholder" class="container-fluid ml-3 input">
+        <div  class="d-flex neo box btn add" :class="className" >
+            <input  @copy.stop @paste.stop @keypress.enter="clickAndClean"  v-model="addText" type="text"
+                    :placeholder="placeholder" class="container-fluid ml-3 input">
             <div @click.stop="clickAndClean">
             <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus " fill="green">
                 <path fill-rule="evenodd"
@@ -22,15 +23,11 @@
             addText: ''
         }),
         methods: {
-            keyPressHandler(e) {
-                if (e.key=== 'Enter' || e.keyCode === 13) { // for any browsers
-                    this.clickAndClean()
-                    return false
-                }
-            },
             clickAndClean() {
-                this.clickFunction(this.addText)
-                this.addText=''
+                if (this.addText!=='') { // ignore empty input
+                    this.clickFunction(this.addText)
+                    this.addText = ''
+                }
             }
         }
     }

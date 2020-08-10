@@ -6,14 +6,13 @@
     export default {
         name: 'Name',
         computed: {
-            name: function() {
-                return this.$store.getters.getName
+            name() {
+                return this.$store.state.name
             }
         },
         methods: {
-            change: function(e) {
-                this.$store.commit('setName', e.target.value)
-                this.$store.commit('updateName')
+            change(e) {
+                this.$store.dispatch('setName', e.target.value)
             }
         }
     }

@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div>
+        <div class="transition" :class="{'hidden':$store.state.onDrag}">
             <div class="d-flex">
-                <input v-model="search" placeholder="Search todo" type="text"
+                <input @input="change" :value="search" placeholder="Search todo" type="text"
                        class="form-control p-3 pl-3 m-2 mb-1 neo search">
             </div>
             <Tags/>
@@ -13,8 +13,11 @@
         <div v-if="!searchedList.length" class="alert alert-light text-center" role="alert">
             Nothing found
         </div>
-        <div>
-            <AddButton :click-function="add" :class-name="'d-flex p-2 pl-3'" :placeholder="'add todo'"/>
+        <div class="p-2">
+            <transition name="fadeHeight" mode="out-in">
+                <AddButton v-if="!$store.state.onDrag" :click-function="add" :class-name="'d-flex p-2 pl-3'"
+                           :placeholder="'add todo'"/>
+            </transition>
         </div>
     </div>
 </template>
@@ -23,18 +26,18 @@
     import AddButton from './AddButton'
     import ToDoShort from './ToDoShort'
     import Tags from './Tags'
+    import {mapState} from 'vuex'
 
     export default {
         name: 'ToDoList',
         components: {Tags, AddButton, ToDoShort},
         props: ['children'],
-        data: () => ({
-            search: ''
-        }),
         methods: {
+            change(e) {
+                this.$store.dispatch('setSearch', e.target.value)
+            },
             add(text) {
-                this.$store.commit('addItem', {text: text, closed: false, children: []})
-                this.$store.commit('updateItems')
+                this.$store.dispatch('addItem', {text: text, closed: false, children: []})
             }
         },
         watch: {
@@ -43,12 +46,9 @@
             }
         },
         computed: {
-            filters() {
-                return this.$store.getters.getFilters
-            },
-            root() {
-                return this.$store.getters.getRoot
-            },
+            ...mapState(
+                ['root', 'filters', 'search']
+            ),
             searchedList() {
                 return this
                     .children
@@ -56,9 +56,7 @@
                             let total = item.child.text.toLowerCase().includes(this.search.toLowerCase())
                             this.filters.filter(filter => filter.selected).forEach(filter => {
                                 const f = new Function(filter.function.args, filter.function.body)
-                                console.log(f)
-                                total = total && f(item.child)
-                                console.log(f(item.child))
+                                total = total && f(item.child) // need break for lazy loop, but foreach
                             })
                             return total
                         }
