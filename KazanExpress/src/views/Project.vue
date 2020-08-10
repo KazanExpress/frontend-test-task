@@ -3,7 +3,9 @@
         <div v-if="inStart">
             <Name/>
         </div>
-        <button @dragover.prevent @drop="onDropBack" class="btn m-2" :class="[$store.state.onDrag?'transition drag pl-5 pr-5':'neo']"
+        <button @dragover.prevent="dragBack=true" @dragleave="dragBack=false" @drop="onDropBack"
+                class="btn m-2 transition neo"
+                :class="[$store.state.onDrag?'pl-5 pr-5':'',{'add': dragBack}]"
                 v-else @click="back">
             <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="green"
                  xmlns="http://www.w3.org/2000/svg">
@@ -12,7 +14,7 @@
                 <path fill-rule="evenodd" d="M2.5 8a.5.5 0 0 1 .5-.5h10.5a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
             </svg>
         </button>
-        <ToDo @dragFlag="(flag)=>this.drag=flag"/>
+        <ToDo/>
         <div>
             <Import v-if="inStart"/>
             <div class="mt-5 d-flex justify-content-around">
@@ -70,7 +72,7 @@
         name: 'Project',
         components: {ToDo, Name, Import},
         data: () => ({
-            drag: false,
+            dragBack: false,
         }),
         computed: {
             name() {
@@ -109,6 +111,7 @@
                 }
             },
             onDropBack(e) {
+                this.dragBack=false
                 const index = e
                     .dataTransfer
                     .getData('text')

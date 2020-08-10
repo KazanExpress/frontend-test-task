@@ -24,10 +24,10 @@
                 </svg>
             </div>
         </div>
-        <textarea @input="change" @paste.stop @copy.stop  rows="2"
+        <textarea :disabled="$store.state.onDrag" @input="change" @paste.stop @copy.stop  rows="2"
                   v-if="this.$store.state.root.length"
                   v-model="item.text"
-                  class="input textarea w-100 m-1 pl-2 pr-2 pb-3"/>
+                  class="input transition textarea w-100 m-1 pl-2 pr-2 pb-3"/>
         <ToDoList  :children="item.children"/>
     </div>
 </template>

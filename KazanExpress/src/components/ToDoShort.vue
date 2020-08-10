@@ -2,10 +2,12 @@
     <div>
         <div class="d-flex transition p-1" :class="{'p-3': dragBefore}" @dragleave.prevent="dragBefore=false"
              @dragover.prevent="dragBefore=true" @drop="onDropBefore"></div>
-        <div :draggable="$store.getters.inSearch" @dragover.prevent @dragend="onDragEnd" @dragstart="onDragStart"
+        <div :draggable="$store.getters.inSearch" @dragover.prevent="dragSelf=true" @dragleave.prevent="dragSelf=false"
+             @dragend="onDragEnd" @dragstart="onDragStart"
              @drop="onDrop"
              role="button"
-             class="d-flex align-items-center ml-2 mr-2 p-2 pl-3 pr-2 " :class="[dragging ? 'drag pl-4' : 'neo']"
+             class="d-flex align-items-center ml-2 mr-2 p-2 pl-3 pr-2 "
+             :class="[dragging ? 'drag pl-4' : 'neo',{'add': dragSelf}]"
              @click="click">
             <div v-if="!dragging" class=" mr-1" @click.stop="close">
                 <svg width="1.5em"
@@ -45,7 +47,8 @@
         data: () => ({
             dragging: false,
             dragBefore: false,
-            dragAfter: false
+            dragAfter: false,
+            dragSelf: false
         }),
         computed: {
             color() {
@@ -58,6 +61,7 @@
         },
         methods: {
             onDrop(e) {
+                this.dragSelf = false
                 const index = e
                     .dataTransfer
                     .getData('text')
