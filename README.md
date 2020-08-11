@@ -1,4 +1,5 @@
 
+
 ### **Easy**
 
 - [x] Каждая новая вкладка в бразуере с приложением - отдельный проект со своим списком задач;\
@@ -22,7 +23,7 @@
 Все требования [**easy**](#easy), включая опциональные.
 А также:
 
-- [x] Возможность перемещать любые задачи (со всем списком подзадач) из любого открытого проекта в любой другой открытый проект;
+- [x] Возможность перемещать любые задачи (со всем списком подзадач) из любого открытого проекта в любой другой открытый проект; - используя copy, cut, paste
 - [x] Нельзя использовать `LocalStorage`, `Cookies`, `IndexedDB` и `WebSQL` хранилища;\
   Если ваше приложение пишет *хоть что-нибудь* в одно из этих хранилищ - **требование считается невыполненным**!\
   Это касается и библиотек, которые используют эти типы хранилищ: например - `vuex-multi-tab-state`.
@@ -45,8 +46,8 @@
 
 Все требования [**medium**](#medium), включая опциональные, а также:
 
-- [x] Итоговое приложение должно весить не более **100 KB** (сумма всех загружаемых файлов, исключая картинки); - **59.95 KB if Gzipped**
-- [x] Drag-n-drop с поддержкой тач-скрина;
+- [x] Итоговое приложение должно весить не более **100 KB** (сумма всех загружаемых файлов, исключая картинки); - **59.95 KB if gzip**
+- [x] Drag-n-drop с поддержкой тач-скрина; - протестировано нa iphone(latest ios)
 - [x] Масштабируемость на мобильные устройства до 320*480px (iPhone 4);
 - [x] Возможность быстрого просмотра и редактирования описания у любой задачи;
 
@@ -87,7 +88,7 @@
 - Использовать [Conventional Commitlint](https://github.com/conventional-changelog/commitlint);
 - Использовать [CustomElements/WebComponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components) и [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM);
 - 100% test coverage с использованием Jest/Mocha и [Coveralls](https://coveralls.io)/[Code Climate](https://codeclimate.com);
-- [x] Использовать travis.ci, [now.sh](https://zeit.co/home), GitHub Pages или GitHub Actions для CI/CD;
+- [x] Использовать travis.ci, [now.sh](https://zeit.co/home), GitHub Pages или GitHub Actions для CI/CD; - [my page](https://ildardavletyarov.github.io/frontend-test-task/)
 - [x] Использовать [Service-Worker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) для уведомления пользователя о новых версиях;
 - Взаимоисключающие пункты:
   - [SSR](https://google.com/search?q=SSR+(web+development)) без использования сторонних библиотек;
