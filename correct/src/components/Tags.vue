@@ -8,6 +8,11 @@
 <script>
     import Tag from './Tag'
     import AddButton from './AddButton'
+    /**
+     * Represents a list of filters with add button
+     * @vue-computed {Array} filters - array of filters from state
+     * @vue-event {Void} add - clickFunction for add button
+     */
     export default {
         name: 'Tags',
         components: {AddButton, Tag},

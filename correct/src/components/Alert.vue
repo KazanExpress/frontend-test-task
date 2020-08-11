@@ -7,6 +7,13 @@
 </template>
 
 <script>
+    /**
+     * Represents a message alert box
+     * @vue-data {Boolean} isHidden - flag for visibility
+     * @vue-data {String} data - text from alert event
+     * @vue-data {Integer} timeout - timeout id for animation
+     * @vue-event {Void} change - handler for alert event
+     */
     export default {
         name: 'Alert',
         data: () => ({
@@ -18,7 +25,7 @@
             change(data) {
                 this.data = data
                 this.isHidden = false
-                clearTimeout(this.timeout)
+                clearTimeout(this.timeout) // needed if the alarm is faster than 2600ms
                 this.timeout = setTimeout(() => {
                     this.isHidden = true
                 }, 2600)
@@ -26,6 +33,9 @@
         },
         created() {
             this.$eventHub.$on('alert', this.change)
+        },
+        beforeDestroy() {
+            this.$eventHub.off('alert') // need if we decide destroy element
         }
     }
 </script>

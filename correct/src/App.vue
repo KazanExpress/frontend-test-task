@@ -5,6 +5,9 @@
 </template>
 
 <script>
+    /**
+     * Represents the main element
+     */
     import Project from './views/Project'
     export default {
         components: {Project}

@@ -15,11 +15,18 @@
 </template>
 
 <script>
+    /**
+     * Represents a form with input and click(enter press) action
+     * @vue-prop {String} className - string of css classes
+     * @vue-prop {String} placeholder - placeholder to input
+     * @vue-prop {Function} clickFunction - function to be executed by click
+     * @vue-data {String} addText - text in input
+     * @vue-event {Void} clickAndClean - Emit clickFunction after check for empty addText and clean addText
+     */
     export default {
         name: 'AddButton',
         props: ['className', 'placeholder', 'clickFunction'],
         data: () => ({
-            isShow: false,
             addText: ''
         }),
         methods: {

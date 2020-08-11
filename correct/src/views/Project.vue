@@ -1,5 +1,5 @@
 <template>
-    <div @copy.prevent="copy" @paste.prevent="paste" class="container-sm p-4 " style="max-width: 50em">
+    <div @copy.prevent="copy" @paste.prevent="paste" class="container-sm p-4" style="max-width: 50em">
         <Alert/>
         <div v-if="inStart" class="mt-3">
             <Name/>
@@ -69,7 +69,18 @@
     import Name from '../components/Name'
     import Import from '../components/Import'
     import Alert from '../components/Alert'
-
+    /**
+     * Represents a single view
+     * @vue-data {Boolean} dragBack - true when drag over back button
+     * @vue-computed {String} name - return current name, need to set document.title
+     * @vue-computed {Boolean} inStart - true when root=[]
+     * @vue-event {Void} cut - handler for cut event
+     * @vue-event {Void} copy - handler for copy event
+     * @vue-event {Void} paste - handler for paste event
+     * @vue-event {Void} onDropBack - handler for drop event into back button
+     * @vue-event {Void} back - handler for click back button; move back
+     * @vue-event {Void} download - emit download function
+     */
     export default {
         name: 'Project',
         components: {Alert, ToDo, Name, Import},
@@ -81,16 +92,16 @@
                 return this.$store.state.name
             },
             inStart() {
-                return this.$store.state.root.length === 0
+                return !this.$store.state.root.length
             }
         },
         watch: {
             name() {
-                document.title = this.name
+                document.title = this.name // updating document.title to name of project
             }
         },
         methods: {
-            cut() {
+            cut() { // copy and delete self
                 this.copy()
                 this.$store.dispatch('deleteSelf')
                 this.$eventHub.$emit('alert', 'cut to clipboard')
@@ -101,13 +112,13 @@
                     item.text = this.$store.state.name
                 }
                 const content = JSON.stringify(item)
-                this.$clipboard(content)
+                this.$clipboard(content) // set to clipboardData JSON of object
                 this.$eventHub.$emit('alert', 'copied to clipboard')
             },
             paste(e) {
-                let message = 'pasted successfully'
+                let message = 'pasted successfully' // need for alert message
                 const data = e.clipboardData.getData('Text')
-                try {
+                try { // try to parse last clipboardData and add that object
                     const item = JSON.parse(data)
                     this.$store.dispatch('addItem', item)
                 } catch (e) {
@@ -117,8 +128,8 @@
                 }
             },
             onDropBack(e) {
-                this.dragBack=false
-                const index = e
+                this.dragBack = false
+                const index = e // get index from transfer data
                     .dataTransfer
                     .getData('text')
                 this.$store.dispatch('dropBack', {drop: index})
@@ -133,7 +144,7 @@
             }
         },
         mounted() {
-            document.title = this.name
+            document.title = this.name // initialize title
         }
     }
 </script>

@@ -8,6 +8,7 @@ Vue.use(Vuex)
 const eventHub = new Vue()
 Vue.prototype['$eventHub'] = eventHub
 Vue.config.productionTip = false
+
 const initFilters =
     [
         {
@@ -30,6 +31,12 @@ const initFilters =
         }
     ]
 
+/**
+ * Represents a book.
+ * @constructor
+ * @param {Object} items - general items
+ * @param {Array} root - path( array of indexes) to right item
+ */
 const getItemByRoot = (items, root) => {
     let current = items
     root.forEach(index => {

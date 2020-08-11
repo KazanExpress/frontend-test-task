@@ -2,7 +2,8 @@
     <div>
         <div class="d-flex transition p-1" :class="{'p-3': dragBefore}" @dragleave.prevent="dragBefore=false"
              @dragover.prevent="dragBefore=true" @drop="onDropBefore"></div>
-        <div :draggable="$store.getters.inSearch" @dragover.prevent.capture="dragSelf=true" @dragleave.prevent.capture="dragSelf=false"
+        <div :draggable="$store.getters.inSearch" @dragover.prevent.capture="dragSelf=true"
+             @dragleave.prevent.capture="dragSelf=false"
              @dragend="onDragEnd" @dragstart="onDragStart"
              @drop="onDrop"
              role="button"
@@ -41,24 +42,35 @@
 </template>
 
 <script>
+    import colorMixin from '../mixins/colorMixin'
+    /**
+     * Represents a quick view item
+     * @vue-prop {Object} item - current item
+     * @vue-prop {Integer} index - index of current item in parent.children
+     * @vue-data {Boolean} dragging - true when dragging this item
+     * @vue-data {Boolean} dragBefore - true when drag over before space
+     * @vue-data {Boolean} dragging - true when drag over after space
+     * @vue-data {Boolean} dragSelf - true when drag over this item
+     * @vue-event {Void} onDrop - handler for drop into this item
+     * @vue-event {Void} onDropSide - handler for drop into side
+     * @vue-event {Void} onDropBefore - emit onDropSide
+     * @vue-event {Void} onDropAfter - emit onDropSide
+     * @vue-event {Void} onDragStart - handler for dragstart; set index into dataTransfer
+     * @vue-event {Void} onDragEnd - handler for dragend
+     * @vue-event {Void} click - move to next item
+     * @vue-event {Void} remove - remove item by index
+     * @vue-event {Void} close - toggle close flag
+     */
     export default {
         name: 'ToDo',
+        mixins: [colorMixin],
         props: ['item', 'index'],
         data: () => ({
-            dragging: false,
+            dragging: false, // all flags need for css classes
             dragBefore: false,
             dragAfter: false,
             dragSelf: false
         }),
-        computed: {
-            color() {
-                if (this.item.closed) {
-                    return 'green'
-                } else {
-                    return 'grey'
-                }
-            }
-        },
         methods: {
             onDrop(e) {
                 this.dragSelf = false
@@ -68,19 +80,19 @@
                 this.$store.dispatch('dropInto', {target: this.index, drop: index})
                 this.$eventHub.$emit('alert', 'moved inward')
             },
-            onDropBefore(e) {
-                this.dragBefore = false
+            onDropSide(e, isAfter) {
                 const index = e
                     .dataTransfer
                     .getData('text')
-                this.$store.dispatch('dropSide', {target: this.index, drop: index, isAfter: false})
+                this.$store.dispatch('dropSide', {target: this.index, drop: index, isAfter: isAfter})
+            },
+            onDropBefore(e) {
+                this.dragBefore = false
+                this.onDropSide(e,false)
             },
             onDropAfter(e) {
                 this.dragAfter = false
-                const index = e
-                    .dataTransfer
-                    .getData('text')
-                this.$store.dispatch('dropSide', {target: this.index, drop: index, isAfter: true})
+                this.onDropSide(e,true)
             },
             onDragStart(e) {
                 e.dataTransfer.setData('text/plain', this.index)

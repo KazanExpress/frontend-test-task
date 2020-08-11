@@ -2,7 +2,8 @@
     <div>
         <div class="transition" :class="{'hidden':$store.state.onDrag}">
             <div class="d-flex">
-                <input @copy.stop @paste.stop @cut.stop @input="change" :value="search" placeholder="Search todo" type="text"
+                <input @copy.stop @paste.stop @cut.stop @input="change" :value="search" placeholder="Search todo"
+                       type="text"
                        class="form-control p-3 pl-3 m-2 mb-1 neo search">
             </div>
             <Tags/>
@@ -28,23 +29,19 @@
     import Tags from './Tags'
     import {mapState} from 'vuex'
 
+    /**
+     * Represents a list of quick view items with filtering  and add button
+     * @vue-prop {Array} children - return array of subItems
+     * @vue-computed {Array} root - return actual root
+     * @vue-computed {Array} filters - return filter array
+     * @vue-computed {String} search - return text from search input
+     * @vue-event {Void} change - handler for search input update
+     * @vue-event {Void} add - clickFunction for add button
+     */
     export default {
         name: 'ToDoList',
         components: {Tags, AddButton, ToDoShort},
         props: ['children'],
-        methods: {
-            change(e) {
-                this.$store.dispatch('setSearch', e.target.value)
-            },
-            add(text) {
-                this.$store.dispatch('addItem', {text: text, closed: false, children: []})
-            }
-        },
-        watch: {
-            root() { // change when go up or down
-                this.search = ''
-            }
-        },
         computed: {
             ...mapState(
                 ['root', 'filters', 'search']
@@ -62,6 +59,19 @@
                         }
                     )
             }
-        }
+        },
+        watch: {
+            root() { // change when go up or down
+                this.$store.dispatch('setSearch', '')
+            }
+        },
+        methods: {
+            change(e) {
+                this.$store.dispatch('setSearch', e.target.value)
+            },
+            add(text) {
+                this.$store.dispatch('addItem', {text: text, closed: false, children: []})
+            }
+        },
     }
 </script>
