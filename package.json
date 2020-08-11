@@ -9,8 +9,9 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "register-service-worker": "^1.7.1",
     "v-clipboard": "^2.2.3",
-    "vue": "^2.6.11"
+    "workbox-webpack-plugin": "latest"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import Vuex from 'vuex'
 import Clipboard from 'v-clipboard'
+import wb from "./registerServiceWorker"
 
 Vue.use(Clipboard)
 Vue.use(Vuex)
@@ -9,6 +10,7 @@ const eventHub = new Vue()
 Vue.prototype['$eventHub'] = eventHub // bus event, need for alert message
 Vue.config.productionTip = false
 
+Vue.prototype.$workbox = wb
 const initFilters =
     [
         {
