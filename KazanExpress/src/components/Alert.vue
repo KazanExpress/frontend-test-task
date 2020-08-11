@@ -1,6 +1,6 @@
 <template>
     <div class="transition pos m-auto" :class="{'hidden': isHidden}">
-        <div class="neo p-2 pl-4 pr-4">
+        <div class="neo p-2 pl-4 pr-4 text-nowrap">
             {{data}}
         </div>
     </div>

@@ -93,7 +93,7 @@
             cut() {
                 this.copy()
                 this.$store.dispatch('deleteSelf')
-                this.$eventHub.$emit('alert', 'item was cut to clipboard')
+                this.$eventHub.$emit('alert', 'cut to clipboard')
             },
             copy() {
                 const item = this.$store.getters.getCurrent
@@ -102,10 +102,10 @@
                 }
                 const content = JSON.stringify(item)
                 this.$clipboard(content)
-                this.$eventHub.$emit('alert', 'item copied to clipboard')
+                this.$eventHub.$emit('alert', 'copied to clipboard')
             },
             paste(e) {
-                let message = 'item pasted successfully'
+                let message = 'pasted successfully'
                 const data = e.clipboardData.getData('Text')
                 try {
                     const item = JSON.parse(data)
@@ -122,7 +122,7 @@
                     .dataTransfer
                     .getData('text')
                 this.$store.dispatch('dropBack', {drop: index})
-                this.$eventHub.$emit('alert', 'item moved back')
+                this.$eventHub.$emit('alert', 'moved back')
             },
             back() {
                 this.$store.dispatch('back')

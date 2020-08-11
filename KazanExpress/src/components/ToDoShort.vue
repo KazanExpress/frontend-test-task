@@ -66,7 +66,7 @@
                     .dataTransfer
                     .getData('text')
                 this.$store.dispatch('dropInto', {target: this.index, drop: index})
-                this.$eventHub.$emit('alert', 'item moved inward')
+                this.$eventHub.$emit('alert', 'moved inward')
             },
             onDropBefore(e) {
                 this.dragBefore = false
