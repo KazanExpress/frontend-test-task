@@ -106,18 +106,25 @@ const store = new Vuex.Store({
             getItemByRoot(state.items, state.root).children.splice(id, 1)
         },
         dropSide(state, payload) {
-            if (payload.target == payload.drop) {
+            if (+payload.target === +payload.drop) {
                 return
             }
-            console.log('drop before')
+            console.log(payload.isAfter ? 'after' : 'before')
+            console.log('target:' + payload.target + '; drop' + payload.drop)
             const current = getItemByRoot(state.items, state.root)
             const drop = current.children[payload.drop]
-            current.children.splice(payload.drop, 1)
-            current.children.splice(payload.target + payload.isAfter, 0, drop)
+            if (payload.target < payload.drop) {
+                current.children.splice(payload.drop, 1)
+                current.children.splice(payload.target + (+payload.isAfter), 0, drop)
+            } else {
+                current.children.splice(payload.target + (+payload.isAfter), 0, drop)
+                current.children.splice(payload.drop, 1)
+            }
+
         },
         dropInto(state, payload) {
             console.log('drop into')
-            if (payload.target == payload.drop) {
+            if (+payload.target === +payload.drop) {
                 return
             }
             const current = getItemByRoot(state.items, state.root)
@@ -173,6 +180,9 @@ const store = new Vuex.Store({
         },
         inSearch: state => {
             return !(state.search.length || state.filters.filter(x => x.selected).length)
+        },
+        inStart: state => {
+            return !state.root.length
         }
     },
     actions: {

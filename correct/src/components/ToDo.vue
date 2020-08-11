@@ -1,6 +1,6 @@
 <template>
-    <div class="neo m-2 p-3 position-relative">
-        <div class="d-flex justify-content-between" v-if="$store.state.root.length">
+    <div @copy.prevent class="neo m-2 p-3 position-relative">
+        <div class="d-flex justify-content-between" v-if="!inStart">
             <div role="button" @click.stop="close">
                 <svg width="1.5em"
                      height="1.5em"
@@ -25,7 +25,7 @@
             </div>
         </div>
         <textarea :disabled="$store.state.onDrag" @input="change" @paste.stop @copy.stop rows="2"
-                  v-if="this.$store.state.root.length"
+                  v-if="!inStart"
                   v-model="item.text"
                   class="input transition textarea w-100 m-1 pl-2 pr-2 pb-3"/>
         <ToDoList :children="item.children"/>
@@ -48,19 +48,23 @@
         mixins: [colorMixin],
         components: {ToDoList},
         computed: {
-            item: function () {
+            item() {
                 return this.$store.getters.getCurrent
+            },
+            inStart() {
+                return this.$store.getters.inStart
             }
         },
         methods: {
             change() {
                 this.$store.commit('updateItems')
             },
-            remove: function () {
+            remove() {
+                if(this.inStart)
                 this.$store.dispatch('deleteSelf')
                 this.$eventHub.$emit('alert', 'item was deleted')
             },
-            close: function () {
+            close() {
                 this.$store.dispatch('closeSelf')
             }
         }

@@ -1,19 +1,12 @@
 <template>
-    <div id="app">
-        <Project/>
-    </div>
+    <Project/>
 </template>
-
 <script>
-    /**
-     * Represents the main element
-     */
     import Project from './views/Project'
     export default {
         components: {Project}
     }
 </script>
-
 <style>
     @import "../public/style.css";
 </style>

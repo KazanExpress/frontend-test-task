@@ -1,22 +1,26 @@
 <template>
-    <div @copy.prevent="copy" @paste.prevent="paste" class="container-sm p-4" style="max-width: 50em">
+    <div @keydown.ctrl.83.prevent.stop.capture="download"
+         @keydown.meta.83.prevent.stop.capture="download"
+         @copy.prevent="copy"
+         @paste.prevent="paste"
+         class="container-sm p-4" style="max-width: 50em">
         <Alert/>
         <div v-if="inStart" class="mt-3">
             <Name/>
         </div>
-        <button @dragover.prevent="dragBack=true" @dragleave="dragBack=false" @drop="onDropBack"
+        <button @dragover.prevent="dragBack=true"
+                @dragleave="dragBack=false" @drop="onDropBack"
                 class="btn m-2 transition neo"
                 :class="[$store.state.onDrag?'pl-5 pr-5':'',{'add': dragBack}]"
                 v-else @click="back">
-            <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="green"
-                 xmlns="http://www.w3.org/2000/svg">
+            <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="green">
                 <path fill-rule="evenodd"
                       d="M5.854 4.646a.5.5 0 0 1 0 .708L3.207 8l2.647 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0z"/>
                 <path fill-rule="evenodd" d="M2.5 8a.5.5 0 0 1 .5-.5h10.5a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
             </svg>
         </button>
         <ToDo/>
-        <div>
+        <div class="transition" :class="{'hidden':$store.state.onDrag}">
             <Import v-if="inStart"/>
             <div class="mt-5 d-flex justify-content-around">
                 <div v-if="inStart" role="button" @click="download"
@@ -69,6 +73,7 @@
     import Name from '../components/Name'
     import Import from '../components/Import'
     import Alert from '../components/Alert'
+
     /**
      * Represents a single view
      * @vue-data {Boolean} dragBack - true when drag over back button
@@ -92,7 +97,7 @@
                 return this.$store.state.name
             },
             inStart() {
-                return !this.$store.state.root.length
+                return this.$store.getters.inStart
             }
         },
         watch: {
@@ -101,6 +106,9 @@
             }
         },
         methods: {
+            focus() {
+                this.$refs['search'].focus()
+            },
             cut() { // copy and delete self
                 this.copy()
                 this.$store.dispatch('deleteSelf')
@@ -112,12 +120,12 @@
                     item.text = this.$store.state.name
                 }
                 const content = JSON.stringify(item)
-                this.$clipboard(content) // set to clipboardData JSON of object
+                this.$clipboard(content) // set to clipboardData JSON of object; idk, but in 50% cases set ''
                 this.$eventHub.$emit('alert', 'copied to clipboard')
             },
             paste(e) {
                 let message = 'pasted successfully' // need for alert message
-                const data = e.clipboardData.getData('Text')
+                const data = e.clipboardData.getData('text/plain')
                 try { // try to parse last clipboardData and add that object
                     const item = JSON.parse(data)
                     this.$store.dispatch('addItem', item)

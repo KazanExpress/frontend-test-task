@@ -1,5 +1,6 @@
 <template>
-    <div role="button" @click="click" class="d-flex m-2 neo box add position-relative"
+    <div tabindex="0" role="button" @click="click" @keypress.delete.self.stop="remove" @keypress.enter.self.stop="click"
+         class="d-flex m-2 neo box add position-relative"
          :class="{'select': tag.selected}">
         <div class="m-0 ml-2 mr-2">
             {{tag.text}}
@@ -28,7 +29,9 @@
         props: ['tag', 'index'],
         methods: {
             remove() {
-                this.$store.dispatch('deleteFilter', this.index)
+                if (this.tag.type !== 'init') {
+                    this.$store.dispatch('deleteFilter', this.index)
+                }
             },
             click() {
                 this.$store.dispatch('toggleFilter', this.index)

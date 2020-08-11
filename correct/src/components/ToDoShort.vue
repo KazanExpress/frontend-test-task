@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="d-flex transition p-1" :class="{'p-3': dragBefore}" @dragleave.prevent="dragBefore=false"
+        <div class="d-flex transition p-1" :class="{'p-4': dragBefore}" @dragleave.prevent="dragBefore=false"
              @dragover.prevent="dragBefore=true" @drop="onDropBefore"></div>
         <div :draggable="$store.getters.inSearch" @dragover.prevent.capture="dragSelf=true"
              @dragleave.prevent.capture="dragSelf=false"
@@ -36,13 +36,14 @@
                 </svg>
             </div>
         </div>
-        <div class="d-flex transition p-1" :class="{'p-3': dragAfter}" @dragleave.prevent="dragAfter=false"
+        <div class="d-flex transition p-1" :class="{'p-4': dragAfter}" @dragleave.prevent="dragAfter=false"
              @dragover.prevent="dragAfter=true" @drop="onDropAfter"></div>
     </div>
 </template>
 
 <script>
     import colorMixin from '../mixins/colorMixin'
+
     /**
      * Represents a quick view item
      * @vue-prop {Object} item - current item
@@ -77,8 +78,10 @@
                 const index = e
                     .dataTransfer
                     .getData('text')
-                this.$store.dispatch('dropInto', {target: this.index, drop: index})
-                this.$eventHub.$emit('alert', 'moved inward')
+                if (+index !== +this.index) {
+                    this.$store.dispatch('dropInto', {target: this.index, drop: index})
+                    this.$eventHub.$emit('alert', 'moved inward')
+                }
             },
             onDropSide(e, isAfter) {
                 const index = e
@@ -88,11 +91,11 @@
             },
             onDropBefore(e) {
                 this.dragBefore = false
-                this.onDropSide(e,false)
+                this.onDropSide(e, false)
             },
             onDropAfter(e) {
                 this.dragAfter = false
-                this.onDropSide(e,true)
+                this.onDropSide(e, true)
             },
             onDragStart(e) {
                 e.dataTransfer.setData('text/plain', this.index)
@@ -103,7 +106,8 @@
                 this.dragging = false
                 this.$store.commit('onDrag', false) // for back button
             },
-            click() {
+            click(e) {
+                e.target.blur()
                 this.$store.dispatch('goTo', this.index)
             },
             remove() {

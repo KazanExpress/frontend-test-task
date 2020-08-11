@@ -1,13 +1,13 @@
-.neo {
+.neo{
     border-radius: 26px;
     transition: all ease-out 400ms;
     background: #ffffff;
     box-shadow: 6px 6px 11px #d9d9d9,
     -6px -6px 11px #ffffff;
 }
-.neo:hover{
-    box-shadow:  6px 6px 11px #919191,
-    -6px -6px 11px #ffffff;
+.neo:hover {
+    box-shadow: 5px 5px 10px #919191,
+    -5px -5px 10px #ffffff;
 }
 .add {
     border: 1px solid green;
@@ -18,11 +18,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 .name {
     font-size: 30px;
     height: 40px;
     border-bottom: 1px solid green;
 }
+
 .input {
     padding: 0;
     margin: 1px;
@@ -31,36 +33,35 @@
     vertical-align: baseline;
     color: green;
 }
-.select{
+
+.select {
     color: white;
     background: green;
 }
-.drag{
+
+.drag {
     border-radius: 26px;
     border: 1px dashed green;
     color: green;
 }
-.transition{
+
+.transition {
     transition: all ease-out 400ms;
 }
+
 .fadeHeight-enter-active,
 .fadeHeight-leave-active {
     transition: all 0.4s;
     max-height: 40px;
 }
+
 .fadeHeight-enter,
-.fadeHeight-leave-to
-{
+.fadeHeight-leave-to {
     opacity: 0;
     max-height: 0;
 }
-.hidden{
+
+.hidden {
     visibility: hidden;
     opacity: 0.001;
-}
-.fade-enter-active, .fade-leave-active {
-    transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
-    opacity: 0;
 }
