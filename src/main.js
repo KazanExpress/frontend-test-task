@@ -9,7 +9,6 @@ Vue.use(Vuex)
 const eventHub = new Vue()
 Vue.prototype['$eventHub'] = eventHub // bus event, need for alert message
 Vue.config.productionTip = false
-
 Vue.prototype.$workbox = wb
 const initFilters =
     [

@@ -17,6 +17,7 @@
                 this.$workbox.addEventListener('waiting', () => {
                     this.showUpgradeUI = true
                 })
+                this.$workbox.update().then(this.$eventHub('alert','update application'))
             }
         }
     }
