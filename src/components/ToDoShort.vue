@@ -27,8 +27,7 @@
                 {{item.text}}
             </div>
             <div v-if="!dragging" class="ml-auto" @click.stop="remove">
-                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="red"
-                     xmlns="http://www.w3.org/2000/svg">
+                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="red">
                     <path fill-rule="evenodd"
                           d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
                     <path fill-rule="evenodd"

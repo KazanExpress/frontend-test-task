@@ -153,6 +153,7 @@
         },
         mounted() {
             document.title = this.name // initialize title
+            this.$eventHub.$emit('alert', 'hello')
         }
     }
 </script>
