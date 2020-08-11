@@ -1,5 +1,5 @@
 /**
- * This mixin need for short and full todo
+ * This mixin need for short and full todo show actual color of iconV
  * @vue-computed {String} color - return color of close icon by item.closed
  */
 export default {

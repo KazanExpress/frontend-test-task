@@ -52,11 +52,26 @@
                     .children
                     .map((child, index) => ({child: child, index: index})).filter(item => {
                             let total = item.child.text.toLowerCase().includes(this.search.toLowerCase())
-                            this.filters.filter(filter => filter.selected).forEach(filter => {
-                                const f = new Function(filter.function.args, filter.function.body)
-                                total = total && f(item.child) // need break for lazy loop, but foreach
-                            })
-                            return total
+                            if (!total) { // for lazy
+                                return false
+                            }
+                            const BreakException = {} // wrapper for forEach break
+                            try {
+                                this.filters.filter(filter => filter.selected).forEach(filter => {
+                                    const f = new Function(filter.function.args, filter.function.body)
+                                    total = total && f(item.child)
+                                    if (!f(item.child)) {
+                                        throw BreakException // for lazy
+                                    }
+                                })
+                            } catch (e) {
+                                if (e === BreakException) {
+                                    return false
+                                } else {
+                                    throw e
+                                }
+                            }
+                            return true
                         }
                     )
             }

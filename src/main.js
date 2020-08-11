@@ -6,7 +6,7 @@ import Clipboard from 'v-clipboard'
 Vue.use(Clipboard)
 Vue.use(Vuex)
 const eventHub = new Vue()
-Vue.prototype['$eventHub'] = eventHub
+Vue.prototype['$eventHub'] = eventHub // bus event, need for alert message
 Vue.config.productionTip = false
 
 const initFilters =
@@ -25,15 +25,14 @@ const initFilters =
             type: 'init',
             selected: false,
             function: {
-                args: 'a',
-                body: 'let flag = a.closed; a.children.forEach(c => {if (!c.closed) {flag = false}}); return flag;'
+                args: 'a', // break wrapper for lazy loop
+                body: 'let flag = a.closed;if(!flag) return false; const b={};try{ a.children.forEach(c => {if (!c.closed) {throw b}});}catch(e){if(e===b)return false;else throw e;} return true;'
             },
         }
     ]
 
 /**
- * Represents a book.
- * @constructor
+ * Represents a pathfinder of recursive object
  * @param {Object} items - general items
  * @param {Array} root - path( array of indexes) to right item
  */
@@ -105,12 +104,11 @@ const store = new Vuex.Store({
         deleteItem(state, id) {
             getItemByRoot(state.items, state.root).children.splice(id, 1)
         },
+        // in the future can put item in a blob file and transfer to another pages, but now all arranged by indexes
         dropSide(state, payload) {
             if (+payload.target === +payload.drop) {
                 return
             }
-            console.log(payload.isAfter ? 'after' : 'before')
-            console.log('target:' + payload.target + '; drop' + payload.drop)
             const current = getItemByRoot(state.items, state.root)
             const drop = current.children[payload.drop]
             if (payload.target < payload.drop) {
@@ -120,7 +118,6 @@ const store = new Vuex.Store({
                 current.children.splice(payload.target + (+payload.isAfter), 0, drop)
                 current.children.splice(payload.drop, 1)
             }
-
         },
         dropInto(state, payload) {
             console.log('drop into')
@@ -128,19 +125,14 @@ const store = new Vuex.Store({
                 return
             }
             const current = getItemByRoot(state.items, state.root)
-            const drop = current.children[payload.drop]
+            const drop = current.children.splice(payload.drop, 1)[0]
             current.children[payload.target].children.push(drop)
-            current.children.splice(payload.drop, 1)
         },
         dropBack(state, payload) {
-            let current = state.items
-            let parent = null
-            state.root.forEach(index => {
-                parent = current
-                current = current.children[index]
-            })
-            const drop = current.children[payload.drop]
-            current.children.splice(payload.drop, 1)
+            let rootPopped = [...state.root]
+            let childId = rootPopped.pop()
+            let parent = getItemByRoot(state.items, rootPopped)
+            const drop = parent.children[childId].children.splice(payload.drop, 1)[0] // dropped item
             parent.children.push(drop)
         },
         deleteSelf(state) {
@@ -192,6 +184,7 @@ const store = new Vuex.Store({
         deleteSelf({commit}) {
             commit('deleteSelf')
             commit('updateItems')
+            commit('updateRoot')
         },
         addItem({commit}, item) {
             commit('addItem', item)
@@ -262,5 +255,3 @@ new Vue({
     render: h => h(App),
     store,
 }).$mount('#app')
-
-

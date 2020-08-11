@@ -4,17 +4,15 @@
             <input @copy.stop @paste.stop @cut.stop @keypress.enter.stop="clickAndClean" v-model="addText" type="text"
                    :placeholder="placeholder" class="container-fluid ml-3 input">
             <div @click.stop="clickAndClean">
-                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus " fill="green">
-                    <path fill-rule="evenodd"
-                          d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
-                    <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
-                </svg>
+                <icon><icon-plus/></icon>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import Icon from './Icon'
+    import IconPlus from '../icons/IconPlus'
     /**
      * Represents a form with input and click(enter press) action
      * @vue-prop {String} className - string of css classes
@@ -25,6 +23,7 @@
      */
     export default {
         name: 'AddButton',
+        components: {Icon, IconPlus},
         props: ['className', 'placeholder', 'clickFunction'],
         data: () => ({
             addText: ''
@@ -39,7 +38,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

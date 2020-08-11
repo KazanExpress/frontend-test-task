@@ -6,17 +6,17 @@
             {{tag.text}}
         </div>
         <div role="button" v-if="tag.type!=='init'" @click.stop="remove">
-            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="m-0 p-0" fill="red">
-                <path fill-rule="evenodd"
-                      d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
-                <path fill-rule="evenodd"
-                      d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
-            </svg>
+            <icon :icon-color="'red'" :class-name="'m-0 p-0'">
+                <icon-x/>
+            </icon>
         </div>
     </div>
 </template>
 
 <script>
+    import Icon from './Icon'
+    import IconX from '../icons/IconX'
+
     /**
      * Represents a filter-tag for searching
      * @vue-prop {Object} tag - object with information about filter
@@ -26,6 +26,7 @@
      */
     export default {
         name: 'Tag',
+        components: {Icon, IconX},
         props: ['tag', 'index'],
         methods: {
             remove() {
