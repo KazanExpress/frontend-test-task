@@ -5,8 +5,9 @@ import Clipboard from 'v-clipboard'
 
 Vue.use(Clipboard)
 Vue.use(Vuex)
+const eventHub = new Vue()
+Vue.prototype['$eventHub'] = eventHub
 Vue.config.productionTip = false
-
 const initFilters =
     [
         {
@@ -168,6 +169,9 @@ const store = new Vuex.Store({
         }
     },
     actions: {
+        export({commit}) {
+            commit('export')
+        },
         deleteSelf({commit}) {
             commit('deleteSelf')
             commit('updateItems')

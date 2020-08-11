@@ -30,6 +30,7 @@
                 this.clearInput(e.target)
             },
             load(file) {
+                let message = '.todo file loaded successfully'
                 const reader = new FileReader()
                 reader.onload = e => {
                     this.$store.dispatch('import', {
@@ -40,7 +41,9 @@
                 try {
                     reader.readAsText(file)
                 } catch (e) {
-                    console.log('error in load')
+                    message = 'failed load attempt'
+                } finally {
+                    this.$eventHub.$emit('alert', message)
                 }
             }
         }

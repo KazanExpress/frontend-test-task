@@ -1,7 +1,7 @@
 <template>
     <div  class="neo m-2 p-3 position-relative">
         <div class="d-flex justify-content-between" v-if="$store.state.root.length">
-            <div @click.stop="close">
+            <div role="button" @click.stop="close">
                 <svg width="1.5em"
                      height="1.5em"
                      viewBox="0 0 16 16"
@@ -14,7 +14,7 @@
                             10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
                 </svg>
             </div>
-            <div @click.stop="remove">
+            <div role="button" @click.stop="remove">
                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="red"
                      xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
@@ -44,6 +44,7 @@
             },
             remove: function() {
                 this.$store.dispatch('deleteSelf')
+                this.$eventHub.$emit('alert', 'item was deleted')
             },
             close: function() {
                 this.$store.dispatch('closeSelf')

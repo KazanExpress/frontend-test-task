@@ -1,6 +1,7 @@
 <template>
-    <div @copy.prevent.capture="copy" @paste.prevent.capture="paste" class="container-sm p-4 " style="max-width: 50em">
-        <div v-if="inStart">
+    <div @copy.prevent="copy" @paste.prevent="paste" class="container-sm p-4 " style="max-width: 50em">
+        <Alert/>
+        <div v-if="inStart" class="mt-3">
             <Name/>
         </div>
         <button @dragover.prevent="dragBack=true" @dragleave="dragBack=false" @drop="onDropBack"
@@ -18,7 +19,7 @@
         <div>
             <Import v-if="inStart"/>
             <div class="mt-5 d-flex justify-content-around">
-                <div v-if="inStart" role="button" @click="$store.commit('export')"
+                <div v-if="inStart" role="button" @click="download"
                      class="text-center">
                     <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-cloud-download m-2"
                          fill="currentColor">
@@ -67,10 +68,11 @@
     import ToDo from '../components/ToDo'
     import Name from '../components/Name'
     import Import from '../components/Import'
+    import Alert from '../components/Alert'
 
     export default {
         name: 'Project',
-        components: {ToDo, Name, Import},
+        components: {Alert, ToDo, Name, Import},
         data: () => ({
             dragBack: false,
         }),
@@ -91,23 +93,27 @@
             cut() {
                 this.copy()
                 this.$store.dispatch('deleteSelf')
+                this.$eventHub.$emit('alert', 'item was cut to clipboard')
             },
             copy() {
-                const item = this.$store.getters.getItemByRoot
+                const item = this.$store.getters.getCurrent
                 if (item.text === '') {
                     item.text = this.$store.state.name
                 }
                 const content = JSON.stringify(item)
                 this.$clipboard(content)
+                this.$eventHub.$emit('alert', 'item copied to clipboard')
             },
             paste(e) {
-                console.log('paste')
+                let message = 'item pasted successfully'
                 const data = e.clipboardData.getData('Text')
                 try {
                     const item = JSON.parse(data)
                     this.$store.dispatch('addItem', item)
                 } catch (e) {
-                    console.log('paste item error')
+                    message = 'failed paste attempt'
+                } finally {
+                    this.$eventHub.$emit('alert', message)
                 }
             },
             onDropBack(e) {
@@ -116,10 +122,15 @@
                     .dataTransfer
                     .getData('text')
                 this.$store.dispatch('dropBack', {drop: index})
+                this.$eventHub.$emit('alert', 'item moved back')
             },
             back() {
                 this.$store.dispatch('back')
             },
+            download() {
+                this.$store.dispatch('export')
+                this.$eventHub.$emit('alert', '.todo file was downloaded')
+            }
         },
         mounted() {
             document.title = this.name

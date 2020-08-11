@@ -2,7 +2,7 @@
     <div>
         <div class="d-flex transition p-1" :class="{'p-3': dragBefore}" @dragleave.prevent="dragBefore=false"
              @dragover.prevent="dragBefore=true" @drop="onDropBefore"></div>
-        <div :draggable="$store.getters.inSearch" @dragover.prevent="dragSelf=true" @dragleave.prevent="dragSelf=false"
+        <div :draggable="$store.getters.inSearch" @dragover.prevent.capture="dragSelf=true" @dragleave.prevent.capture="dragSelf=false"
              @dragend="onDragEnd" @dragstart="onDragStart"
              @drop="onDrop"
              role="button"
@@ -66,6 +66,7 @@
                     .dataTransfer
                     .getData('text')
                 this.$store.dispatch('dropInto', {target: this.index, drop: index})
+                this.$eventHub.$emit('alert', 'item moved inward')
             },
             onDropBefore(e) {
                 this.dragBefore = false

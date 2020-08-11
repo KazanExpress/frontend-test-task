@@ -2,7 +2,7 @@
     <div>
         <div class="transition" :class="{'hidden':$store.state.onDrag}">
             <div class="d-flex">
-                <input @input="change" :value="search" placeholder="Search todo" type="text"
+                <input @copy.stop @paste.stop @cut.stop @input="change" :value="search" placeholder="Search todo" type="text"
                        class="form-control p-3 pl-3 m-2 mb-1 neo search">
             </div>
             <Tags/>
