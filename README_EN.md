@@ -142,15 +142,13 @@ A: No. All requirements from all previous dificulties are mandatory. They were o
 
 ---
 
-## Assignment submission process
+## Assignment rules
 
-1. Fork this repo;
-2. Implement the task on desired difficulty;
-3. Submit a Pull-Request to this repo.\
-   Description **must** contain:
-   - A full list of implemented requirements;
-   - An instruction on how to run the app locally for Windows/Unix.
+Description **must** contain:
+  - A full list of implemented requirements;
+  - An instruction on how to run the app locally for Windows/Unix.
 
-Soft Deadline:
- - 7 days, starting with the creation of your Fork - for **easy**, **medium** and **hard**.
- - 14 days, starting with the creation of your Fork - for [**Insane**](#insane) difficulty - not counting the time for implementation of optional requirements.
+## Deadlines
+
+ - 7 days, starting with the receiving the task - for **easy**, **medium** and **hard**.
+ - 14 days, starting with the receiving the task - for [**Insane**](#insane) difficulty - not counting the time for implementation of optional requirements.
